@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CocShop</string>
+    <string name="title_bottom_home">Home</string>
+    <string name="title_bottom_my_order">My Orders</string>
+    <string name="title_bottom_saved">Saved</string>
+    <string name="title_bottom_user">Me</string>
 </resources>
