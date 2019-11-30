@@ -28,4 +28,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/colorWhite</item>
     </style>
+    <style name="AudioFileInfoOverlayText">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:shadowColor">@color/colorBlack</item>
+        <item name="android:shadowRadius">5</item>
+    </style>
 </resources>
