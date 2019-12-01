@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -38,6 +39,10 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     private void initData(){
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
         brand = (Brand) getIntent().getSerializableExtra(Constant.STORE);
         Picasso.get()
                 .load(brand.getPicturePath())

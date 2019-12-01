@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.StoreMenuFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_menu_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="Classic coffee"
+                    android:textSize="@dimen/dp13" />
+
+                <TextView
+                    android:id="@+id/txt_store_num_menu_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/dp2"
+                    android:text="(3)" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp30"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:id="@+id/btn_store_toggle_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_keyboard_arrow_up" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_store_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
