@@ -89,7 +89,7 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
             super(itemView);
             mImgDescription = itemView.findViewById(R.id.img_description);
             mTxtName = itemView.findViewById(R.id.txt_name_brand);
-            mTxtLocation = itemView.findViewById(R.id.txt_location);
+            mTxtLocation = itemView.findViewById(R.id.txt_location_brand_item);
             mTxtPromo = itemView.findViewById(R.id.txt_promo);
             mRbRating = itemView.findViewById(R.id.rb_rating);
         }

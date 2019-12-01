@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import fpt.edu.cocshop.Activity.StoreActivity;
 import fpt.edu.cocshop.Adapter.FoodPicksAdapter;
+import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Location;
 import fpt.edu.cocshop.R;
@@ -138,14 +140,14 @@ public class HomeFragment extends Fragment {
         if (mFoodPicksAdapter == null) {
             mFoodPicksAdapter = new FoodPicksAdapter(getContext(), mBrandList);
             mRcvFoodPicks.setAdapter(mFoodPicksAdapter);
-//            mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
-//                @Override
-//                public void onClick(Brand brand) {
-//                    Intent intent = new Intent(getContext(), RecipeActivity.class);
-//                    intent.putExtra("DISHY",dishy);
-//                    startActivity(intent);
-//                }
-//            });
+            mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
+                @Override
+                public void onClick(Brand brand) {
+                    Intent intent = new Intent(getContext(), StoreActivity.class);
+                    intent.putExtra(Constant.STORE, brand);
+                    startActivity(intent);
+                }
+            });
         } else {
             mFoodPicksAdapter.notifyDataSetChanged();
         }

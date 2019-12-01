@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F3F3"
+    android:orientation="vertical"
+    tools:context=".Activity.StoreActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_ra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMain"
+        android:visibility="gone"
+        app:navigationIcon="@drawable/ic_navigate_before"
+        app:title="Ga chien nuoc mam"
+        app:titleTextColor="@color/colorWhite" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_store_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp200">
+
+                <ImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+                <ImageView
+                    android:id="@+id/img_button_back_recipe_activity"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@drawable/custom_frame_back"
+                    android:padding="@dimen/dp3"
+                    android:src="@drawable/ic_navigate_before" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp10"
+                android:paddingTop="@dimen/dp10"
+                android:paddingRight="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Thức ăn"
+                        android:textSize="@dimen/dp12" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/store_description_bar_vertical_line"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/store_description_bar_distance"
+                        android:layout_marginRight="@dimen/store_description_bar_distance"
+                        android:background="@color/colorIcon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Avg."
+                        android:textSize="@dimen/dp12" />
+
+                    <TextView
+                        android:id="@+id/txt_average_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="83k"
+                        android:textSize="@dimen/dp12" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/store_description_bar_vertical_line"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/store_description_bar_distance"
+                        android:layout_marginRight="@dimen/store_description_bar_distance"
+                        android:background="@color/colorIcon" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rb_rating_store"
+                        style="?android:ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:numStars="5"
+                        android:progressTint="@color/colorStar"/>
+
+                    <TextView
+                        android:id="@+id/txt_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/store_description_bar_distance"
+                        android:layout_marginRight="@dimen/dp2"
+                        android:gravity="center_vertical"
+                        android:text="4.6"
+                        android:textSize="@dimen/dp12" />
+
+                    <TextView
+                        android:id="@+id/txt_rating_numbers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="(500+)"
+                        android:textSize="@dimen/dp12" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/store_description_bar_vertical_line"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/store_description_bar_distance"
+                        android:layout_marginRight="@dimen/store_description_bar_distance"
+                        android:background="@color/colorIcon" />
+
+                    <ImageView
+                        android:id="@+id/img_favorite_ra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_favorite_border" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_name_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Yellow Cab Pizza - Nguyễn Đức Cảnh"
+                    android:textSize="@dimen/sp20"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_location_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp5"
+                    android:text="252 Nguyễn Văn Hường, P. Thảo Điền, Quận 2, TP. HCM" />
+            </LinearLayout>
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tb_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tl_tabs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -33,4 +33,10 @@
         <item name="android:shadowColor">@color/colorBlack</item>
         <item name="android:shadowRadius">5</item>
     </style>
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Indicator">
+        <item name="android:minHeight">@dimen/dp20</item>
+        <item name="android:maxHeight">@dimen/dp20</item>
+        ... // Additional customizations
+    </style>
 </resources>
