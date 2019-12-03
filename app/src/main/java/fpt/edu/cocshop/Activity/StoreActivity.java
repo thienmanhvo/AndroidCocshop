@@ -1,6 +1,7 @@
 package fpt.edu.cocshop.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -12,16 +13,21 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -29,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 import fpt.edu.cocshop.Constant.Constant;
+import fpt.edu.cocshop.Custom.AlphaTextView;
 import fpt.edu.cocshop.Custom.CustomViewPager;
 import fpt.edu.cocshop.Fragment.StoreMenuFragment;
 import fpt.edu.cocshop.Model.Brand;
@@ -39,12 +46,15 @@ public class StoreActivity extends AppCompatActivity {
     private ImageView mImgAvatar;
     private Brand brand;
     private RatingBar mRatingBar;
-    private TextView mTxtLocation;
-    private CustomViewPager mViewPager;
+    private AlphaTextView mTxtLocation, mTxtStoreName;
+    private ViewPager mViewPager;
     private Toolbar mToolBarStore;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
-    private NestedScrollView mNestedScrollView;
+    private AppBarLayout mAppBarLayout;
+    private LinearLayout mLlStoreDescription;
+    private com.google.android.material.appbar.CollapsingToolbarLayout CollapsingToolbarLayout;
+    //private NestedScrollView mNestedScrollView;
 
 
     @Override
@@ -82,41 +92,72 @@ public class StoreActivity extends AppCompatActivity {
                 });
         mRatingBar.setRating(brand.getRating());
         mTxtLocation.setText(brand.getLocation().get(0).getName());
-
+        mTxtStoreName.setText(brand.getName());
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(mViewPager);
-
-        mToolBarStore.setTitle(brand.getName());
-        mToolBarStore.setNavigationOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(mToolBarStore);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(brand.getName()+"asdasdasdasdasdasdasdasdasdasd");
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > 150) {
-                    mToolBarStore.setVisibility(View.VISIBLE);
-                } else {
-                    mToolBarStore.setVisibility(View.GONE);
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                CollapsingToolbarLayout.bringChildToFront(tabLayout);
+                float range = (float) -appBarLayout.getTotalScrollRange();
+                mLlStoreDescription.setAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
+                mLlStoreDescription.getBackground().setAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
+                mTxtStoreName.onSetAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
+                mTxtLocation.onSetAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
+                if(mLlStoreDescription.getAlpha() <= 100){
+                    getSupportActionBar().setDisplayShowTitleEnabled(true);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                    mToolBarStore.setTitleTextColor(getResources().getColor(R.color.colorBlack, getResources().newTheme()));
+                    mLlStoreDescription.setVisibility(View.INVISIBLE);
+                }else{
+                    getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+                    mLlStoreDescription.setVisibility(View.VISIBLE);
                 }
             }
         });
+//        mToolBarStore.setTitle(brand.getName());
+//        mToolBarStore.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
+
+//        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (scrollY > 150) {
+//                    mToolBarStore.setVisibility(View.VISIBLE);
+//                } else {
+//                    mToolBarStore.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     private void initView() {
         mImgAvatar = (ImageView) findViewById(R.id.img_avatar);
         mRatingBar = (RatingBar) findViewById(R.id.rb_rating_store);
-        mTxtLocation = (TextView) findViewById(R.id.txt_location_store);
-        mViewPager = (CustomViewPager) findViewById(R.id.vp_menu);
-        mToolBarStore = (Toolbar) findViewById(R.id.tb_store_in_top);
+        mTxtLocation = (AlphaTextView) findViewById(R.id.txt_location_store);
+        mViewPager = (ViewPager) findViewById(R.id.vp_menu);
+        mToolBarStore = (Toolbar) findViewById(R.id.tb_store_top);
         tabLayout = (TabLayout) findViewById(R.id.tl_menu);
-        mNestedScrollView = findViewById(R.id.nsv_store_activity);
+        mTxtStoreName = (AlphaTextView) findViewById(R.id.txt_name_store);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.ab_store);
+        mLlStoreDescription = (LinearLayout) findViewById(R.id.ll_store_description);
+        CollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.htab_collapse_toolbar);
+        //mNestedScrollView = findViewById(R.id.nsv_store_activity);
 //        mNestedScrollView.setFillViewport (true);
     }
 

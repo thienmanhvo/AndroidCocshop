@@ -42,4 +42,10 @@
     <style name="TranslucentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+    <style name="ToolBarTop" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </style>
+    <style name="ToolBarScroll" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
 </resources>

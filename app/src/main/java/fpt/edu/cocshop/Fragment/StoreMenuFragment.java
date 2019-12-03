@@ -63,7 +63,7 @@ public class StoreMenuFragment extends Fragment {
 
     private void initView() {
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
-        mRcvMenu.setNestedScrollingEnabled(false);
+        mRcvMenu.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mRcvMenu.setLayoutManager(manager);
     }
