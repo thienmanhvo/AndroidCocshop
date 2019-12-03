@@ -9,7 +9,7 @@
     tools:context=".Activity.StoreActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_ra"
+        android:id="@+id/tb_store_in_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorMain"
@@ -19,18 +19,27 @@
         app:titleTextColor="@color/colorWhite" />
 
     <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
         android:id="@+id/nsv_store_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp200">
+                android:layout_height="@dimen/dp200"
+                app:layout_collapseMode="parallax">
 
                 <ImageView
                     android:id="@+id/img_avatar"
@@ -111,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:numStars="5"
-                        android:progressTint="@color/colorStar"/>
+                        android:progressTint="@color/colorStar" />
 
                     <TextView
                         android:id="@+id/txt_rating"
@@ -164,28 +173,26 @@
                     android:text="252 Nguyễn Văn Hường, P. Thảo Điền, Quận 2, TP. HCM" />
             </LinearLayout>
 
-
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tb_toolbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tl_tabs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/tl_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite" />
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.viewpager.widget.ViewPager
+            <fpt.edu.cocshop.Custom.CustomViewPager
                 android:id="@+id/vp_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
 
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

@@ -28,16 +28,10 @@ import fpt.edu.cocshop.R;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
     private RecyclerView mRcvFoodPicks, mRcvTopBrand, mRcvTopStore;
     private FoodPicksAdapter mFoodPicksAdapter;
-    //    private TopDishyAdapter mTopDishyAdapter;
-//    private TopChefAdapter mTopChefAdapter;
-//    private TopFollowAdapter mTopFollowAdapter;
     private List<Brand> mBrandList;
-    //    private List<Chef> mChefs;
-//    private List<Material> mMaterial1, mMaterial2, mMaterial3, mMaterial4, mMaterial5, mMaterial6, mMaterial7;
-//    private List<StepMake> mStep1, mStep2, mStep3, mStep4, mStep5, mStep6, mStep7;
-//    private Chef mChef1;
     private View mView;
 
 
