@@ -1,6 +1,7 @@
 package fpt.edu.cocshop.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,17 +28,17 @@ public class StoreMenuItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-//    public interface OnFoodPicksClickListener {
-//        void onClick(Brand brand);
-//    }
+    public interface OnStoreMenuListener {
+        void onClick(MenuItem brand);
+    }
 
     private Context mContext;
     private List<Object> mListItem;
-//    private FoodPicksAdapter.OnFoodPicksClickListener mOnFoodPicksClickListener;
+    private StoreMenuItemAdapter.OnStoreMenuListener mOnStoreMenuClickListener;
 
-//    public void setmOnFoodPicksClickListener(FoodPicksAdapter.OnFoodPicksClickListener mOnFoodPicksClickListener) {
-//        this.mOnFoodPicksClickListener = mOnFoodPicksClickListener;
-//    }
+    public void setmOnFoodPicksClickListener(StoreMenuItemAdapter.OnStoreMenuListener mOnStoreMenuClickListener) {
+        this.mOnStoreMenuClickListener = mOnStoreMenuClickListener;
+    }
 
     public StoreMenuItemAdapter(Context mContext, List<Object> mListItem) {
         this.mContext = mContext;
@@ -50,6 +51,7 @@ public class StoreMenuItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == TYPE_HEADER) {
             View v = inflater.inflate(R.layout.item_menu_header, parent, false);
+            v.setBackgroundColor(Color.argb(100,200, 200, 200));
             return new ViewHolderHeader(v);
         } else {
             View v = inflater.inflate(R.layout.item_menu_list, parent, false);

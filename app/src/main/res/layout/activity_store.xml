@@ -61,8 +61,7 @@
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp10"
                     android:paddingTop="@dimen/dp10"
-                    android:paddingRight="@dimen/dp10"
-                    android:paddingBottom="@dimen/dp10">
+                    android:paddingRight="@dimen/dp10">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -200,6 +199,15 @@
         android:id="@+id/vp_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:background="#EEEEEE"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

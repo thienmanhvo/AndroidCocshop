@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp13"
+    android:paddingTop="@dimen/dp13"
     android:weightSum="10">
 
     <ImageView

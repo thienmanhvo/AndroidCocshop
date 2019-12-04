@@ -91,14 +91,14 @@ public class StoreMenuFragment extends Fragment {
         if (mStoreMenuItemAdapter == null) {
             mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
             mRcvMenu.setAdapter(mStoreMenuItemAdapter);
-//            mStoreMenuItemAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
-//                @Override
-//                public void onClick(Brand brand) {
-//                    Intent intent = new Intent(getContext(), StoreActivity.class);
-//                    intent.putExtra(Constant.STORE, brand);
-//                    startActivity(intent);
-//                }
-//            });
+            mStoreMenuItemAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
+                @Override
+                public void onClick(Brand brand) {
+                    Intent intent = new Intent(getContext(), StoreActivity.class);
+                    intent.putExtra(Constant.STORE, brand);
+                    startActivity(intent);
+                }
+            });
         } else {
             mStoreMenuItemAdapter.notifyDataSetChanged();
         }

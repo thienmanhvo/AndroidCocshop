@@ -97,6 +97,7 @@ public class StoreActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setCurrentItem(0);
+        mViewPager.setPageMargin(0);
         tabLayout.setupWithViewPager(mViewPager);
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {

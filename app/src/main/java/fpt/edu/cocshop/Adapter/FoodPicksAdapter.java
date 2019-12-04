@@ -53,8 +53,10 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
         holder.mTxtLocation.setText(mBrandList.get(position).getLocation().toString());
         Picasso.get()
                 .load(mBrandList.get(position).getPicturePath())
-                .error(R.drawable.ic_launcher_background)
+                .error(R.mipmap.ic_launcher)
                 .placeholder(R.drawable.ic_launcher_background)
+                .fit()
+                .centerInside()
                 .into(holder.mImgDescription, new Callback() {
                     @Override
                     public void onSuccess() {
