@@ -30,11 +30,20 @@
             android:text="(3)" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp30"
         android:layout_alignParentRight="true">
 
+        <ImageView
+            android:id="@+id/btn_store_show_item"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_navigate_next"
+            android:layout_marginRight="9dp"
+            android:visibility="gone"
+            />
         <ImageView
             android:id="@+id/btn_store_toggle_menu"
             android:layout_width="wrap_content"
@@ -42,6 +51,6 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_keyboard_arrow_up"
             android:layout_marginRight="9dp"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

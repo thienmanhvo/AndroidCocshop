@@ -1,27 +1,19 @@
 package fpt.edu.cocshop.Fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import fpt.edu.cocshop.Activity.StoreActivity;
-import fpt.edu.cocshop.Adapter.FoodPicksAdapter;
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
-import fpt.edu.cocshop.Constant.Constant;
-import fpt.edu.cocshop.Model.Brand;
-import fpt.edu.cocshop.Model.Location;
 import fpt.edu.cocshop.Model.Menu;
 import fpt.edu.cocshop.Model.MenuItem;
 import fpt.edu.cocshop.R;
@@ -87,16 +79,33 @@ public class StoreMenuFragment extends Fragment {
 
     }
 
-    private void updateUIRcvMenu(List<Object> mMenuList) {
+    private void updateUIRcvMenu(final List<Object> mMenuList) {
         if (mStoreMenuItemAdapter == null) {
             mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
             mRcvMenu.setAdapter(mStoreMenuItemAdapter);
-            mStoreMenuItemAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
+            mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
                 @Override
-                public void onClick(Brand brand) {
-                    Intent intent = new Intent(getContext(), StoreActivity.class);
-                    intent.putExtra(Constant.STORE, brand);
-                    startActivity(intent);
+                public void onClickToggleMenuItem(int position) {
+                    int positionTemp = position + 1;
+                    while (true) {
+                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
+                            return;
+                        }
+                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
+                        vh.setVisibility(false);
+                    }
+                }
+
+                @Override
+                public void onClickToggleMenuItemShow(int position) {
+                    int positionTemp = position + 1;
+                    while (true) {
+                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
+                            return;
+                        }
+                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
+                        vh.setVisibility(true);
+                    }
                 }
             });
         } else {

@@ -127,24 +127,7 @@ public class StoreActivity extends AppCompatActivity {
                 }
             }
         });
-//        mToolBarStore.setTitle(brand.getName());
-//        mToolBarStore.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
 
-//        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (scrollY > 150) {
-//                    mToolBarStore.setVisibility(View.VISIBLE);
-//                } else {
-//                    mToolBarStore.setVisibility(View.GONE);
-//                }
-//            }
-//        });
     }
 
     private void initView() {
