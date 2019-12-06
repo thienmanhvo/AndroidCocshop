@@ -22,7 +22,7 @@ import fpt.edu.cocshop.R;
 public class StoreMenuFragment extends Fragment {
     private RecyclerView mRcvMenu;
     private StoreMenuItemAdapter mStoreMenuItemAdapter;
-    private List<Object> mMenuList;
+    private List<Menu> mMenuList;
     private View mView;
 
 
@@ -63,53 +63,60 @@ public class StoreMenuFragment extends Fragment {
     private void initData() {
         mMenuList = new ArrayList<>();
         for (int j = 0; j <= 4; j++) {
-            Menu header = new Menu();
-            header.setName("header" + j);
-            mMenuList.add(header);
+            Menu menu = new Menu();
+            menu.setName("header" + j);
+            List<MenuItem> items = new ArrayList<>();
             for (int i = 0; i <= 3; i++) {
                 MenuItem item = new MenuItem();
                 item.setName("Đùi gà nướng" + " " + i);
                 item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
                 item.setPrice(20500);
-                mMenuList.add(item);
+                items.add(item);
             }
+            menu.setItems(items);
+            mMenuList.add(menu);
         }
-        updateUIRcvMenu(mMenuList);
+        StoreMenuItemAdapter adapter = new StoreMenuItemAdapter(getContext(), mMenuList);
+        mRcvMenu.setAdapter(adapter);
+        mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.expandAllParents();
+//        updateUIRcvMenu(mMenuList);
 
 
     }
 
-    private void updateUIRcvMenu(final List<Object> mMenuList) {
-        if (mStoreMenuItemAdapter == null) {
-            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
-            mRcvMenu.setAdapter(mStoreMenuItemAdapter);
-            mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
-                @Override
-                public void onClickToggleMenuItem(int position) {
-                    int positionTemp = position + 1;
-                    while (true) {
-                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
-                            return;
-                        }
-                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
-                        vh.setVisibility(false);
-                    }
-                }
 
-                @Override
-                public void onClickToggleMenuItemShow(int position) {
-                    int positionTemp = position + 1;
-                    while (true) {
-                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
-                            return;
-                        }
-                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
-                        vh.setVisibility(true);
-                    }
-                }
-            });
-        } else {
-            mStoreMenuItemAdapter.notifyDataSetChanged();
-        }
-    }
+//    private void updateUIRcvMenu(final List<Object> mMenuList) {
+//        if (mStoreMenuItemAdapter == null) {
+//            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
+//            mRcvMenu.setAdapter(mStoreMenuItemAdapter);
+//            mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
+//                @Override
+//                public void onClickToggleMenuItem(int position) {
+//                    int positionTemp = position + 1;
+//                    while (true) {
+//                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
+//                            return;
+//                        }
+//                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
+//                        vh.setVisibility(false);
+//                    }
+//                }
+//
+//                @Override
+//                public void onClickToggleMenuItemShow(int position) {
+//                    int positionTemp = position + 1;
+//                    while (true) {
+//                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
+//                            return;
+//                        }
+//                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
+//                        vh.setVisibility(true);
+//                    }
+//                }
+//            });
+//        } else {
+//            mStoreMenuItemAdapter.notifyDataSetChanged();
+//        }
+//    }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.NavUtils;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -101,11 +103,12 @@ public class StoreActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(brand.getName()+"asdasdasdasdasdasdasdasdasdasd");
+            getSupportActionBar().setTitle(brand.getName() + "asdasdasdasdasdasdasdasdasdasd");
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -115,12 +118,12 @@ public class StoreActivity extends AppCompatActivity {
                 mLlStoreDescription.getBackground().setAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
                 mTxtStoreName.onSetAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
                 mTxtLocation.onSetAlpha((int) (255 * (1.0f - (float) verticalOffset / range)));
-                if(mLlStoreDescription.getAlpha() <= 100){
+                if (mLlStoreDescription.getAlpha() <= 100) {
                     getSupportActionBar().setDisplayShowTitleEnabled(true);
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
                     mToolBarStore.setTitleTextColor(getResources().getColor(R.color.colorBlack, getResources().newTheme()));
                     mLlStoreDescription.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     getSupportActionBar().setDisplayShowTitleEnabled(false);
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
                     mLlStoreDescription.setVisibility(View.VISIBLE);
@@ -129,6 +132,33 @@ public class StoreActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        onBackPressed();
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                return true;
+//            case R.id.action_settings:
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void initView() {
         mImgAvatar = (ImageView) findViewById(R.id.img_avatar);

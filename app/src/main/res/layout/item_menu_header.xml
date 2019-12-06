@@ -3,10 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?android:colorBackground"
+    android:background="@color/colorBackgroundHeader"
+    android:id="@+id/rl_store_menu"
     >
 
     <LinearLayout
+        android:paddingTop="@dimen/dp2"
+        android:paddingBottom="@dimen/dp2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -15,11 +18,11 @@
         <TextView
             android:id="@+id/txt_menu_name"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp30"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingLeft="15dp"
             android:text="Classic coffee"
-            android:textSize="@dimen/dp13" />
+            android:textSize="@dimen/dp16" />
 
         <TextView
             android:id="@+id/txt_store_num_menu_item"
@@ -32,7 +35,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp30"
+        android:layout_height="@dimen/dp25"
         android:layout_alignParentRight="true">
 
         <ImageView
