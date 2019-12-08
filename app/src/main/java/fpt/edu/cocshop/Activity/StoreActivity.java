@@ -43,6 +43,7 @@ import org.w3c.dom.Text;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Custom.AlphaTextView;
 import fpt.edu.cocshop.Custom.CustomViewPager;
+import fpt.edu.cocshop.Fragment.StoreLocationFragment;
 import fpt.edu.cocshop.Fragment.StoreMenuFragment;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.R;
@@ -106,6 +107,7 @@ public class StoreActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(0);
         mViewPager.setPageMargin(0);
         tabLayout.setupWithViewPager(mViewPager);
+
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(brand.getName() + "asdasdasdasdasdasdasdasdasdasd");
@@ -207,6 +209,7 @@ public class StoreActivity extends AppCompatActivity {
 //        mNestedScrollView.setFillViewport (true);
     }
 
+
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         private int NUM_PAGE = 3;
@@ -241,6 +244,8 @@ public class StoreActivity extends AppCompatActivity {
                     return StoreMenuFragment.newInstance();
                 case 1:
                     //return HistoryFragment.newInstance();
+                case 2:
+                    return StoreLocationFragment.newInstance();
                 default:
                     return StoreMenuFragment.newInstance();
             }
