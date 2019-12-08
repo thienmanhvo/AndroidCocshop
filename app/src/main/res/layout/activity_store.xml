@@ -186,9 +186,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@color/colorWhite"
-                    app:tabIndicatorColor="@android:color/white"
+                    app:tabIndicatorColor="@color/colorActive"
                     app:tabSelectedTextColor="@android:color/black"
-                    app:tabTextColor="@color/colorIcon" />
+                    app:tabTextColor="@color/colorIcon"
+                    app:tabBackground="@color/colorWhite"
+                    android:paddingLeft="@dimen/dp2"
+                    android:paddingRight="@dimen/dp2"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabIndicatorFullWidth="false"/>
             </LinearLayout>
 
 

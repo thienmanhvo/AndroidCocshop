@@ -1,8 +1,10 @@
 package fpt.edu.cocshop.Activity;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NavUtils;
@@ -19,10 +21,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -57,7 +61,8 @@ public class StoreActivity extends AppCompatActivity {
     private LinearLayout mLlStoreDescription;
     private com.google.android.material.appbar.CollapsingToolbarLayout CollapsingToolbarLayout;
     //private NestedScrollView mNestedScrollView;
-
+    private Menu mOptionsMenu;
+    private int drawableResourceId = R.drawable.ic_search_black;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +113,6 @@ public class StoreActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
-
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -121,10 +125,12 @@ public class StoreActivity extends AppCompatActivity {
                 if (mLlStoreDescription.getAlpha() <= 100) {
                     getSupportActionBar().setDisplayShowTitleEnabled(true);
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                    updateOptionsMenu(Color.BLACK);
                     mToolBarStore.setTitleTextColor(getResources().getColor(R.color.colorBlack, getResources().newTheme()));
                     mLlStoreDescription.setVisibility(View.INVISIBLE);
                 } else {
                     getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    updateOptionsMenu(Color.WHITE);
                     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
                     mLlStoreDescription.setVisibility(View.VISIBLE);
                 }
@@ -132,12 +138,38 @@ public class StoreActivity extends AppCompatActivity {
         });
 
     }
+
+    private void updateOptionsMenu(int resId) {
+        if (mOptionsMenu != null) {
+            SearchView searchView = (SearchView) mOptionsMenu.findItem(R.id.action_search).getActionView();
+            ImageView icon =  searchView.findViewById(R.id.search_button);
+            ImageView iconClose = (ImageView) searchView.findViewById(R.id.search_close_btn);
+            icon.setColorFilter(resId);
+            iconClose.setColorFilter(resId);
+            //invalidateOptionsMenu();
+            EditText textView = (EditText) searchView.findViewById(R.id.search_src_text);
+            textView.setTextColor(resId);
+            textView.setHintTextColor(resId);
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        mOptionsMenu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -193,11 +225,11 @@ public class StoreActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Delivery";
                 case 1:
-                    return "SECTION 2";
+                    return "Review";
                 case 2:
-                    return "SECTION 3";
+                    return "Information";
             }
             return null;
         }
