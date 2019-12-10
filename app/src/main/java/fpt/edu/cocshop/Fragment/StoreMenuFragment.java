@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
+import fpt.edu.cocshop.Custom.CustomDecoration;
 import fpt.edu.cocshop.Model.Menu;
 import fpt.edu.cocshop.Model.MenuItem;
 import fpt.edu.cocshop.R;
@@ -65,6 +66,7 @@ public class StoreMenuFragment extends Fragment {
     private void initView() {
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
         mRcvMenu.setHasFixedSize(true);
+        mRcvMenu.addItemDecoration(new CustomDecoration());
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mRcvMenu.setLayoutManager(manager);
     }
