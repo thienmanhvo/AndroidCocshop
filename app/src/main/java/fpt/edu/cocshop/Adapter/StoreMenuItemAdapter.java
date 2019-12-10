@@ -23,10 +23,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Menu;
 import fpt.edu.cocshop.Model.MenuItem;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.PriceExtention;
 
 public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuItem, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
 
@@ -35,9 +37,9 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
     private LayoutInflater mInflater;
 
     public interface OnStoreMenuListener {
-        void onClickToggleMenuItem(int position);
+        void onClickAddItem(ViewHolderItem item);
 
-        void onClickToggleMenuItemShow(int position);
+        void onClickMinusItem(ViewHolderItem item);
     }
 
     private Context mContext;
@@ -116,9 +118,9 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
     }
 
     public class ViewHolderItem extends ChildViewHolder {
-        private ImageView mImgDescription;
+        private ImageView mImgDescription, mBtnAddItem, mBtnMinusItem;
         private TextView mTxtName;
-        private TextView mTxtPriceOld, mTxtPrice;
+        private TextView mTxtPriceOld, mTxtPrice, mTxtNumOfItem;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
@@ -127,16 +129,32 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
             mTxtPrice = itemView.findViewById(R.id.txt_menu_item_price);
             mTxtPriceOld = itemView.findViewById(R.id.txt_menu_item_price_old);
             mTxtPriceOld.setPaintFlags(mTxtPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            mBtnAddItem = itemView.findViewById(R.id.btn_menu_item_add);
+            mTxtNumOfItem = itemView.findViewById(R.id.txt_store_menu_number_item);
+            mBtnMinusItem = itemView.findViewById(R.id.btn_menu_item_minus);
         }
 
         public void bind(MenuItem item) {
             mTxtName.setText(item.getName());
-            mTxtPrice.setText(String.valueOf(item.getPrice()));
-            mTxtPriceOld.setText(String.valueOf(item.getPrice()));
+            mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
+            mTxtPriceOld.setText(PriceExtention.longToPrice((long) (item.getPrice() * 0.2), Constant.NUMBER_COMMA));
+            mBtnAddItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnStoreMenuClickListener.onClickAddItem(ViewHolderItem.this);
+                }
+            });
+            mBtnMinusItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnStoreMenuClickListener.onClickMinusItem(ViewHolderItem.this);
+                }
+            });
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.drawable.ic_launcher_background)
                     .placeholder(R.drawable.ic_launcher_background)
+                    .fit()
                     .into(mImgDescription, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -149,5 +167,32 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
                     });
         }
 
+        public ImageView getmBtnMinusItem() {
+            return mBtnMinusItem;
+        }
+
+        public ImageView getmImgDescription() {
+            return mImgDescription;
+        }
+
+        public ImageView getmBtnAddItem() {
+            return mBtnAddItem;
+        }
+
+        public TextView getmTxtName() {
+            return mTxtName;
+        }
+
+        public TextView getmTxtPriceOld() {
+            return mTxtPriceOld;
+        }
+
+        public TextView getmTxtPrice() {
+            return mTxtPrice;
+        }
+
+        public TextView getmTxtNumOfItem() {
+            return mTxtNumOfItem;
+        }
     }
 }
