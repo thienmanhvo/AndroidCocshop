@@ -64,7 +64,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txt_location"
+                    android:id="@+id/txt_location_brand_item"
                     style="@style/AudioFileInfoOverlayText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

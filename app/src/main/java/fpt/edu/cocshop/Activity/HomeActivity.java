@@ -21,6 +21,7 @@ import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
 import fpt.edu.cocshop.R;
 
+
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MainAdapter mMainAdapter;
@@ -39,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+       // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         initView();
         initData();
     }

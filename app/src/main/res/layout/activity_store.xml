@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/htab_maincontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorWhite">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ab_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/htab_collapse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorWhite"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
+
+            <ImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.4"
+                android:background="@android:color/black"
+                android:fitsSystemWindows="true" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_store_top"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:layout_marginBottom="48dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_store_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/dp10"
+                    android:paddingTop="@dimen/dp10"
+                    android:paddingRight="@dimen/dp10">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txt_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Thức ăn"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/dp12" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/store_description_bar_vertical_line"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/store_description_bar_distance"
+                            android:layout_marginRight="@dimen/store_description_bar_distance"
+                            android:background="@color/colorIcon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Avg."
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/dp12" />
+
+                        <TextView
+                            android:id="@+id/txt_average_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="83k"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/dp12" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/store_description_bar_vertical_line"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/store_description_bar_distance"
+                            android:layout_marginRight="@dimen/store_description_bar_distance"
+                            android:background="@color/colorIcon" />
+
+                        <androidx.appcompat.widget.AppCompatRatingBar
+                            android:id="@+id/rb_rating_store"
+                            style="?android:ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:numStars="5"
+                            android:progressBackgroundTint="@color/colorIcon"
+                            android:progressTint="@color/colorStar" />
+
+                        <TextView
+                            android:id="@+id/txt_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/store_description_bar_distance"
+                            android:layout_marginRight="@dimen/dp2"
+                            android:gravity="center_vertical"
+                            android:text="4.6"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/dp12" />
+
+                        <TextView
+                            android:id="@+id/txt_rating_numbers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="(500+)"
+                            android:textColor="@color/colorTextDefault"
+                            android:textSize="@dimen/dp12" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/store_description_bar_vertical_line"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/store_description_bar_distance"
+                            android:layout_marginRight="@dimen/store_description_bar_distance"
+                            android:background="@color/colorIcon" />
+
+                        <ImageView
+                            android:id="@+id/img_favorite_ra"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_border" />
+
+                    </LinearLayout>
+
+                    <fpt.edu.cocshop.Custom.AlphaTextView
+                        android:id="@+id/txt_name_store"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="1"
+                        android:gravity="left"
+                        android:text="Yellow Cab Pizza - Nguyễn Đức Cảnh"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp20"
+                        android:textStyle="bold" />
+
+                    <fpt.edu.cocshop.Custom.AlphaTextView
+                        android:id="@+id/txt_location_store"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="1"
+                        android:padding="@dimen/dp5"
+                        android:text="252 Nguyễn Văn Hường, P. Thảo Điền, Quận 2, TP. HCM"
+                        android:textColor="@color/colorTextDefault" />
+                </LinearLayout>
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tl_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/colorWhite"
+                    app:tabIndicatorColor="@color/colorActive"
+                    app:tabSelectedTextColor="@android:color/black"
+                    app:tabTextColor="@color/colorIcon"
+                    app:tabBackground="@color/colorWhite"
+                    android:paddingLeft="@dimen/dp2"
+                    android:paddingRight="@dimen/dp2"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabIndicatorFullWidth="false"/>
+            </LinearLayout>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"/>
+    <!-- Adding bottom sheet after main content -->
+    <include layout="@layout/fragment_cart_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

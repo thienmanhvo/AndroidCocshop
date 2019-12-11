@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import fpt.edu.cocshop.Activity.StoreActivity;
 import fpt.edu.cocshop.Adapter.FoodPicksAdapter;
+import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Location;
 import fpt.edu.cocshop.R;
@@ -26,16 +28,10 @@ import fpt.edu.cocshop.R;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
     private RecyclerView mRcvFoodPicks, mRcvTopBrand, mRcvTopStore;
     private FoodPicksAdapter mFoodPicksAdapter;
-    //    private TopDishyAdapter mTopDishyAdapter;
-//    private TopChefAdapter mTopChefAdapter;
-//    private TopFollowAdapter mTopFollowAdapter;
     private List<Brand> mBrandList;
-    //    private List<Chef> mChefs;
-//    private List<Material> mMaterial1, mMaterial2, mMaterial3, mMaterial4, mMaterial5, mMaterial6, mMaterial7;
-//    private List<StepMake> mStep1, mStep2, mStep3, mStep4, mStep5, mStep6, mStep7;
-//    private Chef mChef1;
     private View mView;
 
 
@@ -138,14 +134,14 @@ public class HomeFragment extends Fragment {
         if (mFoodPicksAdapter == null) {
             mFoodPicksAdapter = new FoodPicksAdapter(getContext(), mBrandList);
             mRcvFoodPicks.setAdapter(mFoodPicksAdapter);
-//            mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
-//                @Override
-//                public void onClick(Brand brand) {
-//                    Intent intent = new Intent(getContext(), RecipeActivity.class);
-//                    intent.putExtra("DISHY",dishy);
-//                    startActivity(intent);
-//                }
-//            });
+            mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
+                @Override
+                public void onClick(Brand brand) {
+                    Intent intent = new Intent(getContext(), StoreActivity.class);
+                    intent.putExtra(Constant.STORE, brand);
+                    startActivity(intent);
+                }
+            });
         } else {
             mFoodPicksAdapter.notifyDataSetChanged();
         }
