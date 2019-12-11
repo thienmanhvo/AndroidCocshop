@@ -21,7 +21,7 @@
             android:layout_height="300dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorWhite"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll"
             app:titleEnabled="false">
 
             <ImageView
@@ -206,15 +206,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:contentInsetLeft="0dp"
-        android:contentInsetStart="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:contentInsetRight="0dp"
-        android:contentInsetEnd="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     <!-- Adding bottom sheet after main content -->
     <include layout="@layout/fragment_cart_bottom_sheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
