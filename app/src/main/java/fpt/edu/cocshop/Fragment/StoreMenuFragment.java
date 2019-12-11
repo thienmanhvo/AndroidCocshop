@@ -2,11 +2,13 @@ package fpt.edu.cocshop.Fragment;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.ContextCompat;
@@ -16,26 +18,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import org.modelmapper.ModelMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Custom.CustomDecoration;
-import fpt.edu.cocshop.Model.Menu;
-import fpt.edu.cocshop.Model.MenuItem;
+import fpt.edu.cocshop.Model.CartObj;
+import fpt.edu.cocshop.Model.ItemOrder;
+import fpt.edu.cocshop.Model.MenuDish;
+import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.PriceExtention;
 
 
 public class StoreMenuFragment extends Fragment {
+
+    private static final String TAG = "StoreMenuFragment";
     private RecyclerView mRcvMenu;
     private StoreMenuItemAdapter mStoreMenuItemAdapter;
-    private List<Menu> mMenuList;
+    private List<MenuDish> mMenuDishList;
     private View mView;
     private BottomSheetBehavior mSheetBehavior;
     private LinearLayout mCartBottomSheet;
     private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld;
+    private CartObj cartObj;
+    private int a;
 
     public StoreMenuFragment() {
         // Required empty public constructor
@@ -57,7 +67,6 @@ public class StoreMenuFragment extends Fragment {
         initView();
         initData();
         return mView;
-
     }
 
     @Override
@@ -93,87 +102,102 @@ public class StoreMenuFragment extends Fragment {
     }
 
     private void initData() {
-        mMenuList = new ArrayList<>();
-        for (int j = 0; j <= 4; j++) {
-            Menu menu = new Menu();
-            menu.setName("header" + j);
-            List<MenuItem> items = new ArrayList<>();
-            for (int i = 0; i <= 3; i++) {
-                MenuItem item = new MenuItem();
-                item.setName("Đùi gà nướng" + " " + i);
-                item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
-                item.setPrice(20500);
-                items.add(item);
+        try {
+            mMenuDishList = new ArrayList<>();
+            cartObj = new CartObj();
+            int a = 1;
+            for (int j = 0; j <= 4; j++) {
+                MenuDish menuDish = new MenuDish();
+                menuDish.setName("header" + j);
+                menuDish.setId(j + "");
+                List<MenuDishItem> items = new ArrayList<>();
+                for (int i = 0; i <= 3; i++) {
+                    MenuDishItem item = new MenuDishItem();
+                    item.setName("Đùi gà nướng" + " " + (a++));
+                    item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
+                    item.setPrice(20500);
+                    item.setPriceOld((long) (20500 * 0.7));
+                    item.setId(a + "");
+                    items.add(item);
+                }
+                menuDish.setItems(items);
+                mMenuDishList.add(menuDish);
             }
-            menu.setItems(items);
-            mMenuList.add(menu);
+            updateUIRcvMenu(mMenuDishList);
+            mTxtTotalPrice.setText(cartObj.getTotalPrice() + "");
+            mTxtTotalItem.setText(cartObj.getTotalQuantity() + "");
+            mTxtTotalPriceOld.setText(cartObj.getTotalPriceOld() + "");
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
-        updateUIRcvMenu(mMenuList);
-        mTxtTotalPrice.setText(0 + "");
-        mTxtTotalItem.setText(0 + "");
-        mTxtTotalPriceOld.setText(0 + "");
-
     }
 
 
-    private void updateUIRcvMenu(final List<Menu> mMenuList) {
+    private void updateUIRcvMenu(final List<MenuDish> mMenuDishList) {
+//        try {
         if (mStoreMenuItemAdapter == null) {
-            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
+            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList);
             mStoreMenuItemAdapter.expandAllParents();
             mRcvMenu.setAdapter(mStoreMenuItemAdapter);
             mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
             mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
 
-                private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign) {
-                    int oldNum = Integer.parseInt(item.getmTxtNumOfItem().getText().toString());
-                    int totalOldItem = Integer.parseInt(PriceExtention.priceToString(mTxtTotalItem.getText().toString(), Constant.NUMBER_COMMA));
-                    int newNum = oldNum + (1 * sign);
-                    int totalNewItem = totalOldItem + (1 * sign);
-                    long totalOldPrice = Long.parseLong(PriceExtention.priceToString(mTxtTotalPrice.getText().toString(), Constant.NUMBER_COMMA));
-                    long totalNewPrice = totalOldPrice + (Long.parseLong(PriceExtention.priceToString(item.getmTxtPrice().getText().toString(), Constant.NUMBER_COMMA)) * sign);
-                    long totalOldPriceOld = Long.parseLong(PriceExtention.priceToString(mTxtTotalPriceOld.getText().toString(), Constant.NUMBER_COMMA));
-                    long totalNewPriceOld = totalOldPriceOld + (Long.parseLong(PriceExtention.priceToString(item.getmTxtPriceOld().getText().toString(), Constant.NUMBER_COMMA)) * sign);
-
-                    item.getmTxtNumOfItem().setText(String.valueOf(newNum));
-                    mTxtTotalItem.setText(String.valueOf(totalNewItem));
-                    mTxtTotalPrice.setText(PriceExtention.longToPrice(totalNewPrice, Constant.NUMBER_COMMA));
-                    mTxtTotalPriceOld.setText(PriceExtention.longToPrice(totalNewPriceOld, Constant.NUMBER_COMMA));
-
+                private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
+//                        try {
+                    MenuDishItem dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
+                    int newNum = dishItem.getQuantityInCart() + (1 * sign);
+                    ModelMapper modelMapper = new ModelMapper();
+                    ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
+                    dishItem.setQuantityInCart(newNum);
                     if (sign == 1) {
-                        if (oldNum == 0) {
-                            item.getmTxtNumOfItem().setVisibility(View.VISIBLE);
-                            item.getmBtnMinusItem().setVisibility(View.VISIBLE);
-                        }
-                        if (totalOldItem == 0) {
+                        cartObj.addToCart(itemOrder, sign);
+                        if (cartObj.getTotalQuantity() == 1) {
                             mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                         }
+                        initCartView(cartObj);
                     }
                     if (sign == -1) {
-                        if (newNum == 0) {
-                            item.getmTxtNumOfItem().setVisibility(View.GONE);
-                            item.getmBtnMinusItem().setVisibility(View.GONE);
-                        }
-                        if (totalNewItem == 0) {
+                        cartObj.addToCart(itemOrder, sign);
+                        if (cartObj.getTotalQuantity() == 0) {
                             mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         }
+                        initCartView(cartObj);
                     }
+                    item.getmTxtNumOfItem().setText(String.valueOf(newNum));
+
+//                        } catch (Exception e) {
+//                            Log.e(TAG, e.getMessage());
+//                        }
 
                 }
 
                 @Override
-                public void onClickAddItem(StoreMenuItemAdapter.ViewHolderItem item) {
-                    init(item, 1);
+                public void onClickAddItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
+                    init(item, 1, parentPosition, childPosition);
+                    mStoreMenuItemAdapter.notifyDataSetChanged();
+                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onClickMinusItem(StoreMenuItemAdapter.ViewHolderItem item) {
-                    init(item, -1);
+                public void onClickMinusItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
+                    init(item, -1, parentPosition, childPosition);
+                    mStoreMenuItemAdapter.notifyDataSetChanged();
+                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
                 }
-
 
             });
         } else {
             mStoreMenuItemAdapter.notifyDataSetChanged();
         }
+//        } catch (Exception e) {
+//            Log.e(TAG, e.getMessage());
+//        }
+
+    }
+
+    private void initCartView(CartObj cartObj) {
+        mTxtTotalItem.setText(String.valueOf(cartObj.getTotalQuantity()));
+        mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+        mTxtTotalPriceOld.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
     }
 }

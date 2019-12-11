@@ -1,36 +1,23 @@
 package fpt.edu.cocshop.Activity;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.NavUtils;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -38,11 +25,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Custom.AlphaTextView;
-import fpt.edu.cocshop.Custom.CustomViewPager;
 import fpt.edu.cocshop.Fragment.StoreLocationFragment;
 import fpt.edu.cocshop.Fragment.StoreMenuFragment;
 import fpt.edu.cocshop.Model.Brand;
