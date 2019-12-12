@@ -34,8 +34,14 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
     private Context mContext;
     private ItemOrderAdapter.OnItemOrderClickListener mOnFoodPicksClickListener;
 
+    public void setmOnFoodPicksClickListener(OnItemOrderClickListener mOnFoodPicksClickListener) {
+        this.mOnFoodPicksClickListener = mOnFoodPicksClickListener;
+    }
+
     public interface OnItemOrderClickListener {
-        void onClick();
+        void onClickAddItem(ViewHolderItem item, int position);
+
+        void onClickMinusItem(ViewHolderItem item, int position);
     }
 
     public ItemOrderAdapter(Context mContext, CartObj cartObj) {
@@ -54,7 +60,7 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderItem holder, int position) {
-        holder.bind(cartObj.getCart().get(listId.get(position)));
+        holder.bind(cartObj.getCart().get(listId.get(position)), position);
     }
 
 
@@ -80,20 +86,20 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
             mBtnMinusItem = itemView.findViewById(R.id.btn_menu_item_minus);
         }
 
-        public void bind(ItemOrder item) {
+        public void bind(ItemOrder item, final int position) {
             mTxtName.setText(item.getName());
             mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
             mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceOld(), Constant.NUMBER_COMMA));
             mBtnAddItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // mOnStoreMenuClickListener.onClickAddItem(StoreMenuItemAdapter.ViewHolderItem.this, parentPosition, childPosition);
+                    mOnFoodPicksClickListener.onClickAddItem(ViewHolderItem.this, position);
                 }
             });
             mBtnMinusItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // mOnStoreMenuClickListener.onClickMinusItem(StoreMenuItemAdapter.ViewHolderItem.this, parentPosition, childPosition);
+                    mOnFoodPicksClickListener.onClickMinusItem(ViewHolderItem.this, position);
                 }
             });
             if (item.getQuantityInCart() == 0) {

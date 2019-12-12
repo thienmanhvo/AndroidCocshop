@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/htab_maincontent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/colorBackgroundHeader"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -12,16 +12,15 @@
         android:id="@+id/tb_checkout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        android:background="@color/colorWhite"
-
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:background="@drawable/custom_bottom_sheet_background"
         app:title="Phở hương việt - thanh mỹ lợi" />
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorBackgroundHeader">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
+                android:background="@drawable/custom_bottom_sheet_background"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp15"
                 android:paddingRight="@dimen/dp15">
@@ -101,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
-                android:background="@color/colorWhite"
+                android:background="@drawable/custom_bottom_sheet_background"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp15"
                 android:paddingRight="@dimen/dp15">
@@ -148,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp5"
-                android:background="@color/colorWhite"
+                android:background="@drawable/custom_bottom_sheet_background"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp15"
                 android:paddingRight="@dimen/dp15">
@@ -201,6 +200,7 @@
                         android:textColor="@color/colorBlack" />
 
                     <TextView
+                        android:id="@+id/txt_checkout_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
@@ -225,13 +225,29 @@
                         android:text="Discounts"
                         android:textColor="@color/colorBlack" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="right"
-                        android:text="- 15,000"
-                        android:textColor="@color/colorBlack" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="right"
+                            android:text="- "
+                            android:textColor="@color/colorBlack" />
+
+                        <TextView
+                            android:id="@+id/txt_checkout_discounts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="15,000"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -251,6 +267,7 @@
                         android:textColor="@color/colorBlack" />
 
                     <TextView
+                        android:id="@+id/txt_checkout_delivery_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
@@ -268,6 +285,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp16"
                     android:background="@color/colorWhite"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/dp10"
@@ -282,11 +300,11 @@
                         android:textColor="@color/colorBlack" />
 
                     <TextView
+                        android:id="@+id/txt_checkout_total_price_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="right"
-                        android:paddingBottom="@dimen/dp70"
                         android:text="429,000"
                         android:textColor="@color/colorBlack" />
                 </LinearLayout>
@@ -297,4 +315,5 @@
     </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/fragment_checkout_bottom_sheet" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

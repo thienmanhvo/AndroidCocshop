@@ -2,20 +2,28 @@ package fpt.edu.cocshop.Activity;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import org.modelmapper.ModelMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import fpt.edu.cocshop.Adapter.ItemOrderAdapter;
+import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
 import fpt.edu.cocshop.Constant.Constant;
-import fpt.edu.cocshop.Custom.CustomDecoration;
 import fpt.edu.cocshop.Model.CartObj;
+import fpt.edu.cocshop.Model.ItemOrder;
+import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.PriceExtention;
 
 public class CheckOutActivity extends AppCompatActivity {
 
@@ -23,8 +31,9 @@ public class CheckOutActivity extends AppCompatActivity {
     private BottomSheetBehavior mSheetBehavior;
     private LinearLayout mCheckoutBottomSheet;
     private CartObj cartObj;
+    private List<String> listIdOrderItem;
     private ItemOrderAdapter mItemOrderAdapter;
-
+    private TextView mTxtTotalPrice, mTxtTotalPricePayment, mTxtDiscount, mTxtDeliveryFee, mTxtTotalPriceInBottom;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +45,17 @@ public class CheckOutActivity extends AppCompatActivity {
 
     private void initData() {
         cartObj = (CartObj) getIntent().getSerializableExtra(Constant.CART_OBJ);
+        listIdOrderItem = new ArrayList<>(cartObj.getCart().keySet());
+        initCartView(cartObj);
         updateUIRcvMenu(cartObj);
     }
 
     private void initView() {
+        mTxtTotalPrice = findViewById(R.id.txt_checkout_total_price);
+        mTxtTotalPricePayment = findViewById(R.id.txt_checkout_total_price_payment);
+        mTxtDiscount = findViewById(R.id.txt_checkout_discounts);
+        mTxtDeliveryFee = findViewById(R.id.txt_checkout_delivery_fee);
+        mTxtTotalPriceInBottom = findViewById(R.id.txt_checkout_button_total_price);
         mCheckoutBottomSheet = findViewById(R.id.ll_checkout_bottom_sheet);
         mSheetBehavior = BottomSheetBehavior.from(mCheckoutBottomSheet);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -57,58 +73,44 @@ public class CheckOutActivity extends AppCompatActivity {
             mItemOrderAdapter = new ItemOrderAdapter(this, cartObj);
             mRvDishItem.setAdapter(mItemOrderAdapter);
             //mRvDishItem.setLayoutManager(new LinearLayoutManager();
-//            mItemOrderAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
-//
-//                private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
-////                        try {
-//                    MenuDishItem dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
-//                    int newNum = dishItem.getQuantityInCart() + (1 * sign);
-//                    ModelMapper modelMapper = new ModelMapper();
-//                    ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
-//                    dishItem.setQuantityInCart(newNum);
-//                    if (sign == 1) {
-//                        cartObj.addToCart(itemOrder, sign);
-//                        if (cartObj.getTotalQuantity() == 1) {
-//                            mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                        }
-//                        initCartView(cartObj);
-//                    }
-//                    if (sign == -1) {
-//                        cartObj.addToCart(itemOrder, sign);
-//                        if (cartObj.getTotalQuantity() == 0) {
-//                            mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-//                        }
-//                        initCartView(cartObj);
-//                    }
-//                    item.getmTxtNumOfItem().setText(String.valueOf(newNum));
-//
-////                        } catch (Exception e) {
-////                            Log.e(TAG, e.getMessage());
-////                        }
-//
-//                }
-//
-//                @Override
-//                public void onClickAddItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
-//                    init(item, 1, parentPosition, childPosition);
-//                    mStoreMenuItemAdapter.notifyDataSetChanged();
-//                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onClickMinusItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
-//                    init(item, -1, parentPosition, childPosition);
-//                    mStoreMenuItemAdapter.notifyDataSetChanged();
-//                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
-//                }
-//
-//            });
-        } else {
-            mItemOrderAdapter.notifyDataSetChanged();
-        }
-//        } catch (Exception e) {
-//            Log.e(TAG, e.getMessage());
-//        }
+            mItemOrderAdapter.setmOnFoodPicksClickListener(new ItemOrderAdapter.OnItemOrderClickListener() {
+                private void init(ItemOrderAdapter.ViewHolderItem item, int sign, int position) {
+                    ItemOrder dishItem = cartObj.getCart().get(listIdOrderItem.get(position));
+                    if (sign == 1) {
+                        cartObj.addToCart(dishItem, sign);
+                        initCartView(cartObj);
+                    }
+                    if (sign == -1) {
+                        cartObj.addToCart(dishItem, sign);
+                        if (cartObj.getTotalQuantity() == 0) {
+                            CheckOutActivity.this.finish();
+                        }
+                        initCartView(cartObj);
+                    }
 
+                }
+
+                @Override
+                public void onClickAddItem(ItemOrderAdapter.ViewHolderItem item, int position) {
+                    init(item, 1, position);
+                    mItemOrderAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onClickMinusItem(ItemOrderAdapter.ViewHolderItem item, int position) {
+                    init(item, -1, position);
+                    mItemOrderAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    private void initCartView(CartObj cartObj) {
+        long totalPrice = cartObj.getTotalPrice();
+        mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
+        mTxtDiscount.setText(PriceExtention.longToPrice(-cartObj.getTotalPrice() + cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
+        //mTxtDeliveryFee.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
+        mTxtTotalPricePayment.setText(PriceExtention.longToPrice(totalPrice, Constant.NUMBER_COMMA));
+        mTxtTotalPriceInBottom.setText(PriceExtention.longToPrice(totalPrice, Constant.NUMBER_COMMA));
     }
 }
