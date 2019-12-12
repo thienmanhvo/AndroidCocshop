@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         initView();
         initData();
     }

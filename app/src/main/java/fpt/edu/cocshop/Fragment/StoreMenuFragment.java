@@ -1,11 +1,14 @@
 package fpt.edu.cocshop.Fragment;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import fpt.edu.cocshop.Activity.CheckOutActivity;
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Custom.CustomDecoration;
@@ -46,6 +50,7 @@ public class StoreMenuFragment extends Fragment {
     private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld;
     private CartObj cartObj;
     private int a;
+    private FrameLayout mBtnCheckout;
 
     public StoreMenuFragment() {
         // Required empty public constructor
@@ -85,6 +90,7 @@ public class StoreMenuFragment extends Fragment {
     private void initView() {
         //mCartBottomSheet = mView.findViewById(R.id.ll_cart_bottom_sheet);
         mCartBottomSheet = getActivity().findViewById(R.id.ll_cart_bottom_sheet);
+        mBtnCheckout = getActivity().findViewById(R.id.fl_btn_checkout);
         mSheetBehavior = BottomSheetBehavior.from(mCartBottomSheet);
         mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         mTxtTotalItem = getActivity().findViewById(R.id.txt_cart_total_item_number);
@@ -127,6 +133,14 @@ public class StoreMenuFragment extends Fragment {
             mTxtTotalPrice.setText(cartObj.getTotalPrice() + "");
             mTxtTotalItem.setText(cartObj.getTotalQuantity() + "");
             mTxtTotalPriceOld.setText(cartObj.getTotalPriceOld() + "");
+            mBtnCheckout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), CheckOutActivity.class);
+                    intent.putExtra(Constant.CART_OBJ, cartObj);
+                    startActivity(intent);
+                }
+            });
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

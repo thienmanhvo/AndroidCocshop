@@ -45,9 +45,7 @@ public class StoreActivity extends AppCompatActivity {
     private AppBarLayout mAppBarLayout;
     private LinearLayout mLlStoreDescription;
     private com.google.android.material.appbar.CollapsingToolbarLayout CollapsingToolbarLayout;
-    //private NestedScrollView mNestedScrollView;
     private Menu mOptionsMenu;
-    private int drawableResourceId = R.drawable.ic_search_black;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +126,7 @@ public class StoreActivity extends AppCompatActivity {
     private void updateOptionsMenu(int resId) {
         if (mOptionsMenu != null) {
             SearchView searchView = (SearchView) mOptionsMenu.findItem(R.id.action_search).getActionView();
-            ImageView icon =  searchView.findViewById(R.id.search_button);
+            ImageView icon = searchView.findViewById(R.id.search_button);
             ImageView iconClose = (ImageView) searchView.findViewById(R.id.search_close_btn);
             icon.setColorFilter(resId);
             iconClose.setColorFilter(resId);

@@ -9,7 +9,7 @@ public class PriceExtention {
         return price.replace(commaType, "");
     }
 
-    public static String longToPrice(Long price, String commaType) {
+    public static String longToPrice(long price, String commaType) {
         NumberFormat myFormat = NumberFormat.getInstance();
         myFormat.setGroupingUsed(true); // this will also round numbers, 3
         return myFormat.format(price);

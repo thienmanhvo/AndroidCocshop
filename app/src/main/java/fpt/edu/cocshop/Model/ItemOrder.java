@@ -1,11 +1,14 @@
 package fpt.edu.cocshop.Model;
 
-public class ItemOrder {
+import java.io.Serializable;
+
+public class ItemOrder implements Serializable {
     private String id;
     private int quantityInCart;
     private long price;
     private long priceOld;
     private String name;
+    private String imagePath;
 
     public ItemOrder() {
     }
@@ -56,5 +59,13 @@ public class ItemOrder {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

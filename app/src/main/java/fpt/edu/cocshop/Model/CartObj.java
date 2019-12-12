@@ -49,6 +49,10 @@ public class CartObj implements Serializable {
             quantity = this.cart.get(dto.getId()).getQuantityInCart() + (1 * sign);
             if (quantity == 0) {
                 this.cart.remove(dto.getId());
+                totalQuantity = totalQuantity + sign;
+                totalPrice = totalPrice + (dto.getPrice() * sign);
+                totalPriceOld = totalPrice + (dto.getPriceOld() * sign);
+                return;
             }
         } else {
             quantity = 1;
