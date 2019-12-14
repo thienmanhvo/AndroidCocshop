@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fpt.edu.cocshop.Constant.Constant;
+import fpt.edu.cocshop.Model.CartObj;
+import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDish;
 import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
@@ -41,16 +43,18 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Me
     private Context mContext;
     private List<MenuDish> mListItem;
     private OnStoreMenuListener mOnStoreMenuClickListener;
+    private CartObj cartObj;
 
     public void setmOnStoreMenuClickListener(OnStoreMenuListener mOnStoreMenuClickListener) {
         this.mOnStoreMenuClickListener = mOnStoreMenuClickListener;
     }
 
-    public StoreMenuItemAdapter(Context mContext, List<MenuDish> mListItem) {
+    public StoreMenuItemAdapter(Context mContext, List<MenuDish> mListItem, CartObj cartObj) {
         super(mListItem);
         this.mContext = mContext;
         this.mListItem = mListItem;
         mInflater = LayoutInflater.from(mContext);
+        this.cartObj = cartObj;
     }
 
     @NonNull
@@ -146,14 +150,21 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Me
                     mOnStoreMenuClickListener.onClickMinusItem(ViewHolderItem.this, parentPosition, childPosition);
                 }
             });
-            if (item.getQuantityInCart() == 0) {
+            ItemOrder itemInCart = cartObj.getCart().get(item.getId());
+            if (itemInCart != null) {
+                if (itemInCart.getQuantityInCart() == 0) {
+                    mTxtNumOfItem.setVisibility(View.GONE);
+                    mBtnMinusItem.setVisibility(View.GONE);
+                } else {
+                    mTxtNumOfItem.setVisibility(View.VISIBLE);
+                    mBtnMinusItem.setVisibility(View.VISIBLE);
+                }
+                mTxtNumOfItem.setText(itemInCart.getQuantityInCart() + "");
+            } else {
                 mTxtNumOfItem.setVisibility(View.GONE);
                 mBtnMinusItem.setVisibility(View.GONE);
-            } else {
-                mTxtNumOfItem.setVisibility(View.VISIBLE);
-                mBtnMinusItem.setVisibility(View.VISIBLE);
             }
-            mTxtNumOfItem.setText(item.getQuantityInCart() + "");
+
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.drawable.ic_launcher_background)

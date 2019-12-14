@@ -150,7 +150,7 @@ public class StoreMenuFragment extends Fragment {
     private void updateUIRcvMenu(final List<MenuDish> mMenuDishList) {
 //        try {
         if (mStoreMenuItemAdapter == null) {
-            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList);
+            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList, cartObj);
             mStoreMenuItemAdapter.expandAllParents();
             mRcvMenu.setAdapter(mStoreMenuItemAdapter);
             mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -159,10 +159,8 @@ public class StoreMenuFragment extends Fragment {
                 private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
 //                        try {
                     MenuDishItem dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
-                    int newNum = dishItem.getQuantityInCart() + (1 * sign);
                     ModelMapper modelMapper = new ModelMapper();
                     ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
-                    dishItem.setQuantityInCart(newNum);
                     if (sign == 1) {
                         cartObj.addToCart(itemOrder, sign);
                         if (cartObj.getTotalQuantity() == 1) {
@@ -177,7 +175,6 @@ public class StoreMenuFragment extends Fragment {
                         }
                         initCartView(cartObj);
                     }
-                    item.getmTxtNumOfItem().setText(String.valueOf(newNum));
 
 //                        } catch (Exception e) {
 //                            Log.e(TAG, e.getMessage());

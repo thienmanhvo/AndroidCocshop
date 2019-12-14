@@ -8,14 +8,14 @@ public class MenuDishItem implements Serializable {
     private long price;
     private String id;
     private long priceOld;
-    private int quantityInCart;
+   // private int quantityInCart;
 
     public MenuDishItem(String name, String imagePath, long price) {
         this.name = name;
         this.imagePath = imagePath;
         this.price = price;
         priceOld = (long) (price * 0.8);
-        quantityInCart = 0;
+        //quantityInCart = 0;
 
     }
 
@@ -35,17 +35,17 @@ public class MenuDishItem implements Serializable {
         this.priceOld = priceSale;
     }
 
-    public int getQuantityInCart() {
-        return quantityInCart;
-    }
+//    public int getQuantityInCart() {
+//        return quantityInCart;
+//    }
 
-    public void setQuantityInCart(int quantityInCart) {
-        this.quantityInCart = quantityInCart;
-    }
+//    public void setQuantityInCart(int quantityInCart) {
+//        this.quantityInCart = quantityInCart;
+//    }
 
     public MenuDishItem() {
         //priceSale = (long) (price * 0.8);
-        quantityInCart = 0;
+      //  quantityInCart = 0;
     }
 
     public String getName() {
