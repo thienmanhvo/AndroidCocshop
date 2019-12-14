@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -16,9 +17,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 import fpt.edu.cocshop.Adapter.MainAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
+import fpt.edu.cocshop.Fragment.UserFragment;
 import fpt.edu.cocshop.R;
 
 
@@ -36,6 +44,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView mImgNotfy;
 
+    GoogleSignInClient mGoogleSignInClient;
+
+    String name;
+    String email;
+    String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +57,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
        // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         initView();
         initData();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(HomeActivity.this);
+        if (acct != null) {
+             name = acct.getDisplayName();
+             email = acct.getEmail();
+             id = acct.getId();
+
+
+
+
+           // Glide.with(this).load(personPhoto).into(photoIV);
+        }
+
     }
 
     private void initView() {
@@ -197,6 +229,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (view.getId()) {
             case R.id.ll_button_help:
                 setInActive();
@@ -217,11 +250,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 setInActive();
                 setActive(Constant.USER_PAGE_POSITION);
 //                mViewPager.setCurrentItem(Constant.USER_PAGE_POSITION);
+                UserFragment userFragment = new UserFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name",name);
+                bundle.putString("email",email);
+                bundle.putString("id",id);
+                userFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.ll_content,userFragment,null);
+                fragmentTransaction.commit();
 
                 break;
             case R.id.img_home:
                 setInActive();
                 setActive(Constant.HOME_PAGE_POSITION);
+                fragmentTransaction.replace(R.id.ll_content,new HomeFragment(),null);
+                fragmentTransaction.commit();
+
 //                mViewPager.setCurrentItem(Constant.HOME_PAGE_POSITION);
                 break;
 

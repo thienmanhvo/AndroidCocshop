@@ -19,7 +19,7 @@
             <ImageView
                 android:layout_width="@dimen/dp40"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Ic_shopping_basket_red"
+                android:src="@drawable/ic_shopping_basket_red"
                 android:layout_gravity="center_vertical"/>
 
             <TextView
