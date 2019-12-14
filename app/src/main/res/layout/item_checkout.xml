@@ -9,10 +9,9 @@
     android:weightSum="10">
 
     <FrameLayout
-        android:layout_width="@dimen/dp80"
-        android:layout_height="@dimen/dp80"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp60"
         android:layout_weight="1.5"
-        android:layout_marginLeft="@dimen/dp10"
         android:layout_gravity="top">
 
         <ImageView
@@ -37,7 +36,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp8"
-        android:layout_marginRight="@dimen/dp8"
         android:layout_weight="8.5">
 
         <LinearLayout

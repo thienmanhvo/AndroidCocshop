@@ -215,5 +215,6 @@
         android:contentInsetEnd="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetEnd="0dp"/>
-
+    <!-- Adding bottom sheet after main content -->
+    <include layout="@layout/fragment_cart_bottom_sheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

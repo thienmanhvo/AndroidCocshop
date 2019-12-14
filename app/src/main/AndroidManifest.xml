@@ -26,6 +26,8 @@
 
         <activity android:name=".Activity.StoreActivity"
             android:theme="@style/TranslucentStatusBar"></activity>
+        <activity android:name=".Activity.CheckOutActivity"
+            android:theme="@style/TranslucentStatusBar"></activity>
         <activity android:name=".Activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

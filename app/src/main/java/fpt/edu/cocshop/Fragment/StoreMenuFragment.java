@@ -1,32 +1,56 @@
 package fpt.edu.cocshop.Fragment;
 
+import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import org.modelmapper.ModelMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import fpt.edu.cocshop.Activity.CheckOutActivity;
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
+import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Custom.CustomDecoration;
-import fpt.edu.cocshop.Model.Menu;
-import fpt.edu.cocshop.Model.MenuItem;
+import fpt.edu.cocshop.Model.CartObj;
+import fpt.edu.cocshop.Model.ItemOrder;
+import fpt.edu.cocshop.Model.MenuDish;
+import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.PriceExtention;
 
 
 public class StoreMenuFragment extends Fragment {
+
+    private static final String TAG = "StoreMenuFragment";
     private RecyclerView mRcvMenu;
     private StoreMenuItemAdapter mStoreMenuItemAdapter;
-    private List<Menu> mMenuList;
+    private List<MenuDish> mMenuDishList;
     private View mView;
-
+    private BottomSheetBehavior mSheetBehavior;
+    private LinearLayout mCartBottomSheet;
+    private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld;
+    private CartObj cartObj;
+    private int a;
+    private FrameLayout mBtnCheckout;
 
     public StoreMenuFragment() {
         // Required empty public constructor
@@ -44,10 +68,10 @@ public class StoreMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_store_menu, container, false);
+        // mCartBottomSheet = inflater.inflate(R.layout.fragment_cart_bottom_sheet, container, false).findViewById(R.id.ll_cart_bottom_sheet);
         initView();
         initData();
         return mView;
-
     }
 
     @Override
@@ -64,70 +88,127 @@ public class StoreMenuFragment extends Fragment {
     }
 
     private void initView() {
+        //mCartBottomSheet = mView.findViewById(R.id.ll_cart_bottom_sheet);
+        mCartBottomSheet = getActivity().findViewById(R.id.ll_cart_bottom_sheet);
+        mBtnCheckout = getActivity().findViewById(R.id.fl_btn_checkout);
+        mSheetBehavior = BottomSheetBehavior.from(mCartBottomSheet);
+        mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        mTxtTotalItem = getActivity().findViewById(R.id.txt_cart_total_item_number);
+        mTxtTotalPrice = getActivity().findViewById(R.id.txt_cart_total_price);
+        mTxtTotalPriceOld = getActivity().findViewById(R.id.txt_cart_total_price_old);
+        mTxtTotalPriceOld.setPaintFlags(mTxtTotalPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
         mRcvMenu.setHasFixedSize(true);
-        mRcvMenu.addItemDecoration(new CustomDecoration());
+        mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
+        //mRcvMenu.addItemDecoration(new DividerItemDecoration(mRcvMenu.getContext(), DividerItemDecoration.VERTICAL));
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mRcvMenu.setLayoutManager(manager);
+
     }
 
     private void initData() {
-        mMenuList = new ArrayList<>();
-        for (int j = 0; j <= 4; j++) {
-            Menu menu = new Menu();
-            menu.setName("header" + j);
-            List<MenuItem> items = new ArrayList<>();
-            for (int i = 0; i <= 3; i++) {
-                MenuItem item = new MenuItem();
-                item.setName("Đùi gà nướng" + " " + i);
-                item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
-                item.setPrice(20500);
-                items.add(item);
+        try {
+            mMenuDishList = new ArrayList<>();
+            cartObj = new CartObj();
+            int a = 1;
+            for (int j = 0; j <= 4; j++) {
+                MenuDish menuDish = new MenuDish();
+                menuDish.setName("header" + j);
+                menuDish.setId(j + "");
+                List<MenuDishItem> items = new ArrayList<>();
+                for (int i = 0; i <= 3; i++) {
+                    MenuDishItem item = new MenuDishItem();
+                    item.setName("Đùi gà nướng" + " " + (a++));
+                    item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
+                    item.setPrice(20500);
+                    item.setPriceOld((long) (20500 * 0.7));
+                    item.setId(a + "");
+                    items.add(item);
+                }
+                menuDish.setItems(items);
+                mMenuDishList.add(menuDish);
             }
-            menu.setItems(items);
-            mMenuList.add(menu);
+            updateUIRcvMenu(mMenuDishList);
+            mTxtTotalPrice.setText(cartObj.getTotalPrice() + "");
+            mTxtTotalItem.setText(cartObj.getTotalQuantity() + "");
+            mTxtTotalPriceOld.setText(cartObj.getTotalPriceOld() + "");
+            mBtnCheckout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), CheckOutActivity.class);
+                    intent.putExtra(Constant.CART_OBJ, cartObj);
+                    startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
-        StoreMenuItemAdapter adapter = new StoreMenuItemAdapter(getContext(), mMenuList);
-        mRcvMenu.setAdapter(adapter);
-        mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.expandAllParents();
-//        updateUIRcvMenu(mMenuList);
-
-
     }
 
 
-//    private void updateUIRcvMenu(final List<Object> mMenuList) {
-//        if (mStoreMenuItemAdapter == null) {
-//            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuList);
-//            mRcvMenu.setAdapter(mStoreMenuItemAdapter);
-//            mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
-//                @Override
-//                public void onClickToggleMenuItem(int position) {
-//                    int positionTemp = position + 1;
-//                    while (true) {
-//                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
-//                            return;
+    private void updateUIRcvMenu(final List<MenuDish> mMenuDishList) {
+//        try {
+        if (mStoreMenuItemAdapter == null) {
+            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList, cartObj);
+            mStoreMenuItemAdapter.expandAllParents();
+            mRcvMenu.setAdapter(mStoreMenuItemAdapter);
+            mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
+            mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
+
+                private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
+//                        try {
+                    MenuDishItem dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
+                    ModelMapper modelMapper = new ModelMapper();
+                    ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
+                    if (sign == 1) {
+                        cartObj.addToCart(itemOrder, sign);
+                        if (cartObj.getTotalQuantity() == 1) {
+                            mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                        initCartView(cartObj);
+                    }
+                    if (sign == -1) {
+                        cartObj.addToCart(itemOrder, sign);
+                        if (cartObj.getTotalQuantity() == 0) {
+                            mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                        }
+                        initCartView(cartObj);
+                    }
+
+//                        } catch (Exception e) {
+//                            Log.e(TAG, e.getMessage());
 //                        }
-//                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
-//                        vh.setVisibility(false);
-//                    }
-//                }
-//
-//                @Override
-//                public void onClickToggleMenuItemShow(int position) {
-//                    int positionTemp = position + 1;
-//                    while (true) {
-//                        if (positionTemp >= mMenuList.size() || mMenuList.get(positionTemp) instanceof Menu) {
-//                            return;
-//                        }
-//                        StoreMenuItemAdapter.ViewHolderItem vh =(StoreMenuItemAdapter.ViewHolderItem)  mRcvMenu.findViewHolderForAdapterPosition(positionTemp++);
-//                        vh.setVisibility(true);
-//                    }
-//                }
-//            });
-//        } else {
-//            mStoreMenuItemAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onClickAddItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
+                    init(item, 1, parentPosition, childPosition);
+                    mStoreMenuItemAdapter.notifyDataSetChanged();
+                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onClickMinusItem(StoreMenuItemAdapter.ViewHolderItem item, int parentPosition, int childPosition) {
+                    init(item, -1, parentPosition, childPosition);
+                    mStoreMenuItemAdapter.notifyDataSetChanged();
+                    //Toast.makeText(getContext(), item.getmTxtName().getText(), Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        } else {
+            mStoreMenuItemAdapter.notifyDataSetChanged();
+        }
+//        } catch (Exception e) {
+//            Log.e(TAG, e.getMessage());
 //        }
-//    }
+
+    }
+
+    private void initCartView(CartObj cartObj) {
+        mTxtTotalItem.setText(String.valueOf(cartObj.getTotalQuantity()));
+        mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+        mTxtTotalPriceOld.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
+    }
 }

@@ -1,78 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/ll_cart_bottom_sheet"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:background="@color/colorWhite"
+    >
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.2dp"
+        android:visibility="visible"
+        android:background="@android:color/darker_gray"/>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="10">
-
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:background="@drawable/custom_bottom_sheet_background"
+            />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:layout_weight="9">
+            android:weightSum="10"
+            android:background="@color/colorWhite">
 
-            <ImageView
-                android:layout_width="@dimen/dp40"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:layout_weight="9"
+                android:background="@color/colorWhite"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_shopping_basket_red"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/txt_cart_total_item_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp2"
+                    android:text="0"
+                    android:textColor="@color/colorBlack" />
+                <TextView
+                    android:id="@+id/txt_cart_total_item_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp2"
+                    android:text="items"
+                    android:textColor="@color/colorBlack" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="@dimen/dp18"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/store_description_bar_distance"
+                    android:layout_marginRight="@dimen/store_description_bar_distance"
+                    android:background="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txt_cart_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:text="56,000"
+                    android:textColor="@color/colorBlack" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:text="đ"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/txt_cart_total_price_old"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp5"
+                    android:text="56,000"
+                    android:textColor="@color/colorIcon"
+                    android:textSize="@dimen/dp12"
+                    android:textStyle="italic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp1"
+                    android:text="đ"
+                    android:textColor="@color/colorIcon"
+                    android:textSize="@dimen/dp12"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_btn_checkout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_shopping_basket_red"
-                android:layout_gravity="center_vertical"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp2"
-                android:text="5 items"
-                android:textColor="@color/colorBlack" />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="@dimen/dp18"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/store_description_bar_distance"
-                android:layout_marginRight="@dimen/store_description_bar_distance"
-                android:background="@color/colorBlack" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:text="56.000đ"
-                android:textColor="@color/colorBlack" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp5"
-                android:text="56.000đ"
-                android:textColor="@color/colorIcon"
-                android:textSize="@dimen/dp12"
-                android:textStyle="italic" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:background="@drawable/custom_button_check_out"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Check Out"
                 android:gravity="right"
-                android:layout_gravity="center"
-                android:textColor="@color/colorWhite"
-                android:textStyle="bold" />
-        </FrameLayout>
+                android:background="@drawable/custom_button_check_out"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/dp15"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check Out"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>

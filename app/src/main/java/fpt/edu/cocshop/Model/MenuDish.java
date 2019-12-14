@@ -5,19 +5,28 @@ import com.bignerdranch.expandablerecyclerview.model.Parent;
 import java.io.Serializable;
 import java.util.List;
 
-public class Menu implements Serializable, Parent<MenuItem> {
+public class MenuDish implements Serializable, Parent<MenuDishItem> {
     private String name;
-    private List<MenuItem> items;
+    private List<MenuDishItem> items;
+    private String id;
 
-    public Menu() {
+    public MenuDish() {
     }
 
-    public Menu(String name, List<MenuItem> items) {
+    public MenuDish(String name, List<MenuDishItem> items) {
         this.name = name;
         this.items = items;
     }
 
-    public Menu(String name) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public MenuDish(String name) {
         this.name = name;
     }
 
@@ -25,11 +34,11 @@ public class Menu implements Serializable, Parent<MenuItem> {
         return name;
     }
 
-    public List<MenuItem> getItems() {
+    public List<MenuDishItem> getItems() {
         return items;
     }
 
-    public void setItems(List<MenuItem> items) {
+    public void setItems(List<MenuDishItem> items) {
         this.items = items;
     }
 
@@ -38,7 +47,7 @@ public class Menu implements Serializable, Parent<MenuItem> {
     }
 
     @Override
-    public List<MenuItem> getChildList() {
+    public List<MenuDishItem> getChildList() {
         return items;
     }
 

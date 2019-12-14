@@ -1,19 +1,16 @@
 package fpt.edu.cocshop.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bignerdranch.expandablerecyclerview.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ExpandableRecyclerAdapter;
@@ -23,36 +20,41 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import fpt.edu.cocshop.Model.Brand;
-import fpt.edu.cocshop.Model.Menu;
-import fpt.edu.cocshop.Model.MenuItem;
+import fpt.edu.cocshop.Constant.Constant;
+import fpt.edu.cocshop.Model.CartObj;
+import fpt.edu.cocshop.Model.ItemOrder;
+import fpt.edu.cocshop.Model.MenuDish;
+import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.PriceExtention;
 
-public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuItem, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
+public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, MenuDishItem, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private LayoutInflater mInflater;
 
     public interface OnStoreMenuListener {
-        void onClickToggleMenuItem(int position);
+        void onClickAddItem(ViewHolderItem item, int parentPosition, int childPosition);
 
-        void onClickToggleMenuItemShow(int position);
+        void onClickMinusItem(ViewHolderItem item, int parentPosition, int childPosition);
     }
 
     private Context mContext;
-    private List<Menu> mListItem;
+    private List<MenuDish> mListItem;
     private OnStoreMenuListener mOnStoreMenuClickListener;
+    private CartObj cartObj;
 
     public void setmOnStoreMenuClickListener(OnStoreMenuListener mOnStoreMenuClickListener) {
         this.mOnStoreMenuClickListener = mOnStoreMenuClickListener;
     }
 
-    public StoreMenuItemAdapter(Context mContext, List<Menu> mListItem) {
+    public StoreMenuItemAdapter(Context mContext, List<MenuDish> mListItem, CartObj cartObj) {
         super(mListItem);
         this.mContext = mContext;
         this.mListItem = mListItem;
         mInflater = LayoutInflater.from(mContext);
+        this.cartObj = cartObj;
     }
 
     @NonNull
@@ -70,13 +72,13 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
     }
 
     @Override
-    public void onBindParentViewHolder(@NonNull ViewHolderHeader parentViewHolder, int parentPosition, @NonNull Menu parent) {
+    public void onBindParentViewHolder(@NonNull ViewHolderHeader parentViewHolder, int parentPosition, @NonNull MenuDish parent) {
         parentViewHolder.bind(parent, parentPosition);
     }
 
     @Override
-    public void onBindChildViewHolder(@NonNull ViewHolderItem childViewHolder, int parentPosition, int childPosition, @NonNull MenuItem child) {
-        childViewHolder.bind(child);
+    public void onBindChildViewHolder(@NonNull ViewHolderItem childViewHolder, int parentPosition, int childPosition, @NonNull MenuDishItem child) {
+        childViewHolder.bind(child, parentPosition, childPosition);
     }
 
     protected class ViewHolderHeader extends ParentViewHolder {
@@ -92,8 +94,8 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
             mRlHeader = itemView.findViewById(R.id.rl_store_menu);
         }
 
-        public void bind(Menu menu, final int position) {
-            mTxtName.setText(menu.getName());
+        public void bind(MenuDish menuDish, final int position) {
+            mTxtName.setText(menuDish.getName());
             mRlHeader.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -116,9 +118,9 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
     }
 
     public class ViewHolderItem extends ChildViewHolder {
-        private ImageView mImgDescription;
+        private ImageView mImgDescription, mBtnAddItem, mBtnMinusItem;
         private TextView mTxtName;
-        private TextView mTxtPriceOld, mTxtPrice;
+        private TextView mTxtPriceOld, mTxtPrice, mTxtNumOfItem;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
@@ -127,16 +129,47 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
             mTxtPrice = itemView.findViewById(R.id.txt_menu_item_price);
             mTxtPriceOld = itemView.findViewById(R.id.txt_menu_item_price_old);
             mTxtPriceOld.setPaintFlags(mTxtPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            mBtnAddItem = itemView.findViewById(R.id.btn_menu_item_add);
+            mTxtNumOfItem = itemView.findViewById(R.id.txt_store_menu_number_item);
+            mBtnMinusItem = itemView.findViewById(R.id.btn_menu_item_minus);
         }
 
-        public void bind(MenuItem item) {
+        public void bind(MenuDishItem item, final int parentPosition, final int childPosition) {
             mTxtName.setText(item.getName());
-            mTxtPrice.setText(String.valueOf(item.getPrice()));
-            mTxtPriceOld.setText(String.valueOf(item.getPrice()));
+            mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
+            mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceOld(), Constant.NUMBER_COMMA));
+            mBtnAddItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnStoreMenuClickListener.onClickAddItem(ViewHolderItem.this, parentPosition, childPosition);
+                }
+            });
+            mBtnMinusItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnStoreMenuClickListener.onClickMinusItem(ViewHolderItem.this, parentPosition, childPosition);
+                }
+            });
+            ItemOrder itemInCart = cartObj.getCart().get(item.getId());
+            if (itemInCart != null) {
+                if (itemInCart.getQuantityInCart() == 0) {
+                    mTxtNumOfItem.setVisibility(View.GONE);
+                    mBtnMinusItem.setVisibility(View.GONE);
+                } else {
+                    mTxtNumOfItem.setVisibility(View.VISIBLE);
+                    mBtnMinusItem.setVisibility(View.VISIBLE);
+                }
+                mTxtNumOfItem.setText(itemInCart.getQuantityInCart() + "");
+            } else {
+                mTxtNumOfItem.setVisibility(View.GONE);
+                mBtnMinusItem.setVisibility(View.GONE);
+            }
+
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.drawable.ic_launcher_background)
                     .placeholder(R.drawable.ic_launcher_background)
+                    .fit()
                     .into(mImgDescription, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -149,5 +182,36 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<Menu, MenuIt
                     });
         }
 
+        public void setmTxtNumOfItem(TextView mTxtNumOfItem) {
+            this.mTxtNumOfItem = mTxtNumOfItem;
+        }
+
+        public ImageView getmBtnMinusItem() {
+            return mBtnMinusItem;
+        }
+
+        public ImageView getmImgDescription() {
+            return mImgDescription;
+        }
+
+        public ImageView getmBtnAddItem() {
+            return mBtnAddItem;
+        }
+
+        public TextView getmTxtName() {
+            return mTxtName;
+        }
+
+        public TextView getmTxtPriceOld() {
+            return mTxtPriceOld;
+        }
+
+        public TextView getmTxtPrice() {
+            return mTxtPrice;
+        }
+
+        public TextView getmTxtNumOfItem() {
+            return mTxtNumOfItem;
+        }
     }
 }
