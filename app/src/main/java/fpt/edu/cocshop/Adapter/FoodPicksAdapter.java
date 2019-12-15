@@ -18,25 +18,26 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fpt.edu.cocshop.Model.Brand;
+import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
 
 public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.ViewHolder> {
 
     public interface OnFoodPicksClickListener {
-        void onClick(Brand brand);
+        void onClick(Store store);
     }
 
     private Context mContext;
-    private List<Brand> mBrandList;
+    private List<Store> mStoreList;
     private OnFoodPicksClickListener mOnFoodPicksClickListener;
 
     public void setmOnFoodPicksClickListener(OnFoodPicksClickListener mOnFoodPicksClickListener) {
         this.mOnFoodPicksClickListener = mOnFoodPicksClickListener;
     }
 
-    public FoodPicksAdapter(Context mContext, List<Brand> mBrandList) {
+    public FoodPicksAdapter(Context mContext, List<Store> mStoreList) {
         this.mContext = mContext;
-        this.mBrandList = mBrandList;
+        this.mStoreList = mStoreList;
     }
 
     @NonNull
@@ -49,12 +50,12 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.mTxtName.setText(mBrandList.get(position).getName());
-        holder.mTxtLocation.setText(mBrandList.get(position).getLocation().toString());
+        holder.mTxtName.setText(mStoreList.get(position).getName());
+        holder.mTxtLocation.setText(mStoreList.get(position).getLocationName());
         Picasso.get()
-                .load(mBrandList.get(position).getPicturePath())
+                .load(mStoreList.get(position).getImagePath())
                 .error(R.mipmap.ic_launcher)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.mipmap.ic_image_error_foreground)
                 .fit()
                 .centerInside()
                 .into(holder.mImgDescription, new Callback() {
@@ -70,15 +71,15 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
         holder.mImgDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnFoodPicksClickListener.onClick(mBrandList.get(position));
+                mOnFoodPicksClickListener.onClick(mStoreList.get(position));
             }
         });
-        holder.mRbRating.setRating(mBrandList.get(position).getRating());
+        holder.mRbRating.setRating(mStoreList.get(position).getRating());
     }
 
     @Override
     public int getItemCount() {
-        return mBrandList != null ? mBrandList.size() : 0;
+        return mStoreList != null ? mStoreList.size() : 0;
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

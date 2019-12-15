@@ -20,6 +20,8 @@ import fpt.edu.cocshop.Adapter.MainAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.ExceptionHandler;
+import fpt.edu.cocshop.Util.Token;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,7 +42,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Token.token = "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhNTEyIiwidHlwIjoiSldUIn0.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW4iLCJTdGFmZiIsIlVzZXIiXSwidXNlcm5hbWUiOiJ0aGllbm1hbmh2byIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGQzNzdkNTgtMWFhZS00OTk5LTAyZGItMDhkNzNkOTQwMjNmIiwiZXhwIjoxNTc2NDE2MTUxLCJpc3MiOiJodHRwczovL3d3dy5mYWNlYm9vay5jb20vdGhpZW5uYjE2NDMyMTYiLCJhdWQiOiJOZ3V54buFbiBC4bqjbyBUaGnhu4duIn0.VqqAIANMdCJ_4MVNAZ6z-Y7DcKzHMxpkpk6TJuQGgXtC0wQnyJT44ian10h64NqF8dZxQ_QHvVUTbSzehlGNLd1S__N-qKRpXPRB8OM88yCxBeZN2Bo3GYlfAwdrnbxYO-Tuzmk9z0UBMqzQVGCF21AbSK7VS6hxoAvnmpe2lgrQ4-hHKReI1Vj_y1lG5-RZfpwk2SZr-8DTSngvRQjzdydZNqYU0tKyYUz5E_K2uGACU1aywPSLJSfHQYPT1Z0p1wmEYNM2OqiRwEXmA3L_MfXv0vKiHuvrls6_qfxn1qrGdG9f2iY-1bQvMgq4un0VbXAySYqPHDbhNOA_3I3Nsw";
         initView();
         initData();
     }

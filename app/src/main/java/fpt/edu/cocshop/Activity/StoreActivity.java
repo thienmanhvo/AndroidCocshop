@@ -30,12 +30,14 @@ import fpt.edu.cocshop.Custom.AlphaTextView;
 import fpt.edu.cocshop.Fragment.StoreLocationFragment;
 import fpt.edu.cocshop.Fragment.StoreMenuFragment;
 import fpt.edu.cocshop.Model.Brand;
+import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.ExceptionHandler;
 
 public class StoreActivity extends AppCompatActivity {
 
     private ImageView mImgAvatar;
-    private Brand brand;
+    private Store store;
     private RatingBar mRatingBar;
     private AlphaTextView mTxtLocation, mTxtStoreName;
     private ViewPager mViewPager;
@@ -51,6 +53,7 @@ public class StoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         initView();
         initData();
     }
@@ -65,9 +68,9 @@ public class StoreActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
 //                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 //        );
-        brand = (Brand) getIntent().getSerializableExtra(Constant.STORE);
+        store = (Store) getIntent().getSerializableExtra(Constant.STORE);
         Picasso.get()
-                .load(brand.getPicturePath())
+                .load(store.getImagePath())
                 .error(R.drawable.ic_launcher_background)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(mImgAvatar, new Callback() {
@@ -80,9 +83,9 @@ public class StoreActivity extends AppCompatActivity {
                         Log.e("PICASSO", e.getMessage());
                     }
                 });
-        mRatingBar.setRating(brand.getRating());
-        mTxtLocation.setText(brand.getLocation().get(0).getName());
-        mTxtStoreName.setText(brand.getName());
+        mRatingBar.setRating(store.getRating());
+        mTxtLocation.setText(store.getLocationName());
+        mTxtStoreName.setText(store.getName());
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -92,7 +95,7 @@ public class StoreActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(brand.getName() + "asdasdasdasdasdasdasdasdasdasd");
+            getSupportActionBar().setTitle(store.getName() + "asdasdasdasdasdasdasdasdasdasd");
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

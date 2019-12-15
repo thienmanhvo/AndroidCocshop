@@ -23,6 +23,7 @@ import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.ExceptionHandler;
 import fpt.edu.cocshop.Util.PriceExtention;
 
 public class CheckOutActivity extends AppCompatActivity {
@@ -39,6 +40,7 @@ public class CheckOutActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         initView();
         initData();
     }

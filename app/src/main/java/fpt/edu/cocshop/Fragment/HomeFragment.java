@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +22,28 @@ import java.util.List;
 import fpt.edu.cocshop.Activity.StoreActivity;
 import fpt.edu.cocshop.Adapter.FoodPicksAdapter;
 import fpt.edu.cocshop.Constant.Constant;
+import fpt.edu.cocshop.Home_Store_List.HomeStoreListContract;
+import fpt.edu.cocshop.Home_Store_List.HomeStoreListPresenter;
+import fpt.edu.cocshop.Home_Store_List.ShowEmptyView;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Location;
+import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.Token;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
-
+public class HomeFragment extends Fragment implements HomeStoreListContract.View, ShowEmptyView {
+    private static final String TAG = "HomeFragment";
     private RecyclerView mRcvFoodPicks, mRcvTopBrand, mRcvTopStore;
     private FoodPicksAdapter mFoodPicksAdapter;
-    private List<Brand> mBrandList;
+    private List<Store> mStoreList;
     private View mView;
-
+    private ProgressBar pbLoading;
+    private TextView txtEmptyView;
+    private HomeStoreListPresenter storeListPresenter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,6 +73,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView() {
+        pbLoading = mView.findViewById(R.id.pb_loading);
+
         mRcvFoodPicks = mView.findViewById(R.id.rcv_food_picks);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         mRcvFoodPicks.setLayoutManager(manager);
@@ -86,16 +98,17 @@ public class HomeFragment extends Fragment {
 
         List<Location> locations = new ArrayList<>();
         locations.add(new Location("269 Liên phường"));
-        mBrandList = new ArrayList<Brand>();
-        mBrandList.add(new Brand("Mì Trường Thọ", locations, "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", 3));
-        mBrandList.add(new Brand("Gà sốt phô mai", locations, "https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg", (float) 4.7));
-        mBrandList.add(new Brand("Gà sốt phô mai", locations, "https://bepmenau.com/wp-content/uploads/2018/05/Lau-Thai-hai-san_8_1.1.359_1124X1685.jpeg", 5));
-        mBrandList.add(new Brand("Kimbap chiên xù", locations, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqGelogsMrJv1R3tkdQXER63ewilYAUzG4UAO0KWIfSZpGWSn", 2));
-        mBrandList.add(new Brand("Bánh chocolate", locations, "https://images.pexels.com/photos/3026810/pexels-photo-3026810.jpeg?cs=srgb&amp;dl=avocado-chocolate-dessert-3026810.jpg&amp;fm=jpg", 4));
-        mBrandList.add(new Brand("Tôm ghim chua ngọt", locations, "https://images.pexels.com/photos/699544/pexels-photo-699544.jpeg?cs=srgb&amp;dl=chopsticks-cuisine-delicious-699544.jpg&amp;fm=jpg", 4));
-        mBrandList.add(new Brand("Bún đậu mắm tôm", locations, "https://vnn-imgs-f.vgcloud.vn/2018/09/18/12/cach-lam-bun-dau-mam-tom-ngon-nhu-cua-ba-noi-phim-gao-nep-gao-te.jpg", 3));
-        updateUIRcvFoodPicks(mBrandList);
-
+        mStoreList = new ArrayList<>();
+//        mStoreList.add(new Brand("Mì Trường Thọ", locations, "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", 3));
+//        mStoreList.add(new Brand("Gà sốt phô mai", locations, "https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg", (float) 4.7));
+//        mBrandList.add(new Brand("Gà sốt phô mai", locations, "https://bepmenau.com/wp-content/uploads/2018/05/Lau-Thai-hai-san_8_1.1.359_1124X1685.jpeg", 5));
+//        mBrandList.add(new Brand("Kimbap chiên xù", locations, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRqGelogsMrJv1R3tkdQXER63ewilYAUzG4UAO0KWIfSZpGWSn", 2));
+//        mBrandList.add(new Brand("Bánh chocolate", locations, "https://images.pexels.com/photos/3026810/pexels-photo-3026810.jpeg?cs=srgb&amp;dl=avocado-chocolate-dessert-3026810.jpg&amp;fm=jpg", 4));
+//        mBrandList.add(new Brand("Tôm ghim chua ngọt", locations, "https://images.pexels.com/photos/699544/pexels-photo-699544.jpeg?cs=srgb&amp;dl=chopsticks-cuisine-delicious-699544.jpg&amp;fm=jpg", 4));
+//        mBrandList.add(new Brand("Bún đậu mắm tôm", locations, "https://vnn-imgs-f.vgcloud.vn/2018/09/18/12/cach-lam-bun-dau-mam-tom-ngon-nhu-cua-ba-noi-phim-gao-nep-gao-te.jpg", 3));
+        updateUIRcvFoodPicks(mStoreList);
+        storeListPresenter = new HomeStoreListPresenter(this);
+        storeListPresenter.requestDataFromServer(10,1,10.806941,106.788891,10);
 //        mTopDishy = new ArrayList<>();
 //        mTopDishy.add(new Dishy("Mì Trường Thọ", "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", "20 phút", 3, 5, "Trung bình", 53, mStep1, mMaterial1, mChef1));
 //        mTopDishy.add(new Dishy("Bánh tráng trộn", "https://i.ytimg.com/vi/8lNLepEuR8I/maxresdefault.jpg", "24 phút", 5, "Khó", 100));
@@ -130,20 +143,60 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void updateUIRcvFoodPicks(List<Brand> mBrandList) {
+    private void updateUIRcvFoodPicks(List<Store> mBrandList) {
         if (mFoodPicksAdapter == null) {
             mFoodPicksAdapter = new FoodPicksAdapter(getContext(), mBrandList);
             mRcvFoodPicks.setAdapter(mFoodPicksAdapter);
             mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
                 @Override
-                public void onClick(Brand brand) {
+                public void onClick(Store store) {
                     Intent intent = new Intent(getContext(), StoreActivity.class);
-                    intent.putExtra(Constant.STORE, brand);
+                    intent.putExtra(Constant.STORE, store);
                     startActivity(intent);
                 }
             });
         } else {
             mFoodPicksAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void showProgress() {
+        pbLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pbLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setDataToRecyclerView(List<Store> StoreArrayList) {
+        mStoreList.addAll(StoreArrayList);
+        mFoodPicksAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResponseFailure(String throwable) {
+        Log.e(TAG, throwable);
+        Toast.makeText(getContext(), getString(R.string.communication_error), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showEmptyView() {
+        mRcvFoodPicks.setVisibility(View.GONE);
+        txtEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        mRcvFoodPicks.setVisibility(View.VISIBLE);
+        txtEmptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        storeListPresenter.onDestroy();
     }
 }
