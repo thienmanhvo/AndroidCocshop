@@ -18,16 +18,16 @@ public class HomeStoreListPresenter implements HomeStoreListContract.Presenter, 
 
     @Override
     public void onFinished(List<Store> StoreArrayList) {
-        storeListView.setDataToRecyclerView(StoreArrayList);
         if (storeListView != null) {
+            storeListView.setDataToRecyclerView(StoreArrayList);
             storeListView.hideProgress();
         }
     }
 
     @Override
     public void onFailure(String t) {
-        storeListView.onResponseFailure(t);
         if (storeListView != null) {
+            storeListView.onResponseFailure(t);
             storeListView.hideProgress();
         }
     }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
     private ProgressBar pbLoading;
     private TextView txtEmptyView;
     private HomeStoreListPresenter storeListPresenter;
+    private LinearLayout mLLFoodsPick;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -88,6 +90,9 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         mRcvTopStore = mView.findViewById(R.id.rcv_top_store);
         mRcvTopStore.setLayoutManager(managerChef);
+        txtEmptyView = mView.findViewById(R.id.tv_empty_view);
+
+        mLLFoodsPick = mView.findViewById(R.id.ll_food_pick);
 
 //        GridLayoutManager layoutManagerFollow = new GridLayoutManager(getContext(),2);
 //        mRcvTopDishyFollow = mView.findViewById(R.id.rcv_top_recipe_follow);
@@ -109,7 +114,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 //        mBrandList.add(new Brand("Bún đậu mắm tôm", locations, "https://vnn-imgs-f.vgcloud.vn/2018/09/18/12/cach-lam-bun-dau-mam-tom-ngon-nhu-cua-ba-noi-phim-gao-nep-gao-te.jpg", 3));
         updateUIRcvFoodPicks(mStoreList);
         storeListPresenter = new HomeStoreListPresenter(this);
-        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 106.788891, 10);
+        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 107.788891, 10);
 //        mTopDishy = new ArrayList<>();
 //        mTopDishy.add(new Dishy("Mì Trường Thọ", "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", "20 phút", 3, 5, "Trung bình", 53, mStep1, mMaterial1, mChef1));
 //        mTopDishy.add(new Dishy("Bánh tráng trộn", "https://i.ytimg.com/vi/8lNLepEuR8I/maxresdefault.jpg", "24 phút", 5, "Khó", 100));
@@ -180,6 +185,11 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 
     @Override
     public void setDataToRecyclerView(List<Store> StoreArrayList) {
+        if (StoreArrayList == null || StoreArrayList.size() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
         mStoreList.addAll(StoreArrayList);
         mFoodPicksAdapter.notifyDataSetChanged();
     }
@@ -192,12 +202,14 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 
     @Override
     public void showEmptyView() {
+        mLLFoodsPick.setVisibility(View.VISIBLE);
         mRcvFoodPicks.setVisibility(View.GONE);
         txtEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideEmptyView() {
+        mLLFoodsPick.setVisibility(View.GONE);
         mRcvFoodPicks.setVisibility(View.VISIBLE);
         txtEmptyView.setVisibility(View.GONE);
     }

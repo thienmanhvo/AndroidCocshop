@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import fpt.edu.cocshop.Model.BaseViewModel;
@@ -77,9 +78,14 @@ public class HomeStoreListModel implements HomeStoreListContract.Model {
                         BaseViewModel<PagingResult<Store>> responseData = new Gson().fromJson(result, type);
 
                         if (responseData != null) {
-                            List<Store> list = responseData.getData().getResults();
-                            Log.d(TAG, "Number of movies received: " + list.size());
-                            onFinishedListener.onFinished(list);
+                            if (responseData.getData() != null) {
+                                List<Store> list = responseData.getData().getResults();
+                                Log.d(TAG, "Number of movies received: " + list.size());
+                                onFinishedListener.onFinished(list);
+                            } else {
+                                Log.d(TAG, "Empty List");
+                                onFinishedListener.onFinished(new ArrayList<>());
+                            }
                         } else {
                             onFinishedListener.onFailure("Lỗi server");
 

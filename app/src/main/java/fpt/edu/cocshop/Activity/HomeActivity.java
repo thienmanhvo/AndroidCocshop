@@ -43,9 +43,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImgHelp, mImgMyOrder, mImgSaved, mImgUser;
 
     private ImageView mImgHome, mImgHomeCircle;
-    private TextView mEdtSearch;
+   // private TextView mEdtSearch;
 
-    private ImageView mImgNotfy;
+   // private ImageView mImgNotfy;
 
     GoogleSignInClient mGoogleSignInClient;
 
@@ -101,9 +101,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mImgHome = findViewById(R.id.img_home);
         mImgHomeCircle = findViewById(R.id.img_home_circle);
         mTxtHome = findViewById(R.id.txt_title_home);
-        mEdtSearch = findViewById(R.id.edt_search_home);
+        //mEdtSearch = findViewById(R.id.edt_search_home);
 
-        mImgNotfy = findViewById(R.id.ic_notification);
+        //mImgNotfy = findViewById(R.id.ic_notification);
     }
 
     private void initData() {
@@ -113,10 +113,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLLUser.setOnClickListener(this);
         mImgHome.setOnClickListener(this);
 
-        mEdtSearch.setOnClickListener(this);
+       // mEdtSearch.setOnClickListener(this);
 
 
-        mImgNotfy.setOnClickListener(this);
+        //mImgNotfy.setOnClickListener(this);
 
         //mMainAdapter = new MainAdapter(getSupportFragmentManager());
         fragmentManager = getSupportFragmentManager();
