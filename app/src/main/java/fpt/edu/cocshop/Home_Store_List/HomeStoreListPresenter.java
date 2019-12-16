@@ -43,6 +43,6 @@ public class HomeStoreListPresenter implements HomeStoreListContract.Presenter, 
             storeListView.showProgress();
         }
         storeListModel.getNearestStoreList(this, pageSize, pageIndex, latitude, longitude, radius);
-        storeListModel.getStoreList(this, pageSize, pageIndex, latitude, longitude, radius);
+        //storeListModel.getStoreList(this, pageSize, pageIndex, latitude, longitude, radius);
     }
 }
