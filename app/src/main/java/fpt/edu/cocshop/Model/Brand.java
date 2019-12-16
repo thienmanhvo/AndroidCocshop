@@ -53,4 +53,5 @@ public class Brand implements Serializable {
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
+    
 }
