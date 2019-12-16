@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorIcon"
-    tools:context=".Activity.HomeActivity">
+    android:background="@color/colorIcon">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=""
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -89,7 +88,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -100,18 +99,17 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:src="@drawable/tag" />
 
                         <TextView
                             android:layout_width="279dp"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="5dp"
+                            android:layout_marginLeft="@dimen/sp16"
                             android:text="My Vouchers"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -139,7 +137,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="0.5dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -150,18 +148,18 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/invoice" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="5dp"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:text="My Vouchers"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
+
                             android:textStyle="bold" />
 
                         <ImageView
@@ -178,7 +176,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="0.5dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -189,18 +187,17 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/ic_payment_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="5dp"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:text="Payment"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -217,7 +214,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="0.5dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -228,18 +225,17 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/ic_place_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="5dp"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:text="Address"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -256,7 +252,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -267,18 +263,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/ic_person_add_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="Invite Friends"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -295,7 +292,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="0.5dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -306,18 +303,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/ic_mail_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="Feedback"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -334,7 +332,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -345,18 +343,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/shop" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="For Shop Owners"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -373,7 +372,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -384,18 +383,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
                             android:src="@drawable/policy" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="User Policy"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -412,7 +412,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="0.5dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -423,18 +423,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/sp25"
+                            android:layout_height="@dimen/sp25"
                             android:src="@drawable/ic_settings_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="Setting"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -462,18 +463,19 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/sp25"
+                            android:layout_height="@dimen/sp25"
                             android:src="@drawable/ic_info_outline_black_24dp" />
 
                         <TextView
                             android:layout_width="312dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp20"
                             android:gravity="left"
                             android:padding="5dp"
                             android:text="About Us"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
+                            android:textColor="@color/color_black"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -487,17 +489,25 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="@dimen/dp5"
+                    android:layout_marginEnd="@dimen/dp5"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/dp10"
                     android:background="@drawable/border_bg"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:text="Logout"
-                    android:textColor="@color/red"
-                    android:textSize="35dp" />
+                    android:textColor="@color/color_black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -505,4 +515,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</FrameLayout>

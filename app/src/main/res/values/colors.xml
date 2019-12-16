@@ -9,6 +9,7 @@
     <color name="colorWhite">#fff</color>
     <color name="status_bar_color">#000</color>
     <color name="colorBlack">#000000</color>
+    <color name="color_black">#383838</color>
     <color name="colorActive">#C5392F</color>
     <color name="colorStar">#FFD325</color>
     <color name="colorTextDefault">#808080</color>
