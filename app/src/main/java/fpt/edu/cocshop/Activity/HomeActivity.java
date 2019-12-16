@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
              email = acct.getEmail();
              id = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
-             avatar = personPhoto.toString();
+             avatar = personPhoto == null ? "https://img.icons8.com/plasticine/2x/user.png" :  personPhoto.toString();
 
 
 
