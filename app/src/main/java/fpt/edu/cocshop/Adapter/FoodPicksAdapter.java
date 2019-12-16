@@ -1,6 +1,8 @@
 package fpt.edu.cocshop.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,14 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.mTxtName.setText(mStoreList.get(position).getName());
-        holder.mTxtLocation.setText(mStoreList.get(position).getLocationName());
+        int totalStore = mStoreList.get(position).getTotalStore();
+        if (totalStore == 1) {
+            holder.mTxtLocation.setText(mStoreList.get(position).getLocationName());
+            holder.mTxtLocation.setTypeface(Typeface.DEFAULT_BOLD);
+        } else {
+            holder.mTxtLocation.setText(totalStore + " locations.");
+//            holder.mTxtLocation.setTextColor(mContext.getResources().getColor(R.color.colorBlueLink, mContext.getResources().newTheme()));
+        }
         Picasso.get()
                 .load(mStoreList.get(position).getImagePath())
                 .error(R.mipmap.ic_launcher)

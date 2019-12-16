@@ -11,13 +11,13 @@ public class Store implements Serializable
     @SerializedName("imagePath")
     public String imagePath;
     @SerializedName("rating")
-    public long rating;
+    public Long rating;
     @SerializedName("numberOfRating")
-    public long numberOfRating;
+    public Long numberOfRating;
     @SerializedName("longitude")
-    public double longitude;
+    public Double longitude;
     @SerializedName("latitude")
-    public double latitude;
+    public Double latitude;
     @SerializedName("brandId")
     public String brandId;
     @SerializedName("cate_Id")
@@ -26,18 +26,23 @@ public class Store implements Serializable
     public Integer totalStore;
     @SerializedName("locationName")
     public String locationName;
+    @SerializedName("averagePrice")
+    public Double averagePrice;
+    @SerializedName("distance")
+    public Double distance;
+
 
 //    public  BrandViewModel Brand { get; set; }
 //
 //    public  StoreCategoryViewModel StoreCategory { get; set; }
 
 
-    public String getLocationName() {
-        return locationName;
+    public Double getDistance() {
+        return distance;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     public String getName() {
@@ -56,35 +61,35 @@ public class Store implements Serializable
         this.imagePath = imagePath;
     }
 
-    public long getRating() {
+    public Long getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(Long rating) {
         this.rating = rating;
     }
 
-    public long getNumberOfRating() {
+    public Long getNumberOfRating() {
         return numberOfRating;
     }
 
-    public void setNumberOfRating(long numberOfRating) {
+    public void setNumberOfRating(Long numberOfRating) {
         this.numberOfRating = numberOfRating;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -110,5 +115,21 @@ public class Store implements Serializable
 
     public void setTotalStore(Integer totalStore) {
         this.totalStore = totalStore;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public Double getAveragePrice() {
+        return averagePrice;
+    }
+
+    public void setAveragePrice(Double averagePrice) {
+        this.averagePrice = averagePrice;
     }
 }

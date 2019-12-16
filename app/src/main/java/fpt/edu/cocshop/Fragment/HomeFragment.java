@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpt.edu.cocshop.Activity.StoreActivity;
+import fpt.edu.cocshop.Activity.StoreListActivity;
 import fpt.edu.cocshop.Adapter.FoodPicksAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Home_Store_List.HomeStoreListContract;
@@ -96,8 +97,8 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 
     private void initData() {
 
-        List<Location> locations = new ArrayList<>();
-        locations.add(new Location("269 Liên phường"));
+//        List<Location> locations = new ArrayList<>();
+//        locations.add(new Location("269 Liên phường"));
         mStoreList = new ArrayList<>();
 //        mStoreList.add(new Brand("Mì Trường Thọ", locations, "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", 3));
 //        mStoreList.add(new Brand("Gà sốt phô mai", locations, "https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg", (float) 4.7));
@@ -108,7 +109,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 //        mBrandList.add(new Brand("Bún đậu mắm tôm", locations, "https://vnn-imgs-f.vgcloud.vn/2018/09/18/12/cach-lam-bun-dau-mam-tom-ngon-nhu-cua-ba-noi-phim-gao-nep-gao-te.jpg", 3));
         updateUIRcvFoodPicks(mStoreList);
         storeListPresenter = new HomeStoreListPresenter(this);
-        storeListPresenter.requestDataFromServer(10,1,10.806941,106.788891,10);
+        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 106.788891, 10);
 //        mTopDishy = new ArrayList<>();
 //        mTopDishy.add(new Dishy("Mì Trường Thọ", "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", "20 phút", 3, 5, "Trung bình", 53, mStep1, mMaterial1, mChef1));
 //        mTopDishy.add(new Dishy("Bánh tráng trộn", "https://i.ytimg.com/vi/8lNLepEuR8I/maxresdefault.jpg", "24 phút", 5, "Khó", 100));
@@ -150,8 +151,15 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
             mFoodPicksAdapter.setmOnFoodPicksClickListener(new FoodPicksAdapter.OnFoodPicksClickListener() {
                 @Override
                 public void onClick(Store store) {
-                    Intent intent = new Intent(getContext(), StoreActivity.class);
-                    intent.putExtra(Constant.STORE, store);
+                    Intent intent = null;
+                    if (store.totalStore == 1) {
+                        intent = new Intent(getContext(), StoreActivity.class);
+                        intent.putExtra(Constant.STORE, store);
+
+                    } else {
+                        intent = new Intent(getContext(), StoreListActivity.class);
+                        intent.putExtra(Constant.STORE_LIST_TITLE, store.getName());
+                    }
                     startActivity(intent);
                 }
             });

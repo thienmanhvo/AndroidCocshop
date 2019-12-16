@@ -13,4 +13,5 @@
     <color name="colorStar">#FFD325</color>
     <color name="colorTextDefault">#808080</color>
     <color name="colorBackgroundHeader">#1Abdbdbd</color>
+    <color name="colorBlueLink">#007bff</color>
 </resources>

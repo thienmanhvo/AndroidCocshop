@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/dp5"
+    android:paddingBottom="@dimen/dp10"
+    android:weightSum="10"
+    android:id="@+id/ll_store_list">
+
+    <FrameLayout
+        android:layout_width="@dimen/dp80"
+        android:layout_height="@dimen/dp80"
+        android:layout_gravity="top"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_weight="1.5">
+
+        <ImageView
+            android:id="@+id/img_store_list_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:maxWidth="@dimen/dp80"
+            android:maxHeight="@dimen/dp80"
+            android:minHeight="@dimen/dp80"
+            android:padding="2dp"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/dp80"
+            android:minHeight="@dimen/dp80"
+            android:src="@drawable/custom_frame_border_image" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp8"
+        android:layout_marginRight="@dimen/dp8"
+        android:layout_weight="8.5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_store_list_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Trà sữa 3 anh em"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <fpt.edu.cocshop.Custom.AlphaTextView
+                        android:id="@+id/txt_store_list_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp5"
+                        android:text="252 Nguyễn Văn Hường, P. Thảo Điền, Quận 2, TP. HCM"
+                        android:textColor="@color/colorTextDefault" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp3"
+                    android:paddingRight="@dimen/dp3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Avg."
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/dp12" />
+
+                    <TextView
+                        android:id="@+id/txt_store_list_average_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="83k"
+                        android:textColor="@color/colorTextDefault"
+                        android:textSize="@dimen/dp12" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/store_description_bar_vertical_line"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/store_description_bar_distance"
+                        android:layout_marginRight="@dimen/store_description_bar_distance"
+                        android:background="@color/colorIcon" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rb_store_list_rating"
+                        style="?android:ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:numStars="5"
+                        android:progressBackgroundTint="@color/colorIcon"
+                        android:progressTint="@color/colorStar" />
+
+
+                    <TextView
+                        android:id="@+id/txt_store_list_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:text="3 km" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp3"
+                    android:paddingRight="@dimen/dp3">
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
