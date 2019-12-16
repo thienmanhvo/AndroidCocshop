@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 //        mBrandList.add(new Brand("Bún đậu mắm tôm", locations, "https://vnn-imgs-f.vgcloud.vn/2018/09/18/12/cach-lam-bun-dau-mam-tom-ngon-nhu-cua-ba-noi-phim-gao-nep-gao-te.jpg", 3));
         updateUIRcvFoodPicks(mStoreList);
         storeListPresenter = new HomeStoreListPresenter(this);
-        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 107.788891, 10);
+        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 106.788891, 10);
 //        mTopDishy = new ArrayList<>();
 //        mTopDishy.add(new Dishy("Mì Trường Thọ", "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?cs=srgb&amp;dl=asian-food-bowl-food-photography-3026808.jpg&amp;fm=jpg", "20 phút", 3, 5, "Trung bình", 53, mStep1, mMaterial1, mChef1));
 //        mTopDishy.add(new Dishy("Bánh tráng trộn", "https://i.ytimg.com/vi/8lNLepEuR8I/maxresdefault.jpg", "24 phút", 5, "Khó", 100));
@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 
     @Override
     public void hideEmptyView() {
-        mLLFoodsPick.setVisibility(View.GONE);
+        mLLFoodsPick.setVisibility(View.VISIBLE);
         mRcvFoodPicks.setVisibility(View.VISIBLE);
         txtEmptyView.setVisibility(View.GONE);
     }
