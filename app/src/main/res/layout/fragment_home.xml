@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.HomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp5"
+                android:background="@drawable/custom_bottom_sheet"
+                android:orientation="vertical"
+                android:padding="@dimen/dp10">
+                <LinearLayout
+                    android:weightSum="10"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="9"
+                        android:layout_width="@dimen/dp0"
+                        android:layout_height="wrap_content"
+                        android:text="Food Picks"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/title_more"
+                        />
+                    <ImageView
+                        android:src="@drawable/ic_navigate_next"
+                        android:layout_weight="0.5"
+                        android:layout_width="@dimen/dp0"
+                        android:layout_height="@dimen/dp15"
+                        />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_food_picks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp5" />
+                    <TextView
+                        android:id="@+id/tv_empty_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp50"
+                        android:text="@string/no_store"
+                        android:drawablePadding="10dp"
+                        android:visibility="gone"
+                        android:textSize="@dimen/no_result_text_size"
+                        android:layout_centerInParent="true"
+                        android:gravity="center_horizontal"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp5"
+                android:background="@drawable/custom_bottom_sheet"
+                android:orientation="vertical"
+                android:padding="@dimen/dp10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9"
+                        android:text="Popular Brands"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/title_more"
+                        />
+                    <ImageView
+                        android:src="@drawable/ic_navigate_next"
+                        android:layout_weight="0.5"
+                        android:layout_width="@dimen/dp0"
+                        android:layout_height="@dimen/dp15"
+                        />
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_popular_brands"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp5"
+                android:background="@drawable/custom_bottom_sheet"
+                android:orientation="vertical"
+                android:padding="@dimen/dp10">
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_weight="9"-->
+<!--                        android:layout_width="@dimen/dp0"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Công thức mới của người bạn theo dõi"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:text="@string/title_more"-->
+<!--                        />-->
+<!--                    <ImageView-->
+<!--                        android:src="@drawable/ic_navigate_next"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:layout_width="@dimen/dp0"-->
+<!--                        android:layout_height="@dimen/dp15"-->
+<!--                        />-->
+<!--                </LinearLayout>-->
+
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/rcv_top_recipe_follow"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/dp5" />-->
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp5"
+                android:background="@drawable/custom_bottom_sheet"
+                android:orientation="vertical"
+                android:padding="@dimen/dp10">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Top 10 Store"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_top_store"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="@dimen/dp50"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/colorActive"/>
+</FrameLayout>

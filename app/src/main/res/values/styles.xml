@@ -28,4 +28,24 @@
         <item name="android:windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/colorWhite</item>
     </style>
+    <style name="AudioFileInfoOverlayText">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:shadowColor">@color/colorBlack</item>
+        <item name="android:shadowRadius">5</item>
+    </style>
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Indicator">
+        <item name="android:minHeight">@dimen/dp20</item>
+        <item name="android:maxHeight">@dimen/dp20</item>
+        ... // Additional customizations
+    </style>
+    <style name="TranslucentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <style name="ToolBarTop" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </style>
+    <style name="ToolBarScroll" parent="ThemeOverlay.AppCompat.Light">
+
+    </style>
 </resources>

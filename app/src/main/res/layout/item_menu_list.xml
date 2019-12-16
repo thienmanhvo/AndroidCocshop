@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/dp5"
+    android:paddingBottom="@dimen/dp10"
+    android:weightSum="10">
+
+    <FrameLayout
+        android:layout_width="@dimen/dp80"
+        android:layout_height="@dimen/dp80"
+        android:layout_weight="1.5"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:id="@+id/img_menu_item_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:maxWidth="@dimen/dp80"
+            android:maxHeight="@dimen/dp80"
+            android:minHeight="@dimen/dp80"
+            android:padding="2dp"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/custom_frame_border_image"
+            android:minHeight="@dimen/dp80"
+            android:maxWidth="@dimen/dp80"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp8"
+        android:layout_marginRight="@dimen/dp8"
+        android:layout_weight="8.5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_menu_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Trà sữa 3 anh em"
+                    android:textColor="@color/colorBlack"
+                    android:ellipsize="end"
+                    android:maxLines="2"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_menu_item_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="24,000đ"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/dp16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_menu_item_price_old"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp13"
+                        android:gravity="center"
+                        android:text="24,000đ"
+                        android:textSize="@dimen/dp13"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_menu_item_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:src="@drawable/ic_minus"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/txt_store_menu_number_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp12"
+                android:paddingRight="@dimen/dp12"
+                android:text="0"
+                android:textColor="@color/colorBlack"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/btn_menu_item_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:src="@drawable/ic_add_circle" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
