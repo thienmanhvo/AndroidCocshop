@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String name;
     String email;
     String id;
+    String avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
              name = acct.getDisplayName();
              email = acct.getEmail();
              id = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+             avatar = personPhoto.toString();
 
 
 
@@ -255,6 +259,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("name",name);
                 bundle.putString("email",email);
                 bundle.putString("id",id);
+                bundle.putString("avatar",avatar);
                 userFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.ll_content,userFragment,null);
                 fragmentTransaction.commit();
