@@ -7,7 +7,7 @@
     tools:context=".Activity.StoreListActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_checkout"
+        android:id="@+id/tb_store_list"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/custom_bottom_sheet_background">

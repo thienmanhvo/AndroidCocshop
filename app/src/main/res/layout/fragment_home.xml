@@ -82,9 +82,7 @@
                     android:id="@+id/ll_food_pick"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp5"
                     android:layout_marginTop="@dimen/dp10"
-                    android:layout_marginRight="@dimen/dp5"
                     android:background="@drawable/custom_bottom_sheet"
                     android:orientation="vertical"
                     android:padding="@dimen/dp10"
@@ -147,9 +145,7 @@
                     android:id="@+id/ll_popular_brand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp5"
                     android:layout_marginTop="@dimen/dp10"
-                    android:layout_marginRight="@dimen/dp5"
                     android:background="@drawable/custom_bottom_sheet"
                     android:orientation="vertical"
                     android:padding="@dimen/dp10"
@@ -252,9 +248,7 @@
                     android:id="@+id/ll_top_store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp5"
                     android:layout_marginTop="@dimen/dp10"
-                    android:layout_marginRight="@dimen/dp5"
                     android:background="@drawable/custom_bottom_sheet"
                     android:orientation="vertical"
                     android:padding="@dimen/dp10"
@@ -274,7 +268,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp5"
-                            android:layout_marginBottom="@dimen/dp50" />
+                            android:layout_marginBottom="@dimen/dp20" />
 
                         <TextView
                             android:id="@+id/tv_top_store_empty_view"

@@ -2,6 +2,7 @@ package fpt.edu.cocshop.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -53,7 +55,7 @@ public class StoreListActivity extends AppCompatActivity implements StoreListCon
     private RelativeLayout mRLStoreList;
     private ProgressBar pbLoading;
     private StoreListPresenter mStoreListPresenter;
-
+    private Toolbar mToolBarStore;
     private String brandId;
 
     @Override
@@ -74,6 +76,10 @@ public class StoreListActivity extends AppCompatActivity implements StoreListCon
         mRLStoreList = findViewById(R.id.rl_store_list);
         mTxtEmptyView = findViewById(R.id.tv_empty_view);
         pbLoading = findViewById(R.id.pb_loading);
+        mToolBarStore = (Toolbar) findViewById(R.id.tb_store_list);
+        setSupportActionBar(mToolBarStore);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
     }
 
     private void initData() {
@@ -87,6 +93,18 @@ public class StoreListActivity extends AppCompatActivity implements StoreListCon
         mStoreListPresenter.requestDataFromServer(10, 1,  CurrentLocation.latitude, CurrentLocation.longitude, brandId);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void updateUIRcvFoodPicks(List<Store> mStoreList) {
         if (mStoreListAdapter == null) {
             mStoreListAdapter = new StoreListAdapter(this, mStoreList);

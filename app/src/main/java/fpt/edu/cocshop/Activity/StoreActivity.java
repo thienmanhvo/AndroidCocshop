@@ -95,7 +95,7 @@ public class StoreActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(store.getName() + "asdasdasdasdasdasdasdasdasdasd");
+            getSupportActionBar().setTitle(store.getName());
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
