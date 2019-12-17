@@ -1,33 +1,29 @@
 package fpt.edu.cocshop.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Brand implements Serializable {
+
+    @SerializedName("id")
+    private String id;
+    @SerializedName("name")
     private String name;
-    private List<Location> location;
-    private String picturePath;
-    private float rating;
+    @SerializedName("location")
+    private Integer location;
+    @SerializedName("imagePath")
+    private String imagePath;
+    @SerializedName("rating")
+    private Float rating;
 
-    public Brand(String name, List<Location> location, String picturePath) {
-        this.name = name;
-        this.location = location;
-        this.picturePath = picturePath;
+    public String getId() {
+        return id;
     }
 
-    public Brand(String name, List<Location> location, String picturePath, float rating) {
-        this.name = name;
-        this.location = location;
-        this.picturePath = picturePath;
-        this.rating = rating;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -38,19 +34,27 @@ public class Brand implements Serializable {
         this.name = name;
     }
 
-    public List<Location> getLocation() {
+    public Integer getLocation() {
         return location;
     }
 
-    public void setLocation(List<Location> location) {
+    public void setLocation(Integer location) {
         this.location = location;
     }
 
-    public String getPicturePath() {
-        return picturePath;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 }

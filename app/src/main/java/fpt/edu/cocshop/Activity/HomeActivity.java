@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -16,10 +18,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 import fpt.edu.cocshop.Adapter.MainAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
+import fpt.edu.cocshop.Fragment.UserFragment;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.ExceptionHandler;
+import fpt.edu.cocshop.Util.Token;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,17 +43,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImgHelp, mImgMyOrder, mImgSaved, mImgUser;
 
     private ImageView mImgHome, mImgHomeCircle;
-    private TextView mEdtSearch;
+   // private TextView mEdtSearch;
 
-    private ImageView mImgNotfy;
+   // private ImageView mImgNotfy;
+
+    GoogleSignInClient mGoogleSignInClient;
+
+    String name;
+    String email;
+    String id;
+    String avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        Token.token = "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhNTEyIiwidHlwIjoiSldUIn0.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW4iLCJTdGFmZiIsIlVzZXIiXSwidXNlcm5hbWUiOiJ0aGllbm1hbmh2byIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGQzNzdkNTgtMWFhZS00OTk5LTAyZGItMDhkNzNkOTQwMjNmIiwiZXhwIjoxNTc2NDE2MTUxLCJpc3MiOiJodHRwczovL3d3dy5mYWNlYm9vay5jb20vdGhpZW5uYjE2NDMyMTYiLCJhdWQiOiJOZ3V54buFbiBC4bqjbyBUaGnhu4duIn0.VqqAIANMdCJ_4MVNAZ6z-Y7DcKzHMxpkpk6TJuQGgXtC0wQnyJT44ian10h64NqF8dZxQ_QHvVUTbSzehlGNLd1S__N-qKRpXPRB8OM88yCxBeZN2Bo3GYlfAwdrnbxYO-Tuzmk9z0UBMqzQVGCF21AbSK7VS6hxoAvnmpe2lgrQ4-hHKReI1Vj_y1lG5-RZfpwk2SZr-8DTSngvRQjzdydZNqYU0tKyYUz5E_K2uGACU1aywPSLJSfHQYPT1Z0p1wmEYNM2OqiRwEXmA3L_MfXv0vKiHuvrls6_qfxn1qrGdG9f2iY-1bQvMgq4un0VbXAySYqPHDbhNOA_3I3Nsw";
         initView();
         initData();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(HomeActivity.this);
+        if (acct != null) {
+             name = acct.getDisplayName();
+             email = acct.getEmail();
+             id = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+             avatar = personPhoto == null ? "https://img.icons8.com/plasticine/2x/user.png" :  personPhoto.toString();
+
+
+
+
+           // Glide.with(this).load(personPhoto).into(photoIV);
+        }
+
     }
 
     private void initView() {
@@ -62,9 +101,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mImgHome = findViewById(R.id.img_home);
         mImgHomeCircle = findViewById(R.id.img_home_circle);
         mTxtHome = findViewById(R.id.txt_title_home);
-        mEdtSearch = findViewById(R.id.edt_search_home);
+        //mEdtSearch = findViewById(R.id.edt_search_home);
 
-        mImgNotfy = findViewById(R.id.ic_notification);
+        //mImgNotfy = findViewById(R.id.ic_notification);
     }
 
     private void initData() {
@@ -74,10 +113,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLLUser.setOnClickListener(this);
         mImgHome.setOnClickListener(this);
 
-        mEdtSearch.setOnClickListener(this);
+       // mEdtSearch.setOnClickListener(this);
 
 
-        mImgNotfy.setOnClickListener(this);
+        //mImgNotfy.setOnClickListener(this);
 
         //mMainAdapter = new MainAdapter(getSupportFragmentManager());
         fragmentManager = getSupportFragmentManager();
@@ -197,6 +236,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (view.getId()) {
             case R.id.ll_button_help:
                 setInActive();
@@ -217,11 +257,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 setInActive();
                 setActive(Constant.USER_PAGE_POSITION);
 //                mViewPager.setCurrentItem(Constant.USER_PAGE_POSITION);
+                UserFragment userFragment = new UserFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name",name);
+                bundle.putString("email",email);
+                bundle.putString("id",id);
+                bundle.putString("avatar",avatar);
+                userFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.ll_content,userFragment,null);
+                fragmentTransaction.commit();
 
                 break;
             case R.id.img_home:
                 setInActive();
                 setActive(Constant.HOME_PAGE_POSITION);
+                fragmentTransaction.replace(R.id.ll_content,new HomeFragment(),null);
+                fragmentTransaction.commit();
+
 //                mViewPager.setCurrentItem(Constant.HOME_PAGE_POSITION);
                 break;
 

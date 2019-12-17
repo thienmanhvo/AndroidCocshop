@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp3"
+                android:layout_marginRight="@dimen/dp3"
                 android:orientation="vertical">
 
                 <TextView
@@ -72,7 +73,8 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="269 Lien phuong"
-                    android:textSize="@dimen/sp13" />
+                    android:textSize="@dimen/sp13"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

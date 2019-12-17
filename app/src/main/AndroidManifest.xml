@@ -13,13 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen">
 
+        <activity android:name=".Activity.StoreListActivity"></activity>
+        <activity android:name=".Activity.ErrorActivity" />
+
+        <activity android:name=".Activity.GGLoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity.StoreActivity"
-            android:theme="@style/TranslucentStatusBar"></activity>
+        <activity
+            android:name=".Activity.StoreActivity"
+            android:theme="@style/TranslucentStatusBar" />
+        <activity
+            android:name=".Activity.CheckOutActivity"
+            android:theme="@style/TranslucentStatusBar" />
         <activity android:name=".Activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
