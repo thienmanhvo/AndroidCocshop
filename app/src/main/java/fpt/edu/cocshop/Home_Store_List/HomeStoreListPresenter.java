@@ -1,7 +1,9 @@
 package fpt.edu.cocshop.Home_Store_List;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Store;
 
 public class HomeStoreListPresenter implements HomeStoreListContract.Presenter, HomeStoreListContract.Model.OnFinishedListener {
@@ -10,25 +12,55 @@ public class HomeStoreListPresenter implements HomeStoreListContract.Presenter, 
     private HomeStoreListContract.View storeListView;
 
     private HomeStoreListContract.Model storeListModel;
+    private int totalTaskDone;
 
     public HomeStoreListPresenter(HomeStoreListContract.View storeListView) {
         this.storeListView = storeListView;
         storeListModel = new HomeStoreListModel();
+        totalTaskDone = 0;
     }
 
     @Override
-    public void onFinished(List<Store> StoreArrayList) {
+    public void onStoreFinished(List<Store> StoreArrayList, int taskId) {
+        totalTaskDone++;
         if (storeListView != null) {
-            storeListView.setDataToRecyclerView(StoreArrayList);
-            storeListView.hideProgress();
+            storeListView.setNearestStoreToRecyclerView(StoreArrayList);
+            if (totalTaskDone == 3) {
+                storeListView.hideProgress();
+            }
+        }
+    }
+
+    @Override
+    public void onPopularBrandFinished(List<Brand> BrandArrayList, int taskId) {
+        totalTaskDone++;
+        if (storeListView != null) {
+            storeListView.setPopularBrandToRecyclerView(BrandArrayList);
+            if (totalTaskDone == 3) {
+                storeListView.hideProgress();
+            }
+        }
+    }
+
+    @Override
+    public void onTopStoreFinished(List<Store> StoreArrayList, int taskId) {
+        totalTaskDone++;
+        if (storeListView != null) {
+            storeListView.setTopStoreToRecyclerView(StoreArrayList);
+            if (totalTaskDone == 3) {
+                storeListView.hideProgress();
+            }
         }
     }
 
     @Override
     public void onFailure(String t) {
+        totalTaskDone++;
         if (storeListView != null) {
             storeListView.onResponseFailure(t);
-            storeListView.hideProgress();
+            if (totalTaskDone == 3) {
+                storeListView.hideProgress();
+            }
         }
     }
 
@@ -42,7 +74,9 @@ public class HomeStoreListPresenter implements HomeStoreListContract.Presenter, 
         if (storeListView != null) {
             storeListView.showProgress();
         }
+
+        storeListModel.getPopularBrandList(this, pageSize, pageIndex);
         storeListModel.getNearestStoreList(this, pageSize, pageIndex, latitude, longitude, radius);
-        //storeListModel.getStoreList(this, pageSize, pageIndex, latitude, longitude, radius);
+        storeListModel.getTopStoreList(this, pageSize, pageIndex, latitude, longitude);
     }
 }

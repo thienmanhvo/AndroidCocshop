@@ -2,6 +2,7 @@ package fpt.edu.cocshop.Home_Store_List;
 
 import java.util.List;
 
+import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Store;
 
 public interface HomeStoreListContract {
@@ -9,13 +10,22 @@ public interface HomeStoreListContract {
     interface Model {
 
         interface OnFinishedListener {
-            void onFinished(List<Store> StoreArrayList);
+            void onStoreFinished(List<Store> StoreArrayList, int taskId);
+
+            void onPopularBrandFinished(List<Brand> BrandArrayList, int taskId);
+
+            void onTopStoreFinished(List<Store> StoreArrayList, int taskId);
 
             void onFailure(String t);
         }
 
         void getStoreList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex, double latitude, double longitude);
-        void getNearestStoreList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex, double latitude, double longitude,double radius);
+
+        void getPopularBrandList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex);
+
+        void getNearestStoreList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex, double latitude, double longitude, double radius);
+
+        void getTopStoreList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex, double latitude, double longitude);
 
     }
 
@@ -25,7 +35,11 @@ public interface HomeStoreListContract {
 
         void hideProgress();
 
-        void setDataToRecyclerView(List<Store> StoreArrayList);
+        void setNearestStoreToRecyclerView(List<Store> StoreArrayList);
+
+        void setPopularBrandToRecyclerView(List<Brand> BrandArrayList);
+
+        void setTopStoreToRecyclerView(List<Store> StoreArrayList);
 
         void onResponseFailure(String throwable);
 
@@ -37,7 +51,7 @@ public interface HomeStoreListContract {
 
         //void getMoreData(int pageNo);
 
-        void requestDataFromServer(int pageSize, int pageIndex, double latitude, double longitude,double radius);
+        void requestDataFromServer(int pageSize, int pageIndex, double latitude, double longitude, String brandId);
 
     }
 }

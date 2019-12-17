@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_store_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
     android:orientation="horizontal"
     android:paddingTop="@dimen/dp5"
     android:paddingBottom="@dimen/dp10"
-    android:weightSum="10"
-    android:id="@+id/ll_store_list">
+    android:weightSum="10">
 
     <FrameLayout
-        android:layout_width="@dimen/dp80"
+        android:layout_width="@dimen/dp70"
         android:layout_height="@dimen/dp80"
         android:layout_gravity="top"
-        android:layout_marginLeft="@dimen/dp10"
         android:layout_weight="1.5">
 
         <ImageView
@@ -21,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:maxWidth="@dimen/dp80"
+            android:maxWidth="@dimen/dp70"
             android:maxHeight="@dimen/dp80"
             android:minHeight="@dimen/dp80"
             android:padding="2dp"
@@ -30,7 +29,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/dp80"
+            android:maxWidth="@dimen/dp70"
             android:minHeight="@dimen/dp80"
             android:src="@drawable/custom_frame_border_image" />
     </FrameLayout>
@@ -39,12 +38,11 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp8"
-        android:layout_marginRight="@dimen/dp8"
         android:layout_weight="8.5">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:orientation="horizontal">
 
@@ -58,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="Trà sữa 3 anh em"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -94,7 +92,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="Avg."
-                        android:textColor="@color/colorTextDefault"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dp12" />
 
                     <TextView
@@ -103,7 +101,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="83k"
-                        android:textColor="@color/colorTextDefault"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dp12" />
 
                     <View
@@ -113,6 +111,15 @@
                         android:layout_marginLeft="@dimen/store_description_bar_distance"
                         android:layout_marginRight="@dimen/store_description_bar_distance"
                         android:background="@color/colorIcon" />
+                    <TextView
+                        android:id="@+id/txt_store_list_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp2"
+                        android:gravity="center_vertical"
+                        android:text="4.6"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/dp12" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rb_store_list_rating"
@@ -131,7 +138,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:gravity="right"
-                        android:text="3 km" />
+                        android:text="3 km"
+                        android:textSize="12dp"
+                        android:textColor="@color/black"/>
 
 
                 </LinearLayout>

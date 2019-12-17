@@ -9,6 +9,8 @@ public class ConfigApi {
         String REGISTER = "Auth/Register";
         String PRODUCT = "Products";
         String STORE = "Stores";
+        String GET_TOP_STORE = "Stores/GetTopStore";
+        String BRAND = "Brands";
         String GET_NEAREST_STORE = "Stores/GetNearest";
         String GET_STORE_BY_ID = "Stores/{id}";
         String GET_PRODUCT_ID = "Products/{id}";
