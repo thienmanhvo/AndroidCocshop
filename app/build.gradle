@@ -54,6 +54,8 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
     implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'
 
+    implementation "com.google.android.gms:play-services-location:17.0.0"
+
 
 
 }

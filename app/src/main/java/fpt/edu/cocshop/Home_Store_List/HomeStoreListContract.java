@@ -51,7 +51,7 @@ public interface HomeStoreListContract {
 
         //void getMoreData(int pageNo);
 
-        void requestDataFromServer(int pageSize, int pageIndex, double latitude, double longitude, String brandId);
+        void requestDataFromServer(int pageSize, int pageIndex, double latitude, double longitude, double radius);
 
     }
 }

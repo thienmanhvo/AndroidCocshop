@@ -9,10 +9,13 @@ public class Constant {
     public static final String STORE = "STORE";
     public static final String CART_OBJ = "CART_OBJ";
     public static final String STORE_LIST_TITLE = "Store_List_Title";
+    public static final String STORE_LIST = "Store_List";
     public static final String NUMBER_COMMA = ",";
     public static final int TASK_NEAREST_STORE = 0;
     public static final int TASK_POPULAR_BRAND = 1;
     public static final int TASK_TOP_STORE = 2;
+    public static final int LOCATION_REQUEST = 1000;
+    public static final int GPS_REQUEST = 1001;
 
 
 }

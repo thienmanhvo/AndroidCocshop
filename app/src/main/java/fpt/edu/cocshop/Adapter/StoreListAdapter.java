@@ -48,7 +48,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
     @Override
     public StoreListAdapter.ViewHolderItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_checkout, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_store_list, parent, false);
         return new StoreListAdapter.ViewHolderItem(view);
     }
 
@@ -72,7 +72,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
     public class ViewHolderItem extends ChildViewHolder {
         private ImageView mImgDescription;
         private TextView mTxtName;
-        private TextView mTxtLocationName, mTxtAveragePrice, mTxtDistance;
+        private TextView mTxtLocationName, mTxtAveragePrice, mTxtDistance,mTxtRating;
         private RatingBar mRbStoreRating;
         private LinearLayout mLlStoreList;
 
@@ -85,14 +85,19 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             mTxtDistance = itemView.findViewById(R.id.txt_store_list_distance);
             mRbStoreRating = itemView.findViewById(R.id.rb_store_list_rating);
             mLlStoreList = itemView.findViewById(R.id.ll_store_list);
+            mTxtRating = itemView.findViewById(R.id.txt_store_list_rating);
         }
 
         public void bind(Store item) {
-            mTxtName.setText(item.getName() + item.getLocationName().split(",")[0]);
+            String streetName = item.getLocationName().split(",")[0];
+            String streetNameReplace = streetName.split(" ")[0];
+            String streetNameRplaced =streetName.replace(streetNameReplace,"");
+            mTxtName.setText(item.getName() +" - "+streetNameRplaced);
             mTxtAveragePrice.setText(PriceExtention.doubleToPriceWithK(item.getAveragePrice()));
             mTxtLocationName.setText(item.getLocationName());
             mTxtDistance.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getDistance(), 2) + " km");
-            mRbStoreRating.setRating(item.getRating());
+            mRbStoreRating.setRating((float)((item.getRating() *1.0 )/ item.getNumberOfRating()));
+            mTxtRating.setText(item.getRating() * 1.0/ item.getNumberOfRating() +"");
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.mipmap.ic_image_error_foreground)

@@ -18,6 +18,11 @@ public class Brand implements Serializable {
     @SerializedName("rating")
     private Float rating;
 
+    public Brand(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
