@@ -1,5 +1,6 @@
 package fpt.edu.cocshop.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +44,7 @@ import fpt.edu.cocshop.StoreDetail.StoreDetailContract;
 import fpt.edu.cocshop.StoreDetail.StoreDetailPresenter;
 import fpt.edu.cocshop.Store_List.ShowEmptyViewNoTask;
 import fpt.edu.cocshop.Util.CurrentLocation;
+import fpt.edu.cocshop.Util.DoubleHandler;
 import fpt.edu.cocshop.Util.PriceExtention;
 
 
@@ -55,11 +58,12 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
     private View mView;
     private BottomSheetBehavior mSheetBehavior;
     private LinearLayout mCartBottomSheet;
-    private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld, mTxtEmptyView;
+    private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld, mTxtEmptyView, mTxtUnitPriceOld;
     private CartObj cartObj;
     private FrameLayout mBtnCheckout;
     private StoreDetailPresenter mStoreDetailPresenter;
     private StoreActivity mStoreActivity;
+    private Double discount;
 
     public StoreMenuFragment() {
         // Required empty public constructor
@@ -109,6 +113,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         mTxtTotalPriceOld.setPaintFlags(mTxtTotalPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
         mTxtEmptyView = mView.findViewById(R.id.tv_empty_view);
+        mTxtUnitPriceOld = getActivity().findViewById(R.id.txt_unit_price_old);
         mRcvMenu.setHasFixedSize(true);
         mStoreActivity = (StoreActivity) getActivity();
         // mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
@@ -124,24 +129,6 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
             mMenuDishList = new ArrayList<>();
             cartObj = new CartObj();
             mStore = new Store();
-//            int a = 1;
-//            for (int j = 0; j <= 4; j++) {
-//                MenuDish menuDish = new MenuDish();
-//                menuDish.setName("header" + j);
-//                menuDish.setId(j + "");
-//                List<Product> items = new ArrayList<>();
-//                for (int i = 0; i <= 3; i++) {
-//                    Product item = new Product();
-//                    item.setProductName("Đùi gà nướng" + " " + (a++));
-//                    item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
-//                    item.setPrice(20500);
-//                    item.setPriceSale((long) (20500 * 0.7));
-//                    item.setId(a + "");
-//                    items.add(item);
-//                }
-//                menuDish.setProducts(items);
-//                mMenuDishList.add(menuDish);
-//            }
             updateUIRcvMenu(mMenuDishList);
             mTxtTotalPrice.setText(cartObj.getTotalPrice() + "");
             mTxtTotalItem.setText(cartObj.getTotalQuantity() + "");
@@ -151,7 +138,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), CheckOutActivity.class);
                     intent.putExtra(Constant.CART_OBJ, cartObj);
-                    startActivity(intent);
+                    startActivityForResult(intent, Constant.CHECK_OUT_REQUEST);
                 }
             });
             mStoreDetailPresenter = new StoreDetailPresenter(this);
@@ -162,9 +149,21 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constant.CHECK_OUT_REQUEST) {
+                cartObj = (CartObj) data.getSerializableExtra(Constant.CART_OBJ);
+                initCartView(cartObj);
+                mStoreMenuItemAdapter.setCartObj(cartObj);
+                mStoreMenuItemAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 
     private void updateUIRcvMenu(final List<MenuDish> mMenuDishList) {
-//        try {
+
         if (mStoreMenuItemAdapter == null) {
             mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList, cartObj, null);
             mStoreMenuItemAdapter.expandAllParents();
@@ -173,7 +172,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
             mStoreMenuItemAdapter.setmOnStoreMenuClickListener(new StoreMenuItemAdapter.OnStoreMenuListener() {
 
                 private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
-//                        try {
+
                     Product dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
                     ModelMapper modelMapper = new ModelMapper();
                     ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
@@ -191,10 +190,6 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
                         }
                         initCartView(cartObj);
                     }
-
-//                        } catch (Exception e) {
-//                            Log.e(TAG, e.getMessage());
-//                        }
 
                 }
 
@@ -224,8 +219,20 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
 
     private void initCartView(CartObj cartObj) {
         mTxtTotalItem.setText(String.valueOf(cartObj.getTotalQuantity()));
-        mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
-        mTxtTotalPriceOld.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
+        if (discount != null) {
+            mTxtTotalPriceOld.setVisibility(View.VISIBLE);
+            mTxtTotalPrice.setVisibility(View.VISIBLE);
+            mTxtTotalPriceOld.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+            mTxtTotalPrice.setText(PriceExtention.doubleToPrice(Double.parseDouble(DoubleHandler.doubleDisplayDecimalPlaces(cartObj.getTotalPrice() * discount, 2))));
+        } else {
+            mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+            mTxtTotalPriceOld.setText("0");
+            mTxtTotalPriceOld.setVisibility(View.INVISIBLE);
+            mTxtUnitPriceOld.setVisibility(View.INVISIBLE);
+        }
+        if (mTxtTotalItem.getText().toString().matches("0")) {
+            mSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
     }
 
     @Override
@@ -251,7 +258,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         mMenuDishList.addAll(Store.getMenuDishes());
         if (Store != null) {
             if (Store.getPromotions() != null && Store.getPromotions().size() > 0) {
-                Double discount = Store.getPromotions().get(0).getDiscountPercent();
+                discount = Store.getPromotions().get(0).getDiscountPercent();
                 if (discount != null) {
                     discount = 1.0 - (discount / 100.0);
                     mStoreMenuItemAdapter.setmDiscount(discount);

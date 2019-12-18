@@ -122,6 +122,7 @@
                         android:textColor="@color/colorBlack" />
 
                     <TextView
+                        android:id="@+id/txt_add_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"

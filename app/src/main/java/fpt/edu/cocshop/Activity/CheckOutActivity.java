@@ -1,11 +1,17 @@
 package fpt.edu.cocshop.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +36,8 @@ public class CheckOutActivity extends AppCompatActivity {
     private CartObj cartObj;
     private List<String> listIdOrderItem;
     private ItemOrderAdapter mItemOrderAdapter;
-    private TextView mTxtTotalPrice, mTxtTotalPricePayment, mTxtDiscount, mTxtDeliveryFee, mTxtTotalPriceInBottom;
+    private TextView mTxtTotalPrice, mTxtTotalPricePayment, mTxtDiscount, mTxtDeliveryFee, mTxtTotalPriceInBottom, mTxtAddMore;
+    private Toolbar mTbCheckOut;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +56,11 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTbCheckOut = findViewById(R.id.tb_checkout);
+        mTxtAddMore = findViewById(R.id.txt_add_more);
+        setSupportActionBar(mTbCheckOut);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
         mTxtTotalPrice = findViewById(R.id.txt_checkout_total_price);
         mTxtTotalPricePayment = findViewById(R.id.txt_checkout_total_price_payment);
         mTxtDiscount = findViewById(R.id.txt_checkout_discounts);
@@ -62,7 +74,12 @@ public class CheckOutActivity extends AppCompatActivity {
 //        mRvDishItem.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(this, R.drawable.custom_horizontal_line)));
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         mRvDishItem.setLayoutManager(manager);
-
+        mTxtAddMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnCart();
+            }
+        });
     }
 
     private void updateUIRcvMenu(final CartObj cartObj) {
@@ -74,6 +91,7 @@ public class CheckOutActivity extends AppCompatActivity {
             mItemOrderAdapter.setmOnFoodPicksClickListener(new ItemOrderAdapter.OnItemOrderClickListener() {
                 private void init(ItemOrderAdapter.ViewHolderItem item, int sign, int position) {
                     ItemOrder dishItem = cartObj.getCart().get(listIdOrderItem.get(position));
+                    int defaultSize = cartObj.getCart().size();
                     if (sign == 1) {
                         cartObj.addToCart(dishItem, sign);
                         initCartView(cartObj);
@@ -81,7 +99,11 @@ public class CheckOutActivity extends AppCompatActivity {
                     if (sign == -1) {
                         cartObj.addToCart(dishItem, sign);
                         if (cartObj.getTotalQuantity() == 0) {
-                            CheckOutActivity.this.finish();
+                            returnCart();
+                        }
+                        if (defaultSize != cartObj.getCart().size()) {
+                            listIdOrderItem = new ArrayList<>(cartObj.getCart().keySet());
+                            mItemOrderAdapter.setListId(listIdOrderItem);
                         }
                         initCartView(cartObj);
                     }
@@ -101,6 +123,44 @@ public class CheckOutActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                returnCart();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            event.startTracking();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking()
+                && !event.isCanceled()) {
+            returnCart();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private void returnCart() {
+        Intent data = new Intent();
+        data.putExtra(Constant.CART_OBJ, cartObj);
+        setResult(RESULT_OK, data);
+        CheckOutActivity.this.finish();
     }
 
     private void initCartView(CartObj cartObj) {

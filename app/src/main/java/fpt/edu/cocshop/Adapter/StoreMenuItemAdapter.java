@@ -65,6 +65,10 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Pr
         this.mDiscount = mDiscount;
     }
 
+    public void setCartObj(CartObj cartObj) {
+        this.cartObj = cartObj;
+    }
+
     @NonNull
     @Override
     public ViewHolderHeader onCreateParentViewHolder(@NonNull ViewGroup parentViewGroup, int viewType) {

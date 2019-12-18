@@ -37,6 +37,10 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
         this.mOnFoodPicksClickListener = mOnFoodPicksClickListener;
     }
 
+    public void setListId(List<String> listId) {
+        this.listId = listId;
+    }
+
     public interface OnItemOrderClickListener {
         void onClickAddItem(ViewHolderItem item, int position);
 

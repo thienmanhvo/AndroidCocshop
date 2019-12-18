@@ -112,8 +112,13 @@ public class StoreActivity extends AppCompatActivity implements ShowEmptyViewNoT
                     mLlStoreDescription.setVisibility(View.INVISIBLE);
                 } else {
                     getSupportActionBar().setDisplayShowTitleEnabled(false);
-                    updateOptionsMenu(Color.WHITE);
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+                    if (store.getImagePath() == null || store.getImagePath().matches("")) {
+                        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                        updateOptionsMenu(Color.BLACK);
+                    } else {
+                        updateOptionsMenu(Color.WHITE);
+                        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+                    }
                     mLlStoreDescription.setVisibility(View.VISIBLE);
                 }
             }
@@ -216,6 +221,7 @@ public class StoreActivity extends AppCompatActivity implements ShowEmptyViewNoT
     }
 
     public void setDataToView(Store store) {
+        this.store = store;
         if (store != null) {
             mLlStoreDescription.setVisibility(View.VISIBLE);
             mLLStoreInfo.setVisibility(View.VISIBLE);
@@ -239,7 +245,12 @@ public class StoreActivity extends AppCompatActivity implements ShowEmptyViewNoT
 
                         @Override
                         public void onError(Exception e) {
-                            Log.e("PICASSO", e.getMessage());
+
+                            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                            updateOptionsMenu(Color.BLACK);
+                            Log.e("PICASSO", e.getMessage()
+
+                            );
                         }
                     });
         }
