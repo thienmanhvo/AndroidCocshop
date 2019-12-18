@@ -22,20 +22,19 @@ import retrofit2.Response;
 
 public class StoreDetailModel implements StoreDetailContract.Model {
 
-
     private final String TAG = "StoreDetailModel";
 
     @Override
     public void getStoreDetail(StoreDetailContract.Model.OnFinishedListener onFinishedListener, double latitude, double longitude, String brandId) {
         ClientApi clientApi = new ClientApi();
-        Call<ResponseBody> call = clientApi.fStoreService().getStoreDetail(Token.token, latitude, longitude, brandId);
+        Call<ResponseBody> call = clientApi.fStoreService().getStoreDetail(Token.token, brandId, latitude, longitude);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     try {
                         String result = response.body().string();
-                        Type type = new TypeToken<BaseViewModel<PagingResult<Store>>>() {
+                        Type type = new TypeToken<BaseViewModel<Store>>() {
                         }.getType();
                         BaseViewModel<Store> responseData = new Gson().fromJson(result, type);
 

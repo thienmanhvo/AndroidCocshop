@@ -79,6 +79,7 @@ public class StoreListActivity extends AppCompatActivity implements StoreListCon
         mToolBarStore = (Toolbar) findViewById(R.id.tb_store_list);
         setSupportActionBar(mToolBarStore);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
     }
 

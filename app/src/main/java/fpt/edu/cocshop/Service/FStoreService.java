@@ -13,7 +13,7 @@ public interface FStoreService {
     Call<ResponseBody> getStore(@Header("Authorization") String token, @Query("Latitude") double latitude, @Query("Longitude") double longitude, @Query("PageSize") int pageSize, @Query("PageIndex") int pageIndex);
 
     @GET(ConfigApi.Api.GET_STORE_DETAIL)
-    Call<ResponseBody> getStoreDetail(@Header("Authorization") String token, @Query("Latitude") double latitude, @Query("Longitude") double longitude, String StoreId);
+    Call<ResponseBody> getStoreDetail(@Header("Authorization") String token, @Path("id") String StoreId, @Query("Latitude") double latitude, @Query("Longitude") double longitude);
 
     @GET(ConfigApi.Api.STORE)
     Call<ResponseBody> getStoreByBrandId(@Header("Authorization") String token, @Query("Latitude") double latitude, @Query("Longitude") double longitude, @Query("PageSize") int pageSize, @Query("PageIndex") int pageIndex, @Query("Filter[brandId(e)]") String brandId);

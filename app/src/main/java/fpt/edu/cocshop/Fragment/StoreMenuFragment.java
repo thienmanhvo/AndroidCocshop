@@ -110,7 +110,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
         mTxtEmptyView = mView.findViewById(R.id.tv_empty_view);
         mRcvMenu.setHasFixedSize(true);
-        mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
+       // mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
         //mRcvMenu.addItemDecoration(new DividerItemDecoration(mRcvMenu.getContext(), DividerItemDecoration.VERTICAL));
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -246,7 +246,8 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
             hideEmptyView();
         }
         mMenuDishList.addAll(Store.getMenuDishes());
-        mStoreMenuItemAdapter.notifyDataSetChanged();
+        mStoreMenuItemAdapter.notifyParentDataSetChanged(true);
+        mStoreMenuItemAdapter.expandAllParents();
     }
 
     @Override
