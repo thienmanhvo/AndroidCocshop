@@ -25,6 +25,7 @@ import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.DoubleHandler;
 import fpt.edu.cocshop.Util.ExceptionHandler;
 import fpt.edu.cocshop.Util.PriceExtention;
 
@@ -85,7 +86,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private void updateUIRcvMenu(final CartObj cartObj) {
 //        try {
         if (mItemOrderAdapter == null) {
-            mItemOrderAdapter = new ItemOrderAdapter(this, cartObj);
+            mItemOrderAdapter = new ItemOrderAdapter(this, cartObj, cartObj.getDiscount());
             mRvDishItem.setAdapter(mItemOrderAdapter);
             //mRvDishItem.setLayoutManager(new LinearLayoutManager();
             mItemOrderAdapter.setmOnFoodPicksClickListener(new ItemOrderAdapter.OnItemOrderClickListener() {
@@ -164,11 +165,20 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
     private void initCartView(CartObj cartObj) {
-        long totalPrice = cartObj.getTotalPrice();
-        mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
-        mTxtDiscount.setText(PriceExtention.longToPrice(-cartObj.getTotalPrice() + cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
-        //mTxtDeliveryFee.setText(PriceExtention.longToPrice(cartObj.getTotalPriceOld(), Constant.NUMBER_COMMA));
-        mTxtTotalPricePayment.setText(PriceExtention.longToPrice(totalPrice, Constant.NUMBER_COMMA));
-        mTxtTotalPriceInBottom.setText(PriceExtention.longToPrice(totalPrice, Constant.NUMBER_COMMA));
+
+        if (cartObj.getDiscount() != null) {
+            mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+            mTxtDiscount.setText(PriceExtention.doubleToPrice(Double.parseDouble(DoubleHandler.doubleDisplayDecimalPlaces(cartObj.getTotalPrice() * (1.0 - cartObj.getDiscount()), 2))));
+            double totalPricePayment = cartObj.getTotalPrice() * cartObj.getDiscount() + 40000.0;
+            mTxtTotalPricePayment.setText(PriceExtention.doubleToPrice(totalPricePayment));
+            mTxtTotalPriceInBottom.setText(PriceExtention.doubleToPrice(totalPricePayment));
+        } else {
+            mTxtTotalPrice.setText(PriceExtention.longToPrice(cartObj.getTotalPrice(), Constant.NUMBER_COMMA));
+            mTxtDiscount.setText(0+"");
+            double totalPricePayment = cartObj.getTotalPrice() + 40000.0;
+            mTxtTotalPricePayment.setText(PriceExtention.doubleToPrice(totalPricePayment));
+            mTxtTotalPriceInBottom.setText(PriceExtention.doubleToPrice(totalPricePayment));
+        }
+
     }
 }

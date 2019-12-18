@@ -130,9 +130,9 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
             cartObj = new CartObj();
             mStore = new Store();
             updateUIRcvMenu(mMenuDishList);
-            mTxtTotalPrice.setText(cartObj.getTotalPrice() + "");
-            mTxtTotalItem.setText(cartObj.getTotalQuantity() + "");
-            mTxtTotalPriceOld.setText(cartObj.getTotalPriceOld() + "");
+            mTxtTotalPrice.setText("");
+            mTxtTotalItem.setText("");
+            mTxtTotalPriceOld.setText("");
             mBtnCheckout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -261,6 +261,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
                 discount = Store.getPromotions().get(0).getDiscountPercent();
                 if (discount != null) {
                     discount = 1.0 - (discount / 100.0);
+                    cartObj.setDiscount(discount);
                     mStoreMenuItemAdapter.setmDiscount(discount);
                 }
             }

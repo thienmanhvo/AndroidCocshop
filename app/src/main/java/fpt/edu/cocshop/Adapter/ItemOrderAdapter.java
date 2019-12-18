@@ -23,6 +23,7 @@ import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.DoubleHandler;
 import fpt.edu.cocshop.Util.PriceExtention;
 
 public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.ViewHolderItem> {
@@ -31,10 +32,15 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
     private CartObj cartObj;
     private List<String> listId;
     private Context mContext;
+    private Double mDiscount;
     private ItemOrderAdapter.OnItemOrderClickListener mOnFoodPicksClickListener;
 
     public void setmOnFoodPicksClickListener(OnItemOrderClickListener mOnFoodPicksClickListener) {
         this.mOnFoodPicksClickListener = mOnFoodPicksClickListener;
+    }
+
+    public void setmDiscount(Double mDiscount) {
+        this.mDiscount = mDiscount;
     }
 
     public void setListId(List<String> listId) {
@@ -47,10 +53,11 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
         void onClickMinusItem(ViewHolderItem item, int position);
     }
 
-    public ItemOrderAdapter(Context mContext, CartObj cartObj) {
+    public ItemOrderAdapter(Context mContext, CartObj cartObj, Double mDiscount) {
         this.mContext = mContext;
         this.cartObj = cartObj;
         listId = new ArrayList<>(cartObj.getCart().keySet());
+        this.mDiscount = mDiscount;
     }
 
     @NonNull
@@ -91,8 +98,16 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
 
         public void bind(ItemOrder item, final int position) {
             mTxtName.setText(item.getName());
-            mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
-            mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceOld(), Constant.NUMBER_COMMA));
+
+            long price = item.getPrice();
+            if (mDiscount != null) {
+                mTxtPriceOld.setText(PriceExtention.longToPrice(price, Constant.NUMBER_COMMA));
+                mTxtPrice.setText(PriceExtention.doubleToPrice(Double.parseDouble(DoubleHandler.doubleDisplayDecimalPlaces(price * mDiscount, 2))));
+            } else {
+                mTxtPriceOld.setText("0");
+                mTxtPriceOld.setVisibility(View.INVISIBLE);
+                mTxtPrice.setText(PriceExtention.longToPrice(price, Constant.NUMBER_COMMA));
+            }
             mBtnAddItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,7 +131,7 @@ public class ItemOrderAdapter extends RecyclerView.Adapter<ItemOrderAdapter.View
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.drawable.ic_launcher_background)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.mipmap.ic_image_error_foreground)
                     .fit()
                     .into(mImgDescription, new Callback() {
                         @Override

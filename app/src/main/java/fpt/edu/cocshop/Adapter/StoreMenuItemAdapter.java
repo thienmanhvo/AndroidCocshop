@@ -188,8 +188,8 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Pr
 
             Picasso.get()
                     .load(item.getImagePath())
-                    .error(R.drawable.ic_launcher_background)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.mipmap.ic_image_error_foreground)
+                    .placeholder(R.mipmap.ic_image_error_foreground)
                     .fit()
                     .into(mImgDescription, new Callback() {
                         @Override
