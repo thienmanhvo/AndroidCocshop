@@ -26,6 +26,7 @@ import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDish;
 import fpt.edu.cocshop.Model.Product;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.DoubleHandler;
 import fpt.edu.cocshop.Util.PriceExtention;
 
 public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Product, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
@@ -42,19 +43,26 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Pr
 
     private Context mContext;
     private List<MenuDish> mListItem;
+    private Double mDiscount;
     private OnStoreMenuListener mOnStoreMenuClickListener;
     private CartObj cartObj;
+
+
+    public void setmDiscount(Double mDiscount) {
+        this.mDiscount = mDiscount;
+    }
 
     public void setmOnStoreMenuClickListener(OnStoreMenuListener mOnStoreMenuClickListener) {
         this.mOnStoreMenuClickListener = mOnStoreMenuClickListener;
     }
 
-    public StoreMenuItemAdapter(Context mContext, List<MenuDish> mListItem, CartObj cartObj) {
+    public StoreMenuItemAdapter(Context mContext, List<MenuDish> mListItem, CartObj cartObj, Double mDiscount) {
         super(mListItem);
         this.mContext = mContext;
         this.mListItem = mListItem;
         mInflater = LayoutInflater.from(mContext);
         this.cartObj = cartObj;
+        this.mDiscount = mDiscount;
     }
 
     @NonNull
@@ -136,8 +144,17 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Pr
 
         public void bind(Product item, final int parentPosition, final int childPosition) {
             mTxtName.setText(item.getProductName());
-            mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
-            mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceSale(), Constant.NUMBER_COMMA));
+            long price = item.getPrice();
+            if (mDiscount != null) {
+                mTxtPriceOld.setText(PriceExtention.longToPrice(price, Constant.NUMBER_COMMA));
+                mTxtPrice.setText(PriceExtention.doubleToPrice(Double.parseDouble(DoubleHandler.doubleDisplayDecimalPlaces(price * mDiscount, 2))));
+            } else {
+                mTxtPriceOld.setText("0");
+                mTxtPriceOld.setVisibility(View.INVISIBLE);
+                mTxtPrice.setText(PriceExtention.longToPrice(price, Constant.NUMBER_COMMA));
+            }
+
+
             mBtnAddItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

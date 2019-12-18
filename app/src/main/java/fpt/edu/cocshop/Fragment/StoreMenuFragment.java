@@ -166,7 +166,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
     private void updateUIRcvMenu(final List<MenuDish> mMenuDishList) {
 //        try {
         if (mStoreMenuItemAdapter == null) {
-            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList, cartObj);
+            mStoreMenuItemAdapter = new StoreMenuItemAdapter(getContext(), mMenuDishList, cartObj, null);
             mStoreMenuItemAdapter.expandAllParents();
             mRcvMenu.setAdapter(mStoreMenuItemAdapter);
             mRcvMenu.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -246,8 +246,19 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         } else {
             hideEmptyView();
         }
+
         mStoreActivity.setDataToView(Store);
         mMenuDishList.addAll(Store.getMenuDishes());
+        if (Store != null) {
+            if (Store.getPromotions() != null && Store.getPromotions().size() > 0) {
+                Double discount = Store.getPromotions().get(0).getDiscountPercent();
+                if (discount != null) {
+                    discount = 1.0 - (discount / 100.0);
+                    mStoreMenuItemAdapter.setmDiscount(discount);
+                }
+            }
+        }
+
         mStoreMenuItemAdapter.notifyParentDataSetChanged(true);
         mStoreMenuItemAdapter.expandAllParents();
     }

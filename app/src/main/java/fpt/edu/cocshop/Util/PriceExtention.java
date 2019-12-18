@@ -16,6 +16,12 @@ public class PriceExtention {
         return myFormat.format(price);
     }
 
+    public static String doubleToPrice(double price) {
+        NumberFormat myFormat = NumberFormat.getInstance();
+        myFormat.setGroupingUsed(true); // this will also round numbers, 3
+        return myFormat.format(price);
+    }
+
     private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
     private static final int MAX_LENGTH = 4;
 

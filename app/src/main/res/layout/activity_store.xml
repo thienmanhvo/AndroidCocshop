@@ -35,8 +35,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.4"
-                android:background="@color/colorActive"
+                android:alpha="1"
+                android:background="@color/colorBackgroundHeader"
                 android:fitsSystemWindows="true" />
 
             <androidx.appcompat.widget.Toolbar
@@ -62,8 +62,7 @@
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp10"
                     android:paddingTop="@dimen/dp10"
-                    android:paddingRight="@dimen/dp10"
-                    android:visibility="gone">
+                    android:paddingRight="@dimen/dp10">
 
                     <LinearLayout
                         android:id="@+id/ll_store_info"
