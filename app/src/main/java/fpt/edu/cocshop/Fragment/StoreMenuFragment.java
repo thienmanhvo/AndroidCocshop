@@ -58,8 +58,8 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
     private TextView mTxtTotalItem, mTxtTotalPrice, mTxtTotalPriceOld, mTxtEmptyView;
     private CartObj cartObj;
     private FrameLayout mBtnCheckout;
-    private ProgressBar pbLoading;
     private StoreDetailPresenter mStoreDetailPresenter;
+    private StoreActivity mStoreActivity;
 
     public StoreMenuFragment() {
         // Required empty public constructor
@@ -97,7 +97,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
     }
 
     private void initView() {
-        pbLoading = mView.findViewById(R.id.pb_loading);
+
         //mCartBottomSheet = mView.findViewById(R.id.ll_cart_bottom_sheet);
         mCartBottomSheet = getActivity().findViewById(R.id.ll_cart_bottom_sheet);
         mBtnCheckout = getActivity().findViewById(R.id.fl_btn_checkout);
@@ -110,7 +110,8 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         mRcvMenu = mView.findViewById(R.id.rcv_store_menu_item);
         mTxtEmptyView = mView.findViewById(R.id.tv_empty_view);
         mRcvMenu.setHasFixedSize(true);
-       // mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
+        mStoreActivity = (StoreActivity) getActivity();
+        // mRcvMenu.addItemDecoration(new CustomDecoration(ContextCompat.getDrawable(getContext(), R.drawable.custom_horizontal_line)));
         //mRcvMenu.addItemDecoration(new DividerItemDecoration(mRcvMenu.getContext(), DividerItemDecoration.VERTICAL));
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -155,7 +156,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
             });
             mStoreDetailPresenter = new StoreDetailPresenter(this);
             String storeId = ((StoreActivity) getActivity()).getStore().getId();
-            mStoreDetailPresenter.requestDataFromServer(CurrentLocation.latitude, CurrentLocation.longitude,storeId );
+            mStoreDetailPresenter.requestDataFromServer(CurrentLocation.latitude, CurrentLocation.longitude, storeId);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -229,12 +230,12 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
 
     @Override
     public void showProgress() {
-        pbLoading.setVisibility(View.VISIBLE);
+        mStoreActivity.showProgress();
     }
 
     @Override
     public void hideProgress() {
-        pbLoading.setVisibility(View.GONE);
+        mStoreActivity.hideProgress();
     }
 
     @Override
@@ -245,6 +246,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
         } else {
             hideEmptyView();
         }
+        mStoreActivity.setDataToView(Store);
         mMenuDishList.addAll(Store.getMenuDishes());
         mStoreMenuItemAdapter.notifyParentDataSetChanged(true);
         mStoreMenuItemAdapter.expandAllParents();

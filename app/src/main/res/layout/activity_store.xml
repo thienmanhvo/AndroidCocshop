@@ -18,7 +18,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/htab_collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorWhite"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0.4"
-                android:background="@android:color/black"
+                android:background="@color/colorActive"
                 android:fitsSystemWindows="true" />
 
             <androidx.appcompat.widget.Toolbar
@@ -62,13 +62,16 @@
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp10"
                     android:paddingTop="@dimen/dp10"
-                    android:paddingRight="@dimen/dp10">
+                    android:paddingRight="@dimen/dp10"
+                    android:visibility="gone">
 
                     <LinearLayout
+                        android:id="@+id/ll_store_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
 
                         <TextView
                             android:id="@+id/txt_category"
@@ -164,18 +167,19 @@
                         android:layout_height="wrap_content"
                         android:alpha="1"
                         android:gravity="left"
-                        android:text="Yellow Cab Pizza - Nguyễn Đức Cảnh"
+                        android:text=""
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/sp20"
-                        android:textStyle="bold" />
+                        android:textStyle="bold" android:visibility="visible"/>
 
                     <fpt.edu.cocshop.Custom.AlphaTextView
                         android:id="@+id/txt_location_store"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:alpha="1"
-                        android:padding="@dimen/dp5"
-                        android:text="252 Nguyễn Văn Hường, P. Thảo Điền, Quận 2, TP. HCM"
+                        android:paddingTop="@dimen/dp5"
+                        android:paddingBottom="@dimen/dp5"
+                        android:text=""
                         android:textColor="@color/colorTextDefault" />
                 </LinearLayout>
 
@@ -201,20 +205,48 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:contentInsetLeft="0dp"
-        android:contentInsetStart="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:contentInsetRight="0dp"
-        android:contentInsetEnd="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"/>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"/>
+        <!-- Adding bottom sheet after main content -->
+
+        <TextView
+            android:layout_marginTop="400dp"
+            android:id="@+id/tv_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_centerInParent="true"
+            android:drawablePadding="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/no_store"
+            android:textSize="@dimen/no_result_text_size"
+            android:visibility="gone" />
+
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorActive"
+        android:indeterminateTintMode="src_atop"
+        android:layout_centerInParent="true"/>
     <!-- Adding bottom sheet after main content -->
     <include layout="@layout/fragment_cart_bottom_sheet" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -98,7 +98,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             mTxtLocationName.setText(item.getLocationName());
             mTxtDistance.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getDistance(), 2) + " km");
             mRbStoreRating.setRating((float) ((item.getRating() * 1.0) / item.getNumberOfRating()));
-            mTxtRating.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getRating() * 1.0 / item.getNumberOfRating(), 2));
+            mTxtRating.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getRating() * 1.0 / item.getNumberOfRating(), 1));
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.mipmap.ic_image_error_foreground)

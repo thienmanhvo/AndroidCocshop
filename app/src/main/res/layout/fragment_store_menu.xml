@@ -38,15 +38,6 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            style="@style/Base.Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorActive"
-            android:indeterminateTintMode="src_atop" />
     </FrameLayout>
 
 </LinearLayout>
