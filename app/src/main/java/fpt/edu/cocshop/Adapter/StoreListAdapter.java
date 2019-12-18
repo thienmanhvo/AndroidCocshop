@@ -72,7 +72,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
     public class ViewHolderItem extends ChildViewHolder {
         private ImageView mImgDescription;
         private TextView mTxtName;
-        private TextView mTxtLocationName, mTxtAveragePrice, mTxtDistance,mTxtRating;
+        private TextView mTxtLocationName, mTxtAveragePrice, mTxtDistance, mTxtRating, mTxtPromo;
         private RatingBar mRbStoreRating;
         private LinearLayout mLlStoreList;
 
@@ -86,18 +86,19 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             mRbStoreRating = itemView.findViewById(R.id.rb_store_list_rating);
             mLlStoreList = itemView.findViewById(R.id.ll_store_list);
             mTxtRating = itemView.findViewById(R.id.txt_store_list_rating);
+            mTxtPromo = itemView.findViewById(R.id.txt_promo);
         }
 
         public void bind(Store item) {
             String streetName = item.getLocationName().split(",")[0];
             String streetNameReplace = streetName.split(" ")[0];
-            String streetNameRplaced =streetName.replace(streetNameReplace,"");
-            mTxtName.setText(item.getName() +" - "+streetNameRplaced);
+            String streetNameRplaced = streetName.replace(streetNameReplace, "");
+            mTxtName.setText(item.getName() + " - " + streetNameRplaced);
             mTxtAveragePrice.setText(PriceExtention.doubleToPriceWithK(item.getAveragePrice()));
             mTxtLocationName.setText(item.getLocationName());
             mTxtDistance.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getDistance(), 2) + " km");
-            mRbStoreRating.setRating((float)((item.getRating() *1.0 )/ item.getNumberOfRating()));
-            mTxtRating.setText(item.getRating() * 1.0/ item.getNumberOfRating() +"");
+            mRbStoreRating.setRating((float) ((item.getRating() * 1.0) / item.getNumberOfRating()));
+            mTxtRating.setText(DoubleHandler.doubleDisplayDecimalPlaces(item.getRating() * 1.0 / item.getNumberOfRating(), 2));
             Picasso.get()
                     .load(item.getImagePath())
                     .error(R.mipmap.ic_image_error_foreground)
@@ -113,6 +114,10 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
                             Log.e("PICASSO", e.getMessage());
                         }
                     });
+            if (item.getPromotions() != null && item.getPromotions().size() != 0) {
+                mTxtPromo.setText(item.getPromotions().get(0).getName());
+                mTxtPromo.setVisibility(View.VISIBLE);
+            }
         }
 
     }

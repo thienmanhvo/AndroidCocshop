@@ -11,14 +11,14 @@
 
     <FrameLayout
         android:layout_width="@dimen/dp70"
-        android:layout_height="@dimen/dp80"
+        android:layout_height="match_parent"
         android:layout_gravity="top"
         android:layout_weight="1.5">
 
         <ImageView
             android:id="@+id/img_store_list_avatar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="top"
             android:maxWidth="@dimen/dp70"
             android:maxHeight="@dimen/dp80"
@@ -28,21 +28,19 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxWidth="@dimen/dp70"
-            android:minHeight="@dimen/dp80"
+            android:layout_height="match_parent"
             android:src="@drawable/custom_frame_border_image" />
     </FrameLayout>
 
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp8"
         android:layout_weight="8.5">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:orientation="horizontal">
 
@@ -150,9 +148,22 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/dp3"
-                    android:paddingRight="@dimen/dp3">
-
+                    android:paddingTop="@dimen/dp5">
+                    <TextView
+                        android:id="@+id/txt_promo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/custom_border_textview"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dp3"
+                        android:paddingRight="@dimen/dp3"
+                        android:singleLine="true"
+                        android:text="Discount 30%"
+                        android:textColor="@color/colorActive"
+                        android:textSize="@dimen/dp12"
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
             </LinearLayout>

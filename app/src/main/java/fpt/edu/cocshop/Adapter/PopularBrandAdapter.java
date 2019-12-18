@@ -76,6 +76,10 @@ public class PopularBrandAdapter extends RecyclerView.Adapter<PopularBrandAdapte
             }
         });
         holder.mRbRating.setRating(mBrandList.get(position).getRating());
+        if (mBrandList.get(position).getPromotions() != null && mBrandList.get(position).getPromotions().size() != 0) {
+            holder.mTxtPromo.setText(mBrandList.get(position).getPromotions().get(0).getName());
+            holder.mTxtPromo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

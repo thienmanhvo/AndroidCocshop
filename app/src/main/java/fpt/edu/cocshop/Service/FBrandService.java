@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 
 public interface FBrandService {
     @GET(ConfigApi.Api.BRAND)
-    Call<ResponseBody> getPopularBrand(@Header("Authorization") String token, @Query("PageSize") int pageSize, @Query("PageIndex") int pageIndex);
+    Call<ResponseBody> getPopularBrand(@Header("Authorization") String token, @Query("PageSize") int pageSize, @Query("PageIndex") int pageIndex,@Query("Include") String include);
 }

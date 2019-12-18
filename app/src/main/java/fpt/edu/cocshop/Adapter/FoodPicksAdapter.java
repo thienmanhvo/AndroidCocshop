@@ -84,6 +84,10 @@ public class FoodPicksAdapter extends RecyclerView.Adapter<FoodPicksAdapter.View
             }
         });
         holder.mRbRating.setRating(mStoreList.get(position).getRating());
+        if (mStoreList.get(position).getPromotions() != null && mStoreList.get(position).getPromotions().size() != 0) {
+            holder.mTxtPromo.setText(mStoreList.get(position).getPromotions().get(0).getName());
+            holder.mTxtPromo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

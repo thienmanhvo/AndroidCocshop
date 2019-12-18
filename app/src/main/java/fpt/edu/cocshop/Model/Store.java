@@ -35,11 +35,21 @@ public class Store implements Serializable {
     public Double distance;
     @SerializedName("menuDishes")
     public List<MenuDish> menuDishes;
+    @SerializedName("promotions")
+    public List<Promotion> promotions;
 
 //    public  BrandViewModel Brand { get; set; }
 //
 //    public  StoreCategoryViewModel StoreCategory { get; set; }
 
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
+    }
 
     public List<MenuDish> getMenuDishes() {
         return menuDishes;

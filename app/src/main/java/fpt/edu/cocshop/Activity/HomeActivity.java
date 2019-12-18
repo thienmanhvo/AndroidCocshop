@@ -3,30 +3,23 @@ package fpt.edu.cocshop.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,7 +28,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import fpt.edu.cocshop.Adapter.MainAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
 import fpt.edu.cocshop.Fragment.UserFragment;
@@ -48,7 +40,6 @@ import fpt.edu.cocshop.Util.Token;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MainAdapter mMainAdapter;
     private FragmentManager fragmentManager;
     //private ViewPager mViewPager;
     private LinearLayout mLLHelp, mLLMyOrder, mLLSaved, mLLUser;
@@ -142,6 +133,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 isGPS = isGPSEnable;
             }
         });
+        getLocation();
     }
 
     private void setActive(int position) {

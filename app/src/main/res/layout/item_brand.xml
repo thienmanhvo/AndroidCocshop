@@ -142,6 +142,7 @@
             android:singleLine="true"
             android:text="Discount 30%"
             android:textColor="@color/colorActive"
-            android:textSize="@dimen/dp12" />
+            android:textSize="@dimen/dp12"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

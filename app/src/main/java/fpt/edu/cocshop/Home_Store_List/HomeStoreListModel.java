@@ -68,7 +68,7 @@ public class HomeStoreListModel implements HomeStoreListContract.Model {
     @Override
     public void getPopularBrandList(OnFinishedListener onFinishedListener, int pageSize, int pageIndex) {
         ClientApi clientApi = new ClientApi();
-        Call<ResponseBody> call = clientApi.fBrandService().getPopularBrand(Token.token, pageSize, pageIndex);
+        Call<ResponseBody> call = clientApi.fBrandService().getPopularBrand(Token.token, pageSize, pageIndex,"promotions");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
