@@ -49,6 +49,10 @@ public class StoreActivity extends AppCompatActivity {
     private com.google.android.material.appbar.CollapsingToolbarLayout CollapsingToolbarLayout;
     private Menu mOptionsMenu;
 
+    public Store getStore() {
+        return store;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
