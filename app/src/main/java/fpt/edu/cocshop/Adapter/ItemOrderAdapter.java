@@ -22,7 +22,6 @@ import java.util.List;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
-import fpt.edu.cocshop.Model.MenuDishItem;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.PriceExtention;
 

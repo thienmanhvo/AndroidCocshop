@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.ContextCompat;
@@ -33,7 +31,7 @@ import fpt.edu.cocshop.Custom.CustomDecoration;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDish;
-import fpt.edu.cocshop.Model.MenuDishItem;
+import fpt.edu.cocshop.Model.Product;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.PriceExtention;
 
@@ -116,17 +114,17 @@ public class StoreMenuFragment extends Fragment {
                 MenuDish menuDish = new MenuDish();
                 menuDish.setName("header" + j);
                 menuDish.setId(j + "");
-                List<MenuDishItem> items = new ArrayList<>();
+                List<Product> items = new ArrayList<>();
                 for (int i = 0; i <= 3; i++) {
-                    MenuDishItem item = new MenuDishItem();
-                    item.setName("Đùi gà nướng" + " " + (a++));
+                    Product item = new Product();
+                    item.setProductName("Đùi gà nướng" + " " + (a++));
                     item.setImagePath("https://znews-photo.zadn.vn/w660/Uploaded/Ohunoaa/2016_12_31/d6.jpg");
                     item.setPrice(20500);
-                    item.setPriceOld((long) (20500 * 0.7));
+                    item.setPriceSale((long) (20500 * 0.7));
                     item.setId(a + "");
                     items.add(item);
                 }
-                menuDish.setItems(items);
+                menuDish.setProducts(items);
                 mMenuDishList.add(menuDish);
             }
             updateUIRcvMenu(mMenuDishList);
@@ -158,7 +156,7 @@ public class StoreMenuFragment extends Fragment {
 
                 private void init(StoreMenuItemAdapter.ViewHolderItem item, int sign, int parentPosition, int childPosition) {
 //                        try {
-                    MenuDishItem dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
+                    Product dishItem = mMenuDishList.get(parentPosition).getChildList().get(childPosition);
                     ModelMapper modelMapper = new ModelMapper();
                     ItemOrder itemOrder = modelMapper.map(dishItem, ItemOrder.class);
                     if (sign == 1) {

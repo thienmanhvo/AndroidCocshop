@@ -1,21 +1,25 @@
 package fpt.edu.cocshop.Model;
 
 import com.bignerdranch.expandablerecyclerview.model.Parent;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class MenuDish implements Serializable, Parent<MenuDishItem> {
+public class MenuDish implements Serializable, Parent<Product> {
+    @SerializedName("name")
     private String name;
-    private List<MenuDishItem> items;
+    @SerializedName("products")
+    private List<Product> products;
+    @SerializedName("id")
     private String id;
 
     public MenuDish() {
     }
 
-    public MenuDish(String name, List<MenuDishItem> items) {
+    public MenuDish(String name, List<Product> products) {
         this.name = name;
-        this.items = items;
+        this.products = products;
     }
 
     public String getId() {
@@ -34,12 +38,12 @@ public class MenuDish implements Serializable, Parent<MenuDishItem> {
         return name;
     }
 
-    public List<MenuDishItem> getItems() {
-        return items;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setItems(List<MenuDishItem> items) {
-        this.items = items;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public void setName(String name) {
@@ -47,8 +51,8 @@ public class MenuDish implements Serializable, Parent<MenuDishItem> {
     }
 
     @Override
-    public List<MenuDishItem> getChildList() {
-        return items;
+    public List<Product> getChildList() {
+        return products;
     }
 
     @Override

@@ -24,11 +24,11 @@ import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDish;
-import fpt.edu.cocshop.Model.MenuDishItem;
+import fpt.edu.cocshop.Model.Product;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.PriceExtention;
 
-public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, MenuDishItem, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
+public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Product, StoreMenuItemAdapter.ViewHolderHeader, StoreMenuItemAdapter.ViewHolderItem> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
@@ -77,7 +77,7 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Me
     }
 
     @Override
-    public void onBindChildViewHolder(@NonNull ViewHolderItem childViewHolder, int parentPosition, int childPosition, @NonNull MenuDishItem child) {
+    public void onBindChildViewHolder(@NonNull ViewHolderItem childViewHolder, int parentPosition, int childPosition, @NonNull Product child) {
         childViewHolder.bind(child, parentPosition, childPosition);
     }
 
@@ -134,10 +134,10 @@ public class StoreMenuItemAdapter extends ExpandableRecyclerAdapter<MenuDish, Me
             mBtnMinusItem = itemView.findViewById(R.id.btn_menu_item_minus);
         }
 
-        public void bind(MenuDishItem item, final int parentPosition, final int childPosition) {
-            mTxtName.setText(item.getName());
+        public void bind(Product item, final int parentPosition, final int childPosition) {
+            mTxtName.setText(item.getProductName());
             mTxtPrice.setText(PriceExtention.longToPrice(item.getPrice(), Constant.NUMBER_COMMA));
-            mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceOld(), Constant.NUMBER_COMMA));
+            mTxtPriceOld.setText(PriceExtention.longToPrice(item.getPriceSale(), Constant.NUMBER_COMMA));
             mBtnAddItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
