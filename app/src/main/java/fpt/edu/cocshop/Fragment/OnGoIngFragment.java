@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.DrawableRes;
@@ -31,17 +33,22 @@ import com.squareup.picasso.Target;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.edu.cocshop.Activity.StoreActivity;
+import fpt.edu.cocshop.Home_Store_List.HomeStoreListPresenter;
+import fpt.edu.cocshop.Model.Order;
 import fpt.edu.cocshop.Model.Store;
+import fpt.edu.cocshop.OnGoing_Order.OnGoingOrderContract;
+import fpt.edu.cocshop.OnGoing_Order.OnGoingOrderPresenter;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.CurrentLocation;
 import fpt.edu.cocshop.Util.MyAccount;
 
-public class OnGoIngFragment extends Fragment implements OnMapReadyCallback {
+public class OnGoIngFragment extends Fragment implements OnMapReadyCallback, OnGoingOrderContract.View {
     private GoogleMap mMap;
     private View mView;
     private MapView mMapView;
     private static final String TAG = "OnGoIngFragment";
-
+    private ProgressBar pbLoading;
+    private OnGoingOrderPresenter mOnGoingOrderPresenter;
     private CircleImageView mMarkerImageView;
     private View mCustomMarkerView;
 
@@ -74,6 +81,7 @@ public class OnGoIngFragment extends Fragment implements OnMapReadyCallback {
         mView = inflater.inflate(R.layout.fragment_on_going, container, false);
         mCustomMarkerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_view_marker, null);
         mMarkerImageView = (CircleImageView) mCustomMarkerView.findViewById(R.id.profile_image);
+        pbLoading = mView.findViewById(R.id.pb_loading);
         return mView;
 
     }
@@ -82,23 +90,8 @@ public class OnGoIngFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady() called with");
         mMap = googleMap;
-
-        LatLng sydney = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
-
-        //Store store = ((StoreActivity) getActivity()).getStore();
-        LatLng mDummyLatLng = new LatLng(CurrentLocation.latitude + 1, CurrentLocation.longitude + 1);
-
-        MapsInitializer.initialize(getActivity());
-
-        addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng, "https://previews.123rf.com/images/tribalium123/tribalium1231209/tribalium123120900263/15414369-crossed-fork-and-spoon-food-icon-food-symbol.jpg");
-        addCustomMarker(R.drawable.custom_mark_red, sydney, MyAccount.url);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(sydney)      // Sets the center of the map to Mountain View
-                .zoom(17)                   // Sets the zoom
-                //.bearing(90)                // Sets the orientation of the camera to east
-                // .tilt(30)                   // Sets the tilt of the camera to 30 degrees
-                .build();                   // Creates a CameraPosition from the builder
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mOnGoingOrderPresenter = new OnGoingOrderPresenter(this);
+        mOnGoingOrderPresenter.requestDataFromServer();
     }
 
     private void addCustomMarker(@DrawableRes int pointerId, final LatLng latLng, String url) {
@@ -158,4 +151,42 @@ public class OnGoIngFragment extends Fragment implements OnMapReadyCallback {
         return returnedBitmap;
     }
 
+    @Override
+    public void showProgress() {
+        pbLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pbLoading.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void onResponseSuccess(Order order) {
+        if(order !=null){
+            LatLng sydney = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
+
+            //Store store = ((StoreActivity) getActivity()).getStore();
+            LatLng mDummyLatLng = new LatLng(order.deliveryToLatitude, order.deliveryToLongitude);
+
+            MapsInitializer.initialize(getActivity());
+
+            addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng, "https://previews.123rf.com/images/tribalium123/tribalium1231209/tribalium123120900263/15414369-crossed-fork-and-spoon-food-icon-food-symbol.jpg");
+            addCustomMarker(R.drawable.custom_mark_red, sydney, MyAccount.url);
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(sydney)      // Sets the center of the map to Mountain View
+                    .zoom(17)                   // Sets the zoom
+                    //.bearing(90)                // Sets the orientation of the camera to east
+                    // .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+    }
+
+    @Override
+    public void onResponseFailure(String throwable) {
+        Log.e(TAG, throwable);
+        Toast.makeText(getContext(), getString(R.string.communication_error), Toast.LENGTH_LONG).show();
+    }
 }

@@ -17,7 +17,7 @@ public class OnGoingOrderContract {
 
     }
 
-    interface View {
+    public interface View {
 
         void showProgress();
 

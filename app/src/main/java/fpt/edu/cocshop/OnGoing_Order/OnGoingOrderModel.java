@@ -27,7 +27,7 @@ public class OnGoingOrderModel implements OnGoingOrderContract.Model {
     private final String TAG = "OnGoingOrderModel";
 
     @Override
-    public void getStoreDetail(OnFinishedListener onFinishedListener) {
+    public void getOrder(OnFinishedListener onFinishedListener) {
         ClientApi clientApi = new ClientApi();
         Call<ResponseBody> call = clientApi.fOrderService().getOrder(Token.token, "Submitted", "-createdAt");
         call.enqueue(new Callback<ResponseBody>() {
