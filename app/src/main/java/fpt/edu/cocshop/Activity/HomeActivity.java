@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,8 +26,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Locale;
 
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
@@ -52,7 +57,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImgHome, mImgHomeCircle;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
-
+    private LocationCallback locationCallback;
     private boolean isGPS = false;
     GoogleSignInClient mGoogleSignInClient;
 
@@ -60,6 +65,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String email;
     String id;
     String avatar;
+    private boolean isContinue = true;
+    private boolean isCommit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,17 +125,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mLLSaved.setOnClickListener(this);
         mLLUser.setOnClickListener(this);
         mImgHome.setOnClickListener(this);
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.ll_content, new HomeFragment().newInstance(), null);
-
-        fragmentTransaction.commit();
-        if (page != null) {
-            setActive(page);
-        } else {
-            setActive(Constant.HOME_PAGE_POSITION);
-        }
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -141,7 +137,39 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 isGPS = isGPSEnable;
             }
         });
+        fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        if (!isCommit) {
+                            fragmentTransaction.add(R.id.ll_content, new HomeFragment().newInstance(), null);
+                            fragmentTransaction.commit();
+                            isCommit = true;
+                            if (page != null) {
+                                setActive(page);
+                            } else {
+                                setActive(Constant.HOME_PAGE_POSITION);
+                            }
+                        }
+                        CurrentLocation.latitude = location.getLatitude();
+                        CurrentLocation.longitude = location.getLongitude();
+                        if (!isContinue && mFusedLocationClient != null) {
+                            mFusedLocationClient.removeLocationUpdates(locationCallback);
+                        }
+                    }
+                }
+            }
+        };
         getLocation();
+
+
     }
 
     private void setActive(int position) {
@@ -245,14 +273,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Constant.LOCATION_REQUEST);
 
         } else {
-
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    CurrentLocation.latitude = location.getLatitude();
-                    CurrentLocation.longitude = location.getLongitude();
-                }
-            });
-
+            if (isContinue) {
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+            } else {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        CurrentLocation.latitude = location.getLatitude();
+                        CurrentLocation.longitude = location.getLongitude();
+                    } else {
+                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                    }
+                });
+            }
         }
     }
 
@@ -266,13 +298,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                        if (location != null) {
-                            CurrentLocation.latitude = location.getLatitude();
-                            CurrentLocation.longitude = location.getLongitude();
-                        }
-                    });
-
+                    if (isContinue) {
+                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                    } else {
+                        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                            if (location != null) {
+                                CurrentLocation.latitude = location.getLatitude();
+                                CurrentLocation.longitude = location.getLongitude();
+                            } else {
+                                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                            }
+                        });
+                    }
                 } else {
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
