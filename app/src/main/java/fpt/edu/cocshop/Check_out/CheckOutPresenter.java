@@ -3,7 +3,7 @@ package fpt.edu.cocshop.Check_out;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Store_List.StoreListContract;
 
-public class CheckOutPresenter  implements CheckOutContract.Presenter, CheckOutContract.Model.OnFinishedListener {
+public class CheckOutPresenter implements CheckOutContract.Presenter, CheckOutContract.Model.OnFinishedListener {
 
 
     private CheckOutContract.View checkOutView;
@@ -37,11 +37,11 @@ public class CheckOutPresenter  implements CheckOutContract.Presenter, CheckOutC
     }
 
     @Override
-    public void postDataToServer(double latitude, double longitude, CartObj cartObj) {
+    public void postDataToServer(double latitude, double longitude, CartObj cartObj, String storeId) {
         if (checkOutView != null) {
             checkOutView.showProgress();
         }
 
-        checkOutModel.checkOut(this, latitude, longitude, cartObj);
+        checkOutModel.checkOut(this, latitude, longitude, cartObj, storeId);
     }
 }

@@ -1,11 +1,6 @@
 package fpt.edu.cocshop.Check_out;
 
-import java.util.List;
-
 import fpt.edu.cocshop.Model.CartObj;
-import fpt.edu.cocshop.Model.Product;
-import fpt.edu.cocshop.Model.Store;
-import fpt.edu.cocshop.StoreDetail.StoreDetailContract;
 
 public interface CheckOutContract {
     interface Model {
@@ -17,7 +12,7 @@ public interface CheckOutContract {
         }
 
 
-        void checkOut(CheckOutContract.Model.OnFinishedListener onFinishedListener, double latitude, double longitude, CartObj cartObj);
+        void checkOut(CheckOutContract.Model.OnFinishedListener onFinishedListener, double latitude, double longitude, CartObj cartObj, String storeId);
 
     }
 
@@ -39,7 +34,7 @@ public interface CheckOutContract {
 
         //void getMoreData(int pageNo);
 
-        void postDataToServer(double latitude, double longitude, CartObj cartObj);
+        void postDataToServer(double latitude, double longitude, CartObj cartObj, String storeId);
 
     }
 }

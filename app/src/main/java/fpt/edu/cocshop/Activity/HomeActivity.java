@@ -123,9 +123,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.add(R.id.ll_content, new HomeFragment().newInstance(), null);
 
         fragmentTransaction.commit();
-        if(page != null){
+        if (page != null) {
             setActive(page);
-        }else{
+        } else {
             setActive(Constant.HOME_PAGE_POSITION);
         }
 
@@ -146,6 +146,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setActive(int position) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        setInActive();
         switch (position) {
             case Constant.HELP_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -295,24 +296,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()) {
             case R.id.ll_button_help:
-                setInActive();
                 setActive(Constant.HELP_PAGE_POSITION);
                 break;
             case R.id.ll_button_my_order:
-                setInActive();
                 setActive(Constant.MY_ORDER_PAGE_POSITION);
                 break;
             case R.id.ll_button_saved:
-                setInActive();
                 setActive(Constant.SAVED_PAGE_POSITION);
 
                 break;
             case R.id.ll_button_user:
-                setInActive();
                 setActive(Constant.USER_PAGE_POSITION);
                 break;
             case R.id.img_home:
-                setInActive();
                 setActive(Constant.HOME_PAGE_POSITION);
                 break;
         }
