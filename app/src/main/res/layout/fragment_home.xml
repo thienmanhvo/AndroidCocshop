@@ -99,7 +99,7 @@
                             android:layout_width="@dimen/dp0"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
-                            android:text="Food Picks"
+                            android:text="Near By"
                             android:textStyle="bold" />
 
                         <TextView
