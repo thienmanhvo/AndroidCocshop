@@ -19,6 +19,6 @@ public class ConfigApi {
         String PRODUCT2="Products";
         String SEARCH = "Products";
         String LOCATION="Locations";
-        String CART = "Order";
+        String ORDER = "Order";
     }
 }

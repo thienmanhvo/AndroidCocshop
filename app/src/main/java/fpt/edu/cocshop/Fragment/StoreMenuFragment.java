@@ -138,6 +138,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), CheckOutActivity.class);
                     intent.putExtra(Constant.CART_OBJ, cartObj);
+                    intent.putExtra(Constant.STORE, mStore);
                     startActivityForResult(intent, Constant.CHECK_OUT_REQUEST);
                 }
             });
@@ -266,7 +267,7 @@ public class StoreMenuFragment extends Fragment implements StoreDetailContract.V
                 }
             }
         }
-
+        mStore = Store;
         mStoreMenuItemAdapter.notifyParentDataSetChanged(true);
         mStoreMenuItemAdapter.expandAllParents();
     }

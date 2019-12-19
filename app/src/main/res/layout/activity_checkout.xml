@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/custom_bottom_sheet_background"
-        app:title="Phở hương việt - thanh mỹ lợi"
-        />
+        app:title="Phở hương việt - thanh mỹ lợi" />
 
 
     <androidx.core.widget.NestedScrollView
@@ -315,6 +314,18 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorActive"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"/>
 
     <include layout="@layout/fragment_checkout_bottom_sheet" />
 
