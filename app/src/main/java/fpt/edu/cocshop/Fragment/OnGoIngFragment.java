@@ -164,11 +164,11 @@ public class OnGoIngFragment extends Fragment implements OnMapReadyCallback, OnG
 
     @Override
     public void onResponseSuccess(Order order) {
-        if(order !=null){
-            LatLng sydney = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
+        if (order != null) {
+            LatLng sydney = new LatLng(order.deliveryToLatitude, order.deliveryToLongitude);
 
             //Store store = ((StoreActivity) getActivity()).getStore();
-            LatLng mDummyLatLng = new LatLng(order.deliveryToLatitude, order.deliveryToLongitude);
+            LatLng mDummyLatLng = new LatLng(order.getStore().getLatitude(), order.getStore().getLongitude());
 
             MapsInitializer.initialize(getActivity());
 

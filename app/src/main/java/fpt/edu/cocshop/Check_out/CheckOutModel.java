@@ -27,7 +27,7 @@ public class CheckOutModel implements CheckOutContract.Model {
     private final String TAG = "CheckOutModel";
 
     @Override
-    public void checkOut(CheckOutContract.Model.OnFinishedListener onFinishedListener, double latitude, double longitude, CartObj cartObj) {
+    public void checkOut(CheckOutContract.Model.OnFinishedListener onFinishedListener, double latitude, double longitude, CartObj cartObj, String storeId) {
         ClientApi clientApi = new ClientApi();
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -36,6 +36,7 @@ public class CheckOutModel implements CheckOutContract.Model {
         try {
             jsonObject.put("latitude", latitude);
             jsonObject.put("longitude", longitude);
+            jsonObject.put("storeId", storeId);
 
             for (Map.Entry me : cartObj.getCart().entrySet()) {
                 jsonObject1.put("id", ((ItemOrder) me.getValue()).getId());

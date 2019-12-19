@@ -23,8 +23,28 @@ public class Order implements Serializable {
     public Double deliveryToLatitude;
     @SerializedName("deliveryToLongitude")
     public Double deliveryToLongitude;
+    @SerializedName("storeId")
+    public String storeId;
+    @SerializedName("store")
+    public Store store;
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public Order() {
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 
     public String getId() {

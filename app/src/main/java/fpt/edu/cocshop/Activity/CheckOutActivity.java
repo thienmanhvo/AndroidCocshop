@@ -100,7 +100,7 @@ public class CheckOutActivity extends AppCompatActivity implements CheckOutContr
         mBtnCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mChechOutPresenter.postDataToServer(CurrentLocation.latitude, CurrentLocation.longitude, cartObj);
+                mChechOutPresenter.postDataToServer(CurrentLocation.latitude, CurrentLocation.longitude, cartObj, mStore.getId());
             }
         });
     }
