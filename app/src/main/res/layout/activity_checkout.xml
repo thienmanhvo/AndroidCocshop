@@ -79,9 +79,9 @@
                                 android:layout_marginBottom="@dimen/dp8"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="269 Liên phường"
+                                android:text="Đại Học FPT, Khu Công nghệ cao quận 9"
                                 android:textColor="@color/colorBlack"
-                                android:textSize="@dimen/dp20" />
+                                android:textSize="@dimen/dp15" />
                         </LinearLayout>
 
                         <ImageView
