@@ -218,7 +218,7 @@ public class CheckOutActivity extends AppCompatActivity implements CheckOutContr
     @Override
     public void onResponseSuccess() {
         Intent data = new Intent(this, HomeActivity.class);
-        data.putExtra(Constant.SET_PAGE_ACTIVE, Constant.HOME_PAGE_POSITION);
+        data.putExtra(Constant.SET_PAGE_ACTIVE, Constant.MY_ORDER_PAGE_POSITION);
         startActivity(data);
     }
 
