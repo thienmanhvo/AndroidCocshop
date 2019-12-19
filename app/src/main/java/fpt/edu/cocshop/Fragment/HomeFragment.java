@@ -32,6 +32,7 @@ import fpt.edu.cocshop.Home_Store_List.ShowEmptyViewWithTask;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.CurrentLocation;
 
 
 /**
@@ -114,7 +115,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
         updateUIRcvPoppularBrand(mPoppularBrandList);
         updateUIRcvTopStore(mTopStoreList);
         storeListPresenter = new HomeStoreListPresenter(this);
-        storeListPresenter.requestDataFromServer(10, 1, 10.806941, 106.788891, 10);
+        storeListPresenter.requestDataFromServer(10, 1, CurrentLocation.latitude, CurrentLocation.longitude, 10);
     }
 
     private void updateUIRcvFoodPicks(List<Store> mBrandList) {
@@ -131,7 +132,7 @@ public class HomeFragment extends Fragment implements HomeStoreListContract.View
 
                     } else {
                         intent = new Intent(getContext(), StoreListActivity.class);
-                        intent.putExtra(Constant.STORE_LIST, new Brand(store.brandId,store.name));
+                        intent.putExtra(Constant.STORE_LIST, new Brand(store.brandId, store.name));
                     }
                     startActivity(intent);
                 }

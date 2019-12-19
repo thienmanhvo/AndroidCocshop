@@ -4,11 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyOrderActivity">
+    tools:context=".Activity.MyOrderActivity"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/ttt"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_my_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/colorWhite"
+        android:paddingLeft="@dimen/dp2"
+        android:paddingRight="@dimen/dp2"
+        app:tabBackground="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorActive"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@android:color/black"
+        app:tabTextColor="@color/colorIcon" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_my_order"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="" />
+        android:background="@color/colorWhite"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>

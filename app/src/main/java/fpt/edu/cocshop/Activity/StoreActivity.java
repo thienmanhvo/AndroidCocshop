@@ -161,23 +161,6 @@ public class StoreActivity extends AppCompatActivity implements ShowEmptyViewNoT
                 return super.onOptionsItemSelected(item);
         }
     }
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//            case R.id.action_settings:
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void initView() {
         pbLoading = findViewById(R.id.pb_loading);

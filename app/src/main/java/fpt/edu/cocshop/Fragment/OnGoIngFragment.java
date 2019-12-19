@@ -12,9 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,7 +22,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -37,17 +36,17 @@ import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.CurrentLocation;
 import fpt.edu.cocshop.Util.MyAccount;
 
-public class StoreLocationFragment extends Fragment implements OnMapReadyCallback {
-
+public class OnGoIngFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private View mView;
     private MapView mMapView;
-    private static final String TAG = "StoreLocationFragment";
+    private static final String TAG = "OnGoIngFragment";
+
     private CircleImageView mMarkerImageView;
     private View mCustomMarkerView;
 
-    public static StoreLocationFragment newInstance() {
-        StoreLocationFragment fragment = new StoreLocationFragment();
+    public static OnGoIngFragment newInstance() {
+        OnGoIngFragment fragment = new OnGoIngFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -56,51 +55,42 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mMapView = mView.findViewById(R.id.map_view);
+        mMapView = mView.findViewById(R.id.map_view_on_going);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
-
         mMapView.getMapAsync(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.a
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_store_location, container, false);
+        mView = inflater.inflate(R.layout.fragment_on_going, container, false);
         mCustomMarkerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_view_marker, null);
         mMarkerImageView = (CircleImageView) mCustomMarkerView.findViewById(R.id.profile_image);
         return mView;
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady() called with");
         mMap = googleMap;
+
         LatLng sydney = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
 
-        Store store = ((StoreActivity) getActivity()).getStore();
-        LatLng mDummyLatLng = new LatLng(store.getLatitude(), store.getLongitude());
+        //Store store = ((StoreActivity) getActivity()).getStore();
+        LatLng mDummyLatLng = new LatLng(CurrentLocation.latitude + 1, CurrentLocation.longitude + 1);
+
         MapsInitializer.initialize(getActivity());
 
-
-        addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng,"https://previews.123rf.com/images/tribalium123/tribalium1231209/tribalium123120900263/15414369-crossed-fork-and-spoon-food-icon-food-symbol.jpg");
+        addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng, "https://previews.123rf.com/images/tribalium123/tribalium1231209/tribalium123120900263/15414369-crossed-fork-and-spoon-food-icon-food-symbol.jpg");
         addCustomMarker(R.drawable.custom_mark_red, sydney, MyAccount.url);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(sydney)      // Sets the center of the map to Mountain View
@@ -111,16 +101,7 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
-    private void addCustomMarker(@DrawableRes int pointerId, final LatLng latLng,String url) {
+    private void addCustomMarker(@DrawableRes int pointerId, final LatLng latLng, String url) {
         Log.d(TAG, "addCustomMarker()");
         if (mMap == null) {
             return;
@@ -161,22 +142,6 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
                 });
     }
 
-    private Bitmap getMarkerBitmapFromView(View view, @DrawableRes int resId) {
-
-        mMarkerImageView.setImageResource(resId);
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
-        Drawable drawable = view.getBackground();
-        if (drawable != null)
-            drawable.draw(canvas);
-        view.draw(canvas);
-        return returnedBitmap;
-    }
-
     private Bitmap getMarkerBitmapFromView(View view, Bitmap bitmap) {
 
         mMarkerImageView.setImageBitmap(bitmap);
@@ -193,14 +158,4 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
         return returnedBitmap;
     }
 
-    public Bitmap loadBitmapFromView(View view, Bitmap bitmap) {
-        mMarkerImageView.setImageBitmap(bitmap);
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(returnedBitmap);
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.draw(canvas);
-        return returnedBitmap;
-    }
 }

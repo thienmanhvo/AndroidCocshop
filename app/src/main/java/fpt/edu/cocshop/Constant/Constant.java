@@ -17,6 +17,7 @@ public class Constant {
     public static final int LOCATION_REQUEST = 1000;
     public static final int GPS_REQUEST = 1001;
     public static final int CHECK_OUT_REQUEST = 8297;
+    public static final String SET_PAGE_ACTIVE = "SET_PAGE_ACTIVE";
 
 
 }

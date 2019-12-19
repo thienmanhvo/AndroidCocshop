@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,11 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpt.edu.cocshop.Activity.CheckOutActivity;
+import fpt.edu.cocshop.Activity.HomeActivity;
 import fpt.edu.cocshop.Activity.StoreActivity;
 import fpt.edu.cocshop.Adapter.StoreMenuItemAdapter;
 import fpt.edu.cocshop.Constant.Constant;
-import fpt.edu.cocshop.Custom.CustomDecoration;
-import fpt.edu.cocshop.Home_Store_List.HomeStoreListContract;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.MenuDish;

@@ -30,11 +30,14 @@ import com.google.android.gms.location.LocationServices;
 
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
+import fpt.edu.cocshop.Fragment.MyOrderFragment;
 import fpt.edu.cocshop.Fragment.UserFragment;
+import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.CurrentLocation;
 import fpt.edu.cocshop.Util.ExceptionHandler;
 import fpt.edu.cocshop.Util.GpsUtils;
+import fpt.edu.cocshop.Util.MyAccount;
 import fpt.edu.cocshop.Util.Token;
 
 
@@ -79,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             id = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
             avatar = personPhoto == null ? "https://img.icons8.com/plasticine/2x/user.png" : personPhoto.toString();
-
+            MyAccount.url = avatar;
 
             // Glide.with(this).load(personPhoto).into(photoIV);
         }
@@ -109,6 +112,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
+        Integer page = (Integer) getIntent().getSerializableExtra(Constant.SET_PAGE_ACTIVE);
         mLLHelp.setOnClickListener(this);
         mLLMyOrder.setOnClickListener(this);
         mLLSaved.setOnClickListener(this);
@@ -119,7 +123,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.add(R.id.ll_content, new HomeFragment().newInstance(), null);
 
         fragmentTransaction.commit();
-        setActive(Constant.HOME_PAGE_POSITION);
+        if(page != null){
+            setActive(page);
+        }else{
+            setActive(Constant.HOME_PAGE_POSITION);
+        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create();
@@ -137,6 +145,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setActive(int position) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
             case Constant.HELP_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -151,6 +160,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         getColor(R.color.colorActive)
                 );
                 mTxtMyOrder.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                fragmentTransaction.replace(R.id.ll_content, new MyOrderFragment(), null);
+                fragmentTransaction.commit();
                 break;
             case Constant.SAVED_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -165,6 +176,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         getColor(R.color.colorActive)
                 );
                 mTxtUser.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                UserFragment userFragment = new UserFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", name);
+                bundle.putString("email", email);
+                bundle.putString("id", id);
+                bundle.putString("avatar", avatar);
+                userFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.ll_content, userFragment, null);
+                fragmentTransaction.commit();
                 break;
             case Constant.HOME_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -174,6 +194,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 mImgHomeCircle.setImageResource(R.drawable.custom_button_home_color_active);
 
                 mTxtHome.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                fragmentTransaction.replace(R.id.ll_content, new HomeFragment(), null);
+                fragmentTransaction.commit();
+
                 break;
             default:
                 DrawableCompat.setTint(
@@ -269,7 +292,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (view.getId()) {
             case R.id.ll_button_help:
                 setInActive();
@@ -287,25 +310,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_button_user:
                 setInActive();
                 setActive(Constant.USER_PAGE_POSITION);
-                UserFragment userFragment = new UserFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", name);
-                bundle.putString("email", email);
-                bundle.putString("id", id);
-                bundle.putString("avatar", avatar);
-                userFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.ll_content, userFragment, null);
-                fragmentTransaction.commit();
-
                 break;
             case R.id.img_home:
                 setInActive();
                 setActive(Constant.HOME_PAGE_POSITION);
-                fragmentTransaction.replace(R.id.ll_content, new HomeFragment(), null);
-                fragmentTransaction.commit();
-
                 break;
-
         }
     }
 }

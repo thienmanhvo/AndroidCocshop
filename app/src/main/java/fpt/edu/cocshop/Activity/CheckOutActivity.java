@@ -30,7 +30,6 @@ import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Model.CartObj;
 import fpt.edu.cocshop.Model.ItemOrder;
 import fpt.edu.cocshop.Model.Store;
-import fpt.edu.cocshop.MyOrderActivity;
 import fpt.edu.cocshop.R;
 import fpt.edu.cocshop.Util.CurrentLocation;
 import fpt.edu.cocshop.Util.DoubleHandler;
@@ -218,8 +217,8 @@ public class CheckOutActivity extends AppCompatActivity implements CheckOutContr
 
     @Override
     public void onResponseSuccess() {
-        Intent data = new Intent(this, MyOrderActivity.class);
-        data.putExtra(Constant.STORE, mStore);
+        Intent data = new Intent(this, HomeActivity.class);
+        data.putExtra(Constant.SET_PAGE_ACTIVE, Constant.HOME_PAGE_POSITION);
         startActivity(data);
     }
 
