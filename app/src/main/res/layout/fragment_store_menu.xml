@@ -6,14 +6,38 @@
     tools:context=".Fragment.StoreMenuFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_store_menu_item"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="75dp"
-        android:background="@color/colorWhite"
-        android:clipToPadding="false" />
-    <!-- Adding bottom sheet after main content -->
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_store_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_store_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:clipToPadding="false"
+                android:paddingTop="10dp"
+                android:paddingBottom="75dp" />
+            <!-- Adding bottom sheet after main content -->
+
+            <TextView
+                android:id="@+id/tv_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp50"
+                android:layout_centerInParent="true"
+                android:drawablePadding="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/no_store"
+                android:textSize="@dimen/no_result_text_size"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

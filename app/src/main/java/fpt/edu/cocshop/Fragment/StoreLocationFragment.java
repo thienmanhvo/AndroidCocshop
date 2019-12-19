@@ -31,7 +31,11 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fpt.edu.cocshop.Activity.StoreActivity;
+import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.CurrentLocation;
+import fpt.edu.cocshop.Util.MyAccount;
 
 public class StoreLocationFragment extends Fragment implements OnMapReadyCallback {
 
@@ -89,12 +93,15 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady() called with");
         mMap = googleMap;
-        LatLng sydney = new LatLng(10.806941, 106.788891);
+        LatLng sydney = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
 
-        LatLng mDummyLatLng = new LatLng(10.807871, 106.785478);
+        Store store = ((StoreActivity) getActivity()).getStore();
+        LatLng mDummyLatLng = new LatLng(store.getLatitude(), store.getLongitude());
         MapsInitializer.initialize(getActivity());
-        addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng);
-        addCustomMarker(R.drawable.custom_mark_red, sydney);
+
+
+        addCustomMarker(R.drawable.custom_mark_blue, mDummyLatLng,"https://previews.123rf.com/images/tribalium123/tribalium1231209/tribalium123120900263/15414369-crossed-fork-and-spoon-food-icon-food-symbol.jpg");
+        addCustomMarker(R.drawable.custom_mark_red, sydney, MyAccount.url);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(sydney)      // Sets the center of the map to Mountain View
                 .zoom(17)                   // Sets the zoom
@@ -113,7 +120,7 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    private void addCustomMarker(@DrawableRes int pointerId, final LatLng latLng) {
+    private void addCustomMarker(@DrawableRes int pointerId, final LatLng latLng,String url) {
         Log.d(TAG, "addCustomMarker()");
         if (mMap == null) {
             return;
@@ -127,7 +134,7 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
         // adding a marker with image from URL using glide image loading library
         mCustomMarkerView.setBackgroundResource(pointerId);
         Picasso.get()
-                .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKRaly5PfHhWcufq8HuSf3MLHj-wLbjFVjQvjIYmkvJr_sbnUfHQ&s")
+                .load(url)
                 .resize(30, 30)
                 .error(R.mipmap.ic_launcher)
                 .placeholder(R.drawable.ic_launcher_background)
@@ -138,7 +145,7 @@ public class StoreLocationFragment extends Fragment implements OnMapReadyCallbac
                         mMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, bitmap))));
-                       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
+                        // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
 
                     }
 

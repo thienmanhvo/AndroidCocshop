@@ -96,8 +96,10 @@
                     android:text="56,000"
                     android:textColor="@color/colorIcon"
                     android:textSize="@dimen/dp12"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:visibility="gone"/>
                 <TextView
+                    android:id="@+id/txt_unit_price_old"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
@@ -106,7 +108,8 @@
                     android:text="đ"
                     android:textColor="@color/colorIcon"
                     android:textSize="@dimen/dp12"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <FrameLayout

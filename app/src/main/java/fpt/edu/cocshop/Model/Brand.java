@@ -17,6 +17,21 @@ public class Brand implements Serializable {
     private String imagePath;
     @SerializedName("rating")
     private Float rating;
+    @SerializedName("promotions")
+    public List<Promotion> promotions;
+
+    public Brand(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
+    }
 
     public String getId() {
         return id;

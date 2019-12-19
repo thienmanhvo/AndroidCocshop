@@ -2,10 +2,9 @@ package fpt.edu.cocshop.Store_List;
 
 import java.util.List;
 
-import fpt.edu.cocshop.Home_Store_List.HomeStoreListContract;
 import fpt.edu.cocshop.Model.Store;
 
-public class StoreListPresenter implements HomeStoreListContract.Presenter, StoreListContract.Model.OnFinishedListener {
+public class StoreListPresenter implements StoreListContract.Presenter, StoreListContract.Model.OnFinishedListener {
 
     private StoreListContract.View storeListView;
 
@@ -27,7 +26,7 @@ public class StoreListPresenter implements HomeStoreListContract.Presenter, Stor
             storeListView.showProgress();
         }
 
-        storeListModel.getStoreList(this,pageSize,pageIndex,latitude,longitude,brandId);
+        storeListModel.getStoreList(this, pageSize, pageIndex, latitude, longitude, brandId);
     }
 
     @Override

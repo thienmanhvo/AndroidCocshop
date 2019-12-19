@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -32,11 +34,14 @@ import fpt.edu.cocshop.Fragment.StoreMenuFragment;
 import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.Model.Store;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Store_List.ShowEmptyViewNoTask;
+import fpt.edu.cocshop.Util.DoubleHandler;
 import fpt.edu.cocshop.Util.ExceptionHandler;
+import fpt.edu.cocshop.Util.PriceExtention;
 
-public class StoreActivity extends AppCompatActivity {
+public class StoreActivity extends AppCompatActivity implements ShowEmptyViewNoTask {
 
-    private ImageView mImgAvatar;
+    private ImageView mImgAvatar, mImgSaved;
     private Store store;
     private RatingBar mRatingBar;
     private AlphaTextView mTxtLocation, mTxtStoreName;
@@ -48,6 +53,13 @@ public class StoreActivity extends AppCompatActivity {
     private LinearLayout mLlStoreDescription;
     private com.google.android.material.appbar.CollapsingToolbarLayout CollapsingToolbarLayout;
     private Menu mOptionsMenu;
+    private ProgressBar pbLoading;
+    private LinearLayout mLLStoreInfo;
+    private TextView mTxtEmpty, mTxtCategory, mTxtAvgPrice, mTxtRating, mTxtNumOfRating;
+
+    public Store getStore() {
+        return store;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +81,6 @@ public class StoreActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 //        );
         store = (Store) getIntent().getSerializableExtra(Constant.STORE);
-        Picasso.get()
-                .load(store.getImagePath())
-                .error(R.drawable.ic_launcher_background)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(mImgAvatar, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("PICASSO", e.getMessage());
-                    }
-                });
-        mRatingBar.setRating(store.getRating());
-        mTxtLocation.setText(store.getLocationName());
-        mTxtStoreName.setText(store.getName());
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -95,7 +90,7 @@ public class StoreActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolBarStore);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(store.getName() + "asdasdasdasdasdasdasdasdasdasd");
+            getSupportActionBar().setTitle(store.getName());
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,8 +112,13 @@ public class StoreActivity extends AppCompatActivity {
                     mLlStoreDescription.setVisibility(View.INVISIBLE);
                 } else {
                     getSupportActionBar().setDisplayShowTitleEnabled(false);
-                    updateOptionsMenu(Color.WHITE);
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+                    if (store.getImagePath() == null || store.getImagePath().matches("")) {
+                        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                        updateOptionsMenu(Color.BLACK);
+                    } else {
+                        updateOptionsMenu(Color.WHITE);
+                        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before_white);
+                    }
                     mLlStoreDescription.setVisibility(View.VISIBLE);
                 }
             }
@@ -161,25 +161,16 @@ public class StoreActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//            case R.id.action_settings:
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void initView() {
+        pbLoading = findViewById(R.id.pb_loading);
+        mTxtCategory = findViewById(R.id.txt_category);
+        mTxtAvgPrice = findViewById(R.id.txt_average_price);
+        mTxtRating = findViewById(R.id.txt_rating);
+        mTxtNumOfRating = findViewById(R.id.txt_rating_numbers);
+        mImgSaved = findViewById(R.id.img_favorite_ra);
+        mLLStoreInfo = findViewById(R.id.ll_store_info);
+        mTxtEmpty = findViewById(R.id.tv_empty_view);
         mImgAvatar = (ImageView) findViewById(R.id.img_avatar);
         mRatingBar = (RatingBar) findViewById(R.id.rb_rating_store);
         mTxtLocation = (AlphaTextView) findViewById(R.id.txt_location_store);
@@ -194,6 +185,59 @@ public class StoreActivity extends AppCompatActivity {
 //        mNestedScrollView.setFillViewport (true);
     }
 
+    public void showProgress() {
+        pbLoading.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        pbLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mTxtEmpty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        mTxtEmpty.setVisibility(View.GONE);
+    }
+
+    public void setDataToView(Store store) {
+        this.store = store;
+        if (store != null) {
+            mLlStoreDescription.setVisibility(View.VISIBLE);
+            mLLStoreInfo.setVisibility(View.VISIBLE);
+            mTxtStoreName.setText(store.getName());
+            getSupportActionBar().setTitle(store.getName());
+            mTxtLocation.setText(store.getLocationName().trim());
+            //mTxtCategory.setText("");
+            double rating = store.getRating() * 1.0 / store.getNumberOfRating();
+            mTxtNumOfRating.setText("(" + store.getNumberOfRating() + ")");
+            mTxtRating.setText(DoubleHandler.doubleDisplayDecimalPlaces(rating, 1));
+            mTxtAvgPrice.setText(PriceExtention.doubleToPriceWithK(store.getAveragePrice()));
+            mRatingBar.setRating((float) rating);
+            Picasso.get()
+                    .load(store.getImagePath())
+                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.mipmap.ic_image_error_foreground)
+                    .into(mImgAvatar, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_navigate_before);
+                            updateOptionsMenu(Color.BLACK);
+                            Log.e("PICASSO", e.getMessage()
+
+                            );
+                        }
+                    });
+        }
+    }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 

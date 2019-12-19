@@ -1,41 +1,48 @@
 package fpt.edu.cocshop.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
-import fpt.edu.cocshop.Adapter.MainAdapter;
 import fpt.edu.cocshop.Constant.Constant;
 import fpt.edu.cocshop.Fragment.HomeFragment;
+import fpt.edu.cocshop.Fragment.MyOrderFragment;
 import fpt.edu.cocshop.Fragment.UserFragment;
+import fpt.edu.cocshop.Model.Brand;
 import fpt.edu.cocshop.R;
+import fpt.edu.cocshop.Util.CurrentLocation;
 import fpt.edu.cocshop.Util.ExceptionHandler;
+import fpt.edu.cocshop.Util.GpsUtils;
+import fpt.edu.cocshop.Util.MyAccount;
 import fpt.edu.cocshop.Util.Token;
 
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MainAdapter mMainAdapter;
     private FragmentManager fragmentManager;
     //private ViewPager mViewPager;
     private LinearLayout mLLHelp, mLLMyOrder, mLLSaved, mLLUser;
@@ -43,10 +50,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImgHelp, mImgMyOrder, mImgSaved, mImgUser;
 
     private ImageView mImgHome, mImgHomeCircle;
-   // private TextView mEdtSearch;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest locationRequest;
 
-   // private ImageView mImgNotfy;
-
+    private boolean isGPS = false;
     GoogleSignInClient mGoogleSignInClient;
 
     String name;
@@ -59,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        Token.token = "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhNTEyIiwidHlwIjoiSldUIn0.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW4iLCJTdGFmZiIsIlVzZXIiXSwidXNlcm5hbWUiOiJ0aGllbm1hbmh2byIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGQzNzdkNTgtMWFhZS00OTk5LTAyZGItMDhkNzNkOTQwMjNmIiwiZXhwIjoxNTc2NDE2MTUxLCJpc3MiOiJodHRwczovL3d3dy5mYWNlYm9vay5jb20vdGhpZW5uYjE2NDMyMTYiLCJhdWQiOiJOZ3V54buFbiBC4bqjbyBUaGnhu4duIn0.VqqAIANMdCJ_4MVNAZ6z-Y7DcKzHMxpkpk6TJuQGgXtC0wQnyJT44ian10h64NqF8dZxQ_QHvVUTbSzehlGNLd1S__N-qKRpXPRB8OM88yCxBeZN2Bo3GYlfAwdrnbxYO-Tuzmk9z0UBMqzQVGCF21AbSK7VS6hxoAvnmpe2lgrQ4-hHKReI1Vj_y1lG5-RZfpwk2SZr-8DTSngvRQjzdydZNqYU0tKyYUz5E_K2uGACU1aywPSLJSfHQYPT1Z0p1wmEYNM2OqiRwEXmA3L_MfXv0vKiHuvrls6_qfxn1qrGdG9f2iY-1bQvMgq4un0VbXAySYqPHDbhNOA_3I3Nsw";
+        Token.token = "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhNTEyIiwidHlwIjoiSldUIn0.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW4iLCJTdGFmZiIsIlVzZXIiXSwidXNlcm5hbWUiOiJ0aGllbm1hbmh2byIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMGQzNzdkNTgtMWFhZS00OTk5LTAyZGItMDhkNzNkOTQwMjNmIiwiZXhwIjoxNTc5Mjk0NDEyLCJpc3MiOiJodHRwczovL3d3dy5mYWNlYm9vay5jb20vdGhpZW5uYjE2NDMyMTYiLCJhdWQiOiJOZ3V54buFbiBC4bqjbyBUaGnhu4duIn0.lEYBY8Gbt2JoPxRQTOG0gsY4K2wUiWByaou9MBk_j2PSu-Q2cqPqomLU_X7UYf00BWgauvNg8nrYwtf2j_b_eqkwPzukx26h0Kji8tClYkqK9LgTi4pMy6M0z7eV6ZGtlae9hfXKWny8PWpU-SN-NfljUf2VEtOQxiVfw3jU4v9_b860CujZ0KmjW4QeemqhzrIIndKjD5HMitEx1XpdjdqJ0Srqx5p2tVOTmkgBBEWtnYUpG2ox__6dn1-rg1d8BQZk6xtGuZWnfa84KVLMvwyMagsDllBFRpE-kp4LJUi1M1frKXRkDAWDlQl4bfRCibRAHg4d4tWxlVEP5sjkUw";
         initView();
         initData();
 
@@ -70,16 +77,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(HomeActivity.this);
         if (acct != null) {
-             name = acct.getDisplayName();
-             email = acct.getEmail();
-             id = acct.getId();
+            name = acct.getDisplayName();
+            email = acct.getEmail();
+            id = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
-             avatar = personPhoto == null ? "https://img.icons8.com/plasticine/2x/user.png" :  personPhoto.toString();
+            avatar = personPhoto == null ? "https://img.icons8.com/plasticine/2x/user.png" : personPhoto.toString();
+            MyAccount.url = avatar;
 
-
-
-
-           // Glide.with(this).load(personPhoto).into(photoIV);
+            // Glide.with(this).load(personPhoto).into(photoIV);
         }
 
     }
@@ -107,55 +112,40 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
+        Integer page = (Integer) getIntent().getSerializableExtra(Constant.SET_PAGE_ACTIVE);
         mLLHelp.setOnClickListener(this);
         mLLMyOrder.setOnClickListener(this);
         mLLSaved.setOnClickListener(this);
         mLLUser.setOnClickListener(this);
         mImgHome.setOnClickListener(this);
-
-       // mEdtSearch.setOnClickListener(this);
-
-
-        //mImgNotfy.setOnClickListener(this);
-
-        //mMainAdapter = new MainAdapter(getSupportFragmentManager());
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.ll_content, new HomeFragment().newInstance(), null);
-        //fragmentTransaction.replace(R.id.container, new FragmentA(), null);
+
         fragmentTransaction.commit();
-        setActive(Constant.HOME_PAGE_POSITION);
-//        mViewPager.setAdapter(mMainAdapter);
-//        mViewPager.setCurrentItem(Constant.HOME_PAGE_POSITION);
-//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                if (position == Constant.HOME_PAGE_POSITION) {
-//                    setInActive(mViewPager.getCurrentItem());
-//                    setActive(position);
-//                }
-////                else if (position == 1) {
-////                    setPageHistory();
-////                } else if (position == 2) {
-////                    setPageAlbum();
-////                } else if (position == 3) {
-////                    setPageUser();
-////                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
+        if(page != null){
+            setActive(page);
+        }else{
+            setActive(Constant.HOME_PAGE_POSITION);
+        }
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); // 10 seconds
+        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
+        new GpsUtils(this).turnGPSOn(new GpsUtils.onGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                // turn on GPS
+                isGPS = isGPSEnable;
+            }
+        });
+        getLocation();
     }
 
     private void setActive(int position) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
             case Constant.HELP_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -170,6 +160,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         getColor(R.color.colorActive)
                 );
                 mTxtMyOrder.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                fragmentTransaction.replace(R.id.ll_content, new MyOrderFragment(), null);
+                fragmentTransaction.commit();
                 break;
             case Constant.SAVED_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -184,6 +176,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         getColor(R.color.colorActive)
                 );
                 mTxtUser.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                UserFragment userFragment = new UserFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", name);
+                bundle.putString("email", email);
+                bundle.putString("id", id);
+                bundle.putString("avatar", avatar);
+                userFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.ll_content, userFragment, null);
+                fragmentTransaction.commit();
                 break;
             case Constant.HOME_PAGE_POSITION:
                 DrawableCompat.setTint(
@@ -193,6 +194,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 mImgHomeCircle.setImageResource(R.drawable.custom_button_home_color_active);
 
                 mTxtHome.setTextColor(getResources().getColor(R.color.colorActive, getResources().newTheme()));
+                fragmentTransaction.replace(R.id.ll_content, new HomeFragment(), null);
+                fragmentTransaction.commit();
+
                 break;
             default:
                 DrawableCompat.setTint(
@@ -210,7 +214,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 getColor(R.color.colorIcon)
         );
         DrawableCompat.setTint(
-
                 DrawableCompat.wrap(mImgUser.getDrawable()),
                 getColor(R.color.colorIcon)
         );
@@ -234,56 +237,84 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mTxtHome.setTextColor(getResources().getColor(R.color.colorIcon, getResources().newTheme()));
     }
 
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constant.LOCATION_REQUEST);
+
+        } else {
+
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    CurrentLocation.latitude = location.getLatitude();
+                    CurrentLocation.longitude = location.getLongitude();
+                }
+            });
+
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1000: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            CurrentLocation.latitude = location.getLatitude();
+                            CurrentLocation.longitude = location.getLongitude();
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == Constant.GPS_REQUEST) {
+                isGPS = true; // flag maintain before get location
+            }
+        }
+    }
+
     @Override
     public void onClick(View view) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (view.getId()) {
             case R.id.ll_button_help:
                 setInActive();
                 setActive(Constant.HELP_PAGE_POSITION);
-//                mViewPager.setCurrentItem(Constant.HELP_PAGE_POSITION);
                 break;
             case R.id.ll_button_my_order:
                 setInActive();
                 setActive(Constant.MY_ORDER_PAGE_POSITION);
-//                mViewPager.setCurrentItem(Constant.MY_ORDER_PAGE_POSITION);
                 break;
             case R.id.ll_button_saved:
                 setInActive();
                 setActive(Constant.SAVED_PAGE_POSITION);
-//                mViewPager.setCurrentItem(Constant.SAVED_PAGE_POSITION);
+
                 break;
             case R.id.ll_button_user:
                 setInActive();
                 setActive(Constant.USER_PAGE_POSITION);
-//                mViewPager.setCurrentItem(Constant.USER_PAGE_POSITION);
-                UserFragment userFragment = new UserFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("name",name);
-                bundle.putString("email",email);
-                bundle.putString("id",id);
-                bundle.putString("avatar",avatar);
-                userFragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.ll_content,userFragment,null);
-                fragmentTransaction.commit();
-
                 break;
             case R.id.img_home:
                 setInActive();
                 setActive(Constant.HOME_PAGE_POSITION);
-                fragmentTransaction.replace(R.id.ll_content,new HomeFragment(),null);
-                fragmentTransaction.commit();
-
-//                mViewPager.setCurrentItem(Constant.HOME_PAGE_POSITION);
                 break;
-
-//            case R.id.edt_search_home:
-//                onMoveToSearchActivity();
-//                break;
-//
-//            case R.id.ic_notification:
-//                onMoveToNotificationActivity();
-//                break;
         }
     }
 }

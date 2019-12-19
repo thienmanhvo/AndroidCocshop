@@ -9,7 +9,16 @@ public class CartObj implements Serializable {
     private HashMap<String, ItemOrder> cart;
     private long totalQuantity;
     private long totalPrice;
-    private long totalPriceOld;
+    private Double discount;
+
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
 
     public String getCustomerEmail() {
         return customerEmail;
@@ -32,7 +41,6 @@ public class CartObj implements Serializable {
         this.cart = new HashMap<>();
         this.totalPrice = 0;
         this.totalQuantity = 0;
-        this.totalPriceOld = 0;
     }
 
     public CartObj() {
@@ -40,7 +48,6 @@ public class CartObj implements Serializable {
         this.cart = new HashMap<>();
         this.totalPrice = 0;
         this.totalQuantity = 0;
-        this.totalPriceOld = 0;
     }
 
     public void addToCart(ItemOrder dto, int sign) {
@@ -51,7 +58,6 @@ public class CartObj implements Serializable {
                 this.cart.remove(dto.getId());
                 totalQuantity = totalQuantity + sign;
                 totalPrice = totalPrice + (dto.getPrice() * sign);
-                totalPriceOld = totalPrice + (dto.getPriceOld() * sign);
                 return;
             }
         } else {
@@ -60,56 +66,9 @@ public class CartObj implements Serializable {
         dto.setQuantityInCart(quantity);
         totalQuantity = totalQuantity + sign;
         totalPrice = totalPrice + (dto.getPrice() * sign);
-        totalPriceOld = totalPrice + (dto.getPriceOld() * sign);
         this.cart.put(dto.getId(), dto);
     }
 
-//    public void removeCart(String id) {
-//        if (this.cart.containsKey(id)) {
-//            totalQuantity = totalQuantity - this.cart.get(id).getQuantityInCart();
-//            totalPrice = totalPrice - this.cart.get(id).getPrice();
-//            totalPriceOld = totalPriceOld - this.cart.get(id).getPriceOld();
-//            this.cart.remove(id);
-//        }
-//    }
-
-//    public float getTotalPrice() throws Exception {
-//        float result = 0;
-//        for (ItemOrder dto : this.cart.values()) {
-//            result += (dto.getQuantity() * dto.getPrice());
-//        }
-//        return result;
-//    }
-//
-//    public float getTotalQuantity() throws Exception {
-//        float result = 0;
-//        for (ItemOrder dto : this.cart.values()) {
-//            result += dto.getQuantity();
-//        }
-//        return result;
-//    }
-//
-//    public float getTotalPriceOld() throws Exception {
-//        float result = 0;
-//        for (ItemOrder dto : this.cart.values()) {
-//            result += dto.getQuantity();
-//        }
-//        return result;
-//    }
-
-//    public void add(ItemOrder dto) throws Exception {
-//        if (this.cart.containsKey(dto.getDishItemId())) {
-//            int quantity = this.cart.get(dto.getDishItemId()).getQuantity() + 1;
-//            dto.setQuantity(quantity);
-//        }
-//        this.cart.put(dto.getDishItemId(), dto);
-//    }
-//
-//    public void remove(String id) throws Exception {
-//        if (this.cart.containsKey(id)) {
-//            this.cart.remove(id);
-//        }
-//    }
 
     public long getTotalQuantity() {
         return totalQuantity;
@@ -119,9 +78,7 @@ public class CartObj implements Serializable {
         return totalPrice;
     }
 
-    public long getTotalPriceOld() {
-        return totalPriceOld;
-    }
+
 
     public void setTotalQuantity(long totalQuantity) {
         this.totalQuantity = totalQuantity;
@@ -131,16 +88,4 @@ public class CartObj implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public void setTotalPriceOld(long totalPriceOld) {
-        this.totalPriceOld = totalPriceOld;
-    }
-
-//    public float getTotall() throws Exception {
-//        float result = 0;
-//        for (ItemOrder ItemOrder : this.cart.values()) {
-//            result += (ItemOrder.getQuantity()) * ItemOrder.getPrice();
-//        }
-//        return result;
-//
-//    }
 }

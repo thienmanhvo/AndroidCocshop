@@ -3,9 +3,12 @@ package fpt.edu.cocshop.Model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Store implements Serializable
-{
+public class Store implements Serializable {
+
+    @SerializedName("id")
+    public String id;
     @SerializedName("name")
     public String name;
     @SerializedName("imagePath")
@@ -30,12 +33,39 @@ public class Store implements Serializable
     public Double averagePrice;
     @SerializedName("distance")
     public Double distance;
-
+    @SerializedName("menuDishes")
+    public List<MenuDish> menuDishes;
+    @SerializedName("promotions")
+    public List<Promotion> promotions;
 
 //    public  BrandViewModel Brand { get; set; }
 //
 //    public  StoreCategoryViewModel StoreCategory { get; set; }
 
+
+    public List<Promotion> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
+    }
+
+    public List<MenuDish> getMenuDishes() {
+        return menuDishes;
+    }
+
+    public void setMenuDishes(List<MenuDish> menuDishes) {
+        this.menuDishes = menuDishes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Double getDistance() {
         return distance;

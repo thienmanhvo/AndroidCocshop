@@ -2,6 +2,7 @@ package fpt.edu.cocshop.Retrofit;
 
 
 import fpt.edu.cocshop.Service.FBrandService;
+import fpt.edu.cocshop.Service.FOrderService;
 import fpt.edu.cocshop.Service.FStoreService;
 
 public class ClientApi extends BaseApi {
@@ -18,6 +19,10 @@ public class ClientApi extends BaseApi {
     }
     public FBrandService fBrandService() {
         return this.getService(FBrandService.class, ConfigApi.BASE_URL);
+    }
+
+    public FOrderService fOrderService() {
+        return this.getService(FOrderService.class, ConfigApi.BASE_URL);
     }
 }
 
